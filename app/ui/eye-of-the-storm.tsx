@@ -4,14 +4,11 @@ import Image from "next/image";
 import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import { clsx } from "clsx";
 
-export default function EyeOfTheStorm({
-  onClick
-}: {
-  onClick?: MouseEventHandler<HTMLImageElement>
-}) {
+export default function EyeOfTheStorm() {
   // https://www.kindacode.com/article/react-get-the-position-x-y-of-an-element/
   const imgRef = useRef<HTMLDivElement>(null);
 
+  const [clicked, setClicked] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [x, setX] = useState(0); // x coords of origin
   const [y, setY] = useState(0); // y coords of origin
@@ -45,7 +42,9 @@ export default function EyeOfTheStorm({
       <Image
         className={clsx(
           "duration-300 md:duration-500 rounded-full shadow-xl shadow-orange-800 bg-black",
-          hovering && "-rotate-12 md:-rotate-45 brightness-110 scale-110 shadow-rose-500"
+          ((hovering && !clicked) &&
+            "-rotate-12 md:-rotate-45 brightness-110 scale-110 shadow-rose-500"),
+          clicked && "scale-[0.1] md:scale-[0.25]"
         )}
         src="/icon.png"
         alt="Eye of the Storm"
@@ -67,6 +66,7 @@ export default function EyeOfTheStorm({
           }
         }}
         onMouseOut={() => setHovering(false)}
+        onClick={() => setClicked(!clicked)}
       />
     </div>
   );
