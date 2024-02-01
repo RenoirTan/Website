@@ -1,10 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import { clsx } from "clsx";
 
-export default function EyeOfTheStorm() {
+export default function EyeOfTheStorm({
+  onClick
+}: {
+  onClick?: MouseEventHandler<HTMLImageElement>
+}) {
   // https://www.kindacode.com/article/react-get-the-position-x-y-of-an-element/
   const imgRef = useRef<HTMLDivElement>(null);
 
@@ -40,8 +44,8 @@ export default function EyeOfTheStorm() {
     <div ref={imgRef} className="scale-75">
       <Image
         className={clsx(
-          "duration-300 rounded-full shadow-xl shadow-orange-800",
-          hovering && "-rotate-12 md:-rotate-45 shadow-rose-500"
+          "duration-300 md:duration-500 rounded-full shadow-xl shadow-orange-800",
+          hovering && "-rotate-12 md:-rotate-45 brightness-110 scale-110 shadow-rose-500"
         )}
         src="/icon.png"
         alt="Eye of the Storm"
