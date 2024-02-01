@@ -8,7 +8,7 @@ export default function Circus() {
   const [pressed, setPressed] = useState(false);
 
   return (
-    <div className="relative circus bg-l-red w-4/5 h-auto">
+    <div className="relative circus w-4/5 h-auto">
       <div className="inset-0 w-full h-full">
         <EyeOfTheStorm pressed={pressed} setPressed={setPressed} />
       </div>
