@@ -7,6 +7,7 @@ export default function Home() {
       <div className="flex place-content-center h-screen">
         <div className="mx-auto flex flex-col items-center justify-center">
           <EyeOfTheStorm />
+          <h1 className="text-3xl font-semibold">Hello</h1>
         </div>
       </div>
     </main>
