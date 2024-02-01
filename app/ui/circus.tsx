@@ -12,8 +12,8 @@ export default function Circus() {
       <div className="inset-0 w-full h-full">
         <EyeOfTheStorm pressed={pressed} setPressed={setPressed} />
       </div>
-      <div className="absolute top-0 inset-x-0">
-        <Planet show={pressed} />
+      <div className="absolute top-0 inset-x-0 w-fit h-fit mx-auto">
+        <Planet src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" show={pressed} />
       </div>
     </div>
   )
