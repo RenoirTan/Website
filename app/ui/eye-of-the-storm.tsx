@@ -43,7 +43,7 @@ export default function EyeOfTheStorm({
   }, []);
 
   return (
-    <div ref={imgRef} className="scale-75">
+    <div ref={imgRef} className="mx-auto my-auto">
       <Image
         className={clsx(
           "duration-300 md:duration-500 rounded-full shadow-xl shadow-orange-800 bg-black",
