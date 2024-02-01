@@ -44,7 +44,7 @@ export default function EyeOfTheStorm({
     <div ref={imgRef} className="scale-75">
       <Image
         className={clsx(
-          "duration-300 md:duration-500 rounded-full shadow-xl shadow-orange-800",
+          "duration-300 md:duration-500 rounded-full shadow-xl shadow-orange-800 bg-black",
           hovering && "-rotate-12 md:-rotate-45 brightness-110 scale-110 shadow-rose-500"
         )}
         src="/icon.png"
