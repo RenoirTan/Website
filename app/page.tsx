@@ -1,5 +1,4 @@
-import Image from "next/image";
-import EyeOfTheStorm from "./ui/eye-of-the-storm";
+import HelloName from "./ui/hello-name";
 import Circus from "./ui/circus";
 
 export default function Home() {
@@ -11,7 +10,7 @@ export default function Home() {
           <h1
             className="text-center text-4xl mx-6 font-semibold"
           >
-            Hello, I am <span className="bg-clip-text text-transparent bg-gradient-to-tr from-l-french-fuchsia to-l-violet font-bold">Renoir</span>
+            Hello, I am <HelloName />
           </h1>
         </div>
       </div>
