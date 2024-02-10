@@ -15,35 +15,9 @@ export default function EyeOfTheStorm({
   const imgRef = useRef<HTMLDivElement>(null);
 
   const [hovering, setHovering] = useState(false);
-  const [x, setX] = useState(0); // x coords of origin
-  const [y, setY] = useState(0); // y coords of origin
-  const [width, setWidth] = useState(1); // width of image, including padding
-  const [height, setHeight] = useState(1); // height of image
-
-  const getDimensions = () => {
-    const topLeftX = imgRef.current?.offsetLeft || 0;
-    const topLeftY = imgRef.current?.offsetTop || 0;
-    const newWidth = imgRef.current?.offsetWidth || 1;
-    const newHeight = imgRef.current?.offsetHeight || 1;
-    const newX = topLeftX + (newWidth / 2);
-    const newY = topLeftY + (newHeight / 2);
-    setX(newX);
-    setY(newY);
-    setWidth(newWidth);
-    setHeight(newHeight);
-  }
-
-  // on load
-  useEffect(() => {
-    getDimensions();
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("resize", getDimensions);
-  }, []);
 
   return (
-    <div ref={imgRef} className="mx-auto my-auto">
+    <div ref={imgRef} className="h-fit w-fit">
       <Image
         className={clsx(
           "duration-300 md:duration-500 rounded-full shadow-xl shadow-orange-800 bg-black",
@@ -59,11 +33,30 @@ export default function EyeOfTheStorm({
         objectFit="contain"
         priority
         onMouseMove={function (e) {
+          const rectangle = e.currentTarget.getBoundingClientRect();
+          const width = rectangle.width;
+          const height = rectangle.height;
+          const x = rectangle.left + (width / 2);
+          const y = rectangle.top + (height / 2);
           const mx = e.pageX - x;
           const my = e.pageY - y;
           const dx = mx / width;
           const dy = my / height;
           const sdfo = (dx * dx) + (dy * dy);
+          /*
+          const debug = {
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+            mx: mx,
+            my: my,
+            dx: dx,
+            dy: dy,
+            sdfo: sdfo
+          };
+          console.log(`${JSON.stringify(debug)}`);
+          */
           if (sdfo <= 0.25) {
             setHovering(true);
           } else {
