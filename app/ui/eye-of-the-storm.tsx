@@ -30,7 +30,8 @@ export default function EyeOfTheStorm({
         height={600}
         width={600}
         quality={100}
-        objectFit="contain"
+        style={{objectFit: "contain"}}
+        draggable={false}
         priority
         onMouseMove={function (e) {
           const rectangle = e.currentTarget.getBoundingClientRect();
