@@ -29,7 +29,7 @@ export default function HelloName() {
     const typed = new Typed(el.current, {
       strings: ["Renoir"],
       typeSpeed: 100,
-      startDelay: 100,
+      startDelay: 200,
       showCursor: false
     });
 
