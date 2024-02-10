@@ -29,7 +29,7 @@ export default function HelloName() {
     const typed = new Typed(el.current, {
       strings: ["Renoir"],
       typeSpeed: 100,
-      startDelay: 300,
+      startDelay: 100,
       showCursor: false
     });
 
@@ -42,7 +42,7 @@ export default function HelloName() {
     <span
       ref={el}
       className={clsx(
-        "font-bold duration-[3000ms] border-b-[3px] italic",
+        "font-bold duration-[3000ms] border-r-[3px] pe-3",
         pulseCss[pulseState]
       )}
     />
