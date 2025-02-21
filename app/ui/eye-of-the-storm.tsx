@@ -65,7 +65,10 @@ export default function EyeOfTheStorm({
           }
         }}
         onMouseOut={() => setHovering(false)}
-        onClick={() => setPressed(!pressed)}
+        onClick={() => {
+          setHovering(false);
+          setPressed(!pressed);
+        }}
       />
     </div>
   );
