@@ -2,7 +2,7 @@ import HelloName from "./hello-name";
 import IconTooltip from "./icon-tooltip";
 
 export default function HelloText() {
-  return <div className="mx-6">
+  return <div>
     <h1
       className="text-center text-2xl md:text-4xl font-semibold mt-12"
     >

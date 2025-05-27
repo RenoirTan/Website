@@ -18,9 +18,7 @@ export default function EyeOfTheStorm() {
       <Image
         className={clsx(
           "duration-300 md:duration-500 rounded-full animate-[corona_20s_linear_infinite] bg-black",
-          ((hovering && !eotsPressed) &&
-            "-rotate-12 md:-rotate-45 brightness-110 scale-110"),
-            eotsPressed && "scale-[0.1] md:scale-[0.25]"
+          hovering && "-rotate-12 md:-rotate-45 brightness-110 scale-110"
         )}
         src="/icon-v2-exported.svg"
         alt="Eye of the Storm"
@@ -33,7 +31,6 @@ export default function EyeOfTheStorm() {
         onMouseOver={() => setHovering(true)}
         onMouseOut={() => setHovering(false)}
         onClick={() => {
-          setHovering(false);
           setEotsPressed(!eotsPressed);
         }}
       />

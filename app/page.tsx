@@ -1,15 +1,32 @@
-import Circus from "./ui/circus";
+"use client";
+
+import clsx from "clsx";
+import { usePageContext } from "./providers";
+import EyeOfTheStorm from "./ui/eye-of-the-storm";
 import HelloText from "./ui/hello-text";
+import AbsoluteCenter from "./ui/absolute-center";
 
 export default function Home() {
+  const { eotsPressed } = usePageContext();
+
   return (
-    <main className="flex flex-col items-center min-h-screen">
-      <div className="flex place-content-center h-screen">
-        <div className="mx-auto flex flex-col items-center justify-center">
-          <Circus />
-          <HelloText />
+    <main className="relative min-h-screen min-w-screen max-h-screen max-w-screen">
+      <AbsoluteCenter>
+        <div className={clsx(
+          "flex flex-col items-center mx-auto my-auto duration-300 md:duration-500",
+          !eotsPressed && "scale-100 opacity-100",
+          eotsPressed && "scale-[20%] opacity-[20%]"
+        )}>
+          <div className="w-3/5 flex flex-col items-center">
+            <EyeOfTheStorm />
+          </div>
+          <div className="md:mx-6">
+            <HelloText />
+          </div>
         </div>
-      </div>
+      </AbsoluteCenter>
+
+      <AbsoluteCenter>test</AbsoluteCenter>
     </main>
   );
 }
