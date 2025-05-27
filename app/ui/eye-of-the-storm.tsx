@@ -20,9 +20,9 @@ export default function EyeOfTheStorm({
     <div ref={imgRef} className="h-fit w-fit">
       <Image
         className={clsx(
-          "duration-300 md:duration-500 rounded-full shadow-xl shadow-orange-800 bg-black",
+          "duration-300 md:duration-500 rounded-full animate-[corona_20s_linear_infinite] bg-black",
           ((hovering && !pressed) &&
-            "-rotate-12 md:-rotate-45 brightness-110 scale-110 shadow-rose-500"),
+            "-rotate-12 md:-rotate-45 brightness-110 scale-110"),
           pressed && "scale-[0.1] md:scale-[0.25]"
         )}
         src="/icon-v2-exported.svg"
