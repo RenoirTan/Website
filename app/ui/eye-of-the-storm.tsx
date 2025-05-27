@@ -25,7 +25,7 @@ export default function EyeOfTheStorm({
             "-rotate-12 md:-rotate-45 brightness-110 scale-110 shadow-rose-500"),
           pressed && "scale-[0.1] md:scale-[0.25]"
         )}
-        src="/icon.png"
+        src="/icon-v2-exported.svg"
         alt="Eye of the Storm"
         height={600}
         width={600}
@@ -33,37 +33,7 @@ export default function EyeOfTheStorm({
         style={{objectFit: "contain"}}
         draggable={false}
         priority
-        onMouseMove={function (e) {
-          const rectangle = e.currentTarget.getBoundingClientRect();
-          const width = rectangle.width;
-          const height = rectangle.height;
-          const x = rectangle.left + (width / 2);
-          const y = rectangle.top + (height / 2);
-          const mx = e.pageX - x;
-          const my = e.pageY - y;
-          const dx = mx / width;
-          const dy = my / height;
-          const sdfo = (dx * dx) + (dy * dy);
-          /*
-          const debug = {
-            x: x,
-            y: y,
-            width: width,
-            height: height,
-            mx: mx,
-            my: my,
-            dx: dx,
-            dy: dy,
-            sdfo: sdfo
-          };
-          console.log(`${JSON.stringify(debug)}`);
-          */
-          if (sdfo <= 0.25) {
-            setHovering(true);
-          } else {
-            setHovering(false);
-          }
-        }}
+        onMouseOver={() => setHovering(true)}
         onMouseOut={() => setHovering(false)}
         onClick={() => {
           setHovering(false);
