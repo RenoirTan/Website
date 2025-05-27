@@ -44,8 +44,8 @@ const config: Config = {
         corona: {
           "0%, 100%": {
             "box-shadow": "0px 20px 25px -5px #ff6347",
-            "-webkit-box-shadow": "0px -20px 25px -5px #ff6347",
-            "-moz-box-shadow": "0px -20px 25px -5px #ff6347"
+            "-webkit-box-shadow": "0px 20px 25px -5px #ff6347",
+            "-moz-box-shadow": "0px 20px 25px -5px #ff6347"
           },
           "50%": {
             "box-shadow": "0px -20px 25px -5px #9554e8",
@@ -54,13 +54,13 @@ const config: Config = {
           },
           "25%": {
             "box-shadow": "20px 0px 25px -5px #f6299b",
-            "-webkit-box-shadow": "0px -20px 25px -5px #f6299b",
-            "-moz-box-shadow": "0px -20px 25px -5px #f6299b"
+            "-webkit-box-shadow": "20px 0px 25px -5px #f6299b",
+            "-moz-box-shadow": "20px 0px 25px -5px #f6299b"
           },
           "75%": {
             "box-shadow": "-20px 0px 25px -5px #f6299b",
-            "-webkit-box-shadow": "0px -20px 25px -5px #f6299b",
-            "-moz-box-shadow": "0px -20px 25px -5px #f6299b"
+            "-webkit-box-shadow": "-20px 0px 25px -5px #f6299b",
+            "-moz-box-shadow": "-20px 0px 25px -5px #f6299b"
           }
         }
       }
