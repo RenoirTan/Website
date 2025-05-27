@@ -5,6 +5,7 @@ import { usePageContext } from "./providers";
 import EyeOfTheStorm from "./ui/eye-of-the-storm";
 import HelloText from "./ui/hello-text";
 import AbsoluteCenter from "./ui/absolute-center";
+import Shelf from "./ui/shelf";
 
 export default function Home() {
   const { eotsPressed } = usePageContext();
@@ -15,7 +16,7 @@ export default function Home() {
         <div className={clsx(
           "flex flex-col items-center mx-auto my-auto duration-300 md:duration-500",
           !eotsPressed && "scale-100 opacity-100",
-          eotsPressed && "scale-[20%] opacity-[20%]"
+          eotsPressed && "scale-0 opacity-0"
         )}>
           <div className="w-3/5 flex flex-col items-center">
             <EyeOfTheStorm />
@@ -26,7 +27,15 @@ export default function Home() {
         </div>
       </AbsoluteCenter>
 
-      <AbsoluteCenter>test</AbsoluteCenter>
+      <AbsoluteCenter>
+        <div className={clsx(
+          "mx-auto my-auto duration-300 md:duration-500",
+          eotsPressed && "scale-100 opacity-100",
+          !eotsPressed && "scale-0 opacity-0"
+        )}>
+          <Shelf />
+        </div>
+      </AbsoluteCenter>
     </main>
   );
 }
