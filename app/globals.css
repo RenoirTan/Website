@@ -46,6 +46,8 @@ body {
     #631e57,
     #7e2e38
   );
+
+  scrollbar-color: #777 #111;
 }
 
 /*
@@ -73,4 +75,9 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.pages-layout h1 {
+  font-size: 2.25rem;
+  line-height: calc(2.5 / 2.25);
 }
