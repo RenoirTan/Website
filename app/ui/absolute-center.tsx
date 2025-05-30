@@ -11,7 +11,7 @@ export default function AbsoluteCenter({
       style={{ transform: "translate(-50%,-50%)" }}
     >
       <div className="h-full flex items-center pointer-events-none">
-        <div className="relative w-max h-max pointer-events-auto">
+        <div className="relative pointer-events-auto">
           {children}
         </div>
       </div>
