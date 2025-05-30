@@ -18,7 +18,7 @@ export default function Shelf() {
         <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
         <ButtonCell
           caption="Go Back"
-          childYDisplacement="0.9rem"
+          childYDisplacement="md:mt-[0.8rem]"
           onClick={() => {setEotsPressed(false)}}
         >
           <span className="text-center text-4xl"><BsArrowLeft /></span>
