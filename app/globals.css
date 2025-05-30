@@ -4,8 +4,8 @@
 
 :root {
   --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 0, 0, 0;
-  --background-end-rgb: 0, 0, 0;
+  --background-start-rgb: 0 0 0;
+  --background-end-rgb: 0 0 0;
 }
 
 /*
@@ -24,18 +24,60 @@
 }
 */
 
+@property --shimmer-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes shimmer {
+  0% {
+    --shimmer-angle: 360deg;
+  }
+  100% {
+    --shimmer-angle: 0deg;
+  }
+}
+
 body {
+  animation: 5s shimmer infinite;
+  background: linear-gradient(
+    var(--shimmer-angle),
+    #631e57,
+    #7e2e38
+  );
+
+  scrollbar-color: #777 #111;
+}
+
+/*
+body {
+  background: linear-gradient(
+    to bottom right,
+    #333,
+    #333
+  );
+}
+*/
+
+.sarx {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    to bottom right,
+    #1111117f 0%,
+    #111111ff 40%,
+    #111111ff 60%,
+    #1111117f 100%
+  );
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.pages-layout h1 {
+  font-size: 2.25rem;
+  line-height: calc(2.5 / 2.25);
 }

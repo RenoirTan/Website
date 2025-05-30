@@ -42,7 +42,7 @@ export default function HelloName() {
     <span
       ref={el}
       className={clsx(
-        "font-bold duration-[3000ms] border-r-[3px] pe-3",
+        "font-bold transition-colors duration-[3000ms] border-r-[3px] pe-3",
         pulseCss[pulseState]
       )}
     />

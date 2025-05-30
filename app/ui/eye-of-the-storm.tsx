@@ -3,14 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { clsx } from "clsx";
+import { usePageContext } from "../providers";
 
-export default function EyeOfTheStorm({
-  pressed,
-  setPressed
-}: {
-  pressed?: boolean;
-  setPressed: (pressed: boolean) => void;
-}) {
+export default function EyeOfTheStorm() {
+  const { eotsPressed, setEotsPressed } = usePageContext();
+
   // https://www.kindacode.com/article/react-get-the-position-x-y-of-an-element/
   const imgRef = useRef<HTMLDivElement>(null);
 
@@ -20,10 +17,8 @@ export default function EyeOfTheStorm({
     <div ref={imgRef} className="h-fit w-fit">
       <Image
         className={clsx(
-          "duration-300 md:duration-500 rounded-full shadow-xl shadow-orange-800 bg-black",
-          ((hovering && !pressed) &&
-            "-rotate-12 md:-rotate-45 brightness-110 scale-110 shadow-rose-500"),
-          pressed && "scale-[0.1] md:scale-[0.25]"
+          "duration-300 md:duration-500 rounded-full animate-[corona_20s_linear_infinite] bg-black",
+          hovering && "-rotate-12 md:-rotate-45 brightness-110 scale-110"
         )}
         src="/icon-v2-exported.svg"
         alt="Eye of the Storm"
@@ -36,8 +31,7 @@ export default function EyeOfTheStorm({
         onMouseOver={() => setHovering(true)}
         onMouseOut={() => setHovering(false)}
         onClick={() => {
-          setHovering(false);
-          setPressed(!pressed);
+          setEotsPressed(!eotsPressed);
         }}
       />
     </div>
