@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen min-w-screen max-h-screen max-w-screen">
-      <AbsoluteCenter>
+      <AbsoluteCenter className={clsx(!eotsPressed && "z-10", eotsPressed && "z-0")}>
         <div className={clsx(
           "flex flex-col items-center mx-auto my-auto duration-300 md:duration-500",
           !eotsPressed && "scale-100 opacity-100",
@@ -27,7 +27,7 @@ export default function Home() {
         </div>
       </AbsoluteCenter>
 
-      <AbsoluteCenter>
+      <AbsoluteCenter className={clsx(!eotsPressed && "z-0", eotsPressed && "z-10")}>
         <div className={clsx(
           "mx-auto my-auto duration-300 md:duration-500",
           eotsPressed && "scale-100 opacity-100",
