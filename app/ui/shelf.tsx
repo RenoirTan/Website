@@ -5,6 +5,7 @@ import { usePageContext } from "../providers";
 import Cell from "./cell";
 import LinkCell from "./link-cell";
 import ButtonCell from "./button-cell";
+import WipCell from "./wip-cell";
 
 export default function Shelf() {
   const { setEotsPressed } = usePageContext();
@@ -21,21 +22,21 @@ export default function Shelf() {
           src="/person-circle.svg"
           alt="About Me"
           href="/about-me"
-          childYDisplacement="md:mt-[0.9rem]"
+          childYDisplacement="md:mt-[1.1rem]"
         />
-        <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
-        <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
+        <WipCell />
+        <WipCell />
         <ButtonCell
           caption="Go Back"
-          childYDisplacement="md:mt-[0.8rem]"
+          childYDisplacement="md:mt-[1.2rem]"
           onClick={() => {setEotsPressed(false)}}
         >
           <span className="text-center text-4xl"><BsArrowLeft /></span>
         </ButtonCell>
-        <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
-        <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
-        <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
-        <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
+        <WipCell />
+        <WipCell />
+        <WipCell />
+        <WipCell />
       </div>
     </div>
   );
