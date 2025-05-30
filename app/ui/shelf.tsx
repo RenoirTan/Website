@@ -4,6 +4,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import { usePageContext } from "../providers";
 import Cell from "./cell";
 import LinkCell from "./link-cell";
+import ButtonCell from "./button-cell";
 
 export default function Shelf() {
   const { setEotsPressed } = usePageContext();
@@ -15,17 +16,13 @@ export default function Shelf() {
         <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
         <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
         <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
-        <Cell>
-          <button
-            className="w-full h-full"
-            onClick={() => setEotsPressed(false)}
-          >
-            <div className="flex flex-col justify-center items-center">
-              <BsArrowLeft className="text-5xl" />
-              Go Back
-            </div>
-          </button>
-        </Cell>
+        <ButtonCell
+          caption="Go Back"
+          childYDisplacement="0.9rem"
+          onClick={() => {setEotsPressed(false)}}
+        >
+          <span className="text-center text-4xl"><BsArrowLeft /></span>
+        </ButtonCell>
         <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
         <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
         <LinkCell src="/github-mark-white.svg" alt="My GitHub" href="https://github.com/RenoirTan" />
