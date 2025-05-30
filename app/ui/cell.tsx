@@ -1,24 +1,12 @@
 import { clsx } from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
-export default function Cell({
-  src,
-  alt,
-  href
-}: {
-  src: string;
-  alt: string;
-  href: string;
-}) {
+export default function Cell({ children }: { children?: React.ReactNode }) {
   return (
-    <div className={clsx(
-      "duration-300 md:duration-500 border rounded-2xl bg-gray-900 p-2 text-center h-fit w-fit flex flex-col items-center gap-y-2"
-    )}>
-      <Link href={href}>
-        <Image className="hover:brightness-[.8] duration-200" src={src} alt={alt} width={100} height={100} />
-      </Link>
-      <p>{alt}</p>
+    <div className="border rounded-2xl bg-gray-900 p-2 text-center flex flex-col justify-center items-center w-[100px] h-[100px]">
+      {children}
     </div>
   );
 }
