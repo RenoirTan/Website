@@ -13,11 +13,11 @@ export default function LinkCell({
   href: string;
 }) {
   return <Cell>
-    <div className="flex flex-col justify-center items-center gap-y-1">
+    <div className="max-w-full max-h-full w-fit h-fit aspect-square flex flex-col justify-center items-center gap-y-1">
       <Link href={href}>
-        <Image className="hover:brightness-[.8] duration-200" src={src} alt={alt} width={60} height={60} />
+        <Image className="hover:brightness-[.8] duration-200" src={src} alt={alt} width={40} height={40} />
       </Link>
-      <p className="text-sm">{alt}</p>
+      <p className="max-w-full text-sm text-wrap truncate">{alt}</p>
     </div>
   </Cell>;
 }
