@@ -60,7 +60,13 @@ body {
 
 .sarx {
   color: rgb(var(--foreground-rgb));
-  background: #111;
+  background: linear-gradient(
+    to bottom right,
+    #1111117f 0%,
+    #111111ff 40%,
+    #111111ff 60%,
+    #1111117f 100%
+  );
 }
 
 @layer utilities {

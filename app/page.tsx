@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <main className="relative h-screen w-screen">
       <div
-        className="absolute h-[calc(100vh-0.5rem)] w-[calc(100vw-0.5rem)] md:h-[calc(100vh-2rem)] md:w-[calc(100vw-2rem)] left-[50%] top-[50%] rounded-3xl sarx"
+        className="absolute h-[calc(100vh-2rem)] w-[calc(100vw-2rem)] md:h-[calc(100vh-2rem)] md:w-[calc(100vw-2rem)] left-[50%] top-[50%] rounded-3xl sarx"
         style={{ transform: "translate(-50%,-50%)" }}
       >
         <div className="relative w-full h-full">
