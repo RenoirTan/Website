@@ -5,6 +5,9 @@ const nextConfig = {
   output: "export",
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   output: "standalone",
+  experimental: {
+    optimizePackageImports: ["@chakra-ui/react"],
+  },
 };
 
 const withMDX = createMDX({
