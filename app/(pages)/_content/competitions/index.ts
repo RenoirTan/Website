@@ -1,4 +1,4 @@
-import { direntPath, isDirWithPage, recursiveReaddirSync } from "@/lib/utils";
+import { direntPath, getCollectionPagesPath, isDirWithPage, recursiveReaddirSync } from "@/lib/utils";
 import fs from "fs";
 import path from "path";
 
@@ -18,15 +18,5 @@ export async function getCompetitionMetadata(path: string): Promise<CompetitionM
 }
 
 export function getCompetitionsPath(): string[] {
-  const allDirs = [...recursiveReaddirSync(
-    competitionsDir,
-    { withFileTypes: true, filter: (entry: fs.Dirent): boolean => entry.isDirectory()}
-  )];
-  const directories = allDirs.filter(
-    (entry: any) => isDirWithPage(direntPath(entry))
-  );
-  const paths = directories.map(
-    (entry: any) => path.join(path.relative(competitionsDir, direntPath(entry)))
-  );
-  return paths;
+  return getCollectionPagesPath(competitionsDir);
 }

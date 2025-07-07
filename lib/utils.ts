@@ -37,3 +37,17 @@ export function isDirWithPage(pathlike: fs.PathLike): boolean {
 export function direntPath(entry: any): string {
   return path.join(entry.parentPath, entry.name);
 }
+
+export function getCollectionPagesPath(collectionRoot: fs.PathLike): string[] {
+  const allDirs = [...recursiveReaddirSync(
+    collectionRoot,
+    { withFileTypes: true, filter: (entry: fs.Dirent): boolean => entry.isDirectory()}
+  )];
+  const directories = allDirs.filter(
+    (entry: any) => isDirWithPage(direntPath(entry))
+  );
+  const paths = directories.map(
+    (entry: any) => path.join(path.relative(collectionRoot.toString(), direntPath(entry)))
+  );
+  return paths;
+}
