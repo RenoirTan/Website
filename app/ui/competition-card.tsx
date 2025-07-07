@@ -1,4 +1,4 @@
-import { CompetitionMetadata } from "../(pages)/_content/competitions";
+import { CompetitionMetadata, getCompetitionMetadata } from "../(pages)/_content/competitions";
 import MilestoneCard, { MilestoneCardProps } from "./milestone-card";
 
 export default function CompetitionCard({
@@ -17,4 +17,12 @@ export default function CompetitionCard({
     milestoneType="liver"
     {...props}
   />;
+}
+
+export async function makeCompetitionCard(path: string) {
+  const competitionMetadata = await getCompetitionMetadata(`./${path}/page.mdx`);
+  const key = path;
+  const href = `/competitions/${path}`;
+
+  return <CompetitionCard key={key} href={href} {...competitionMetadata} />;
 }

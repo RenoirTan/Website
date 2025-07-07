@@ -3,13 +3,9 @@ title: About Me
 ---
 
 import { Image } from "@chakra-ui/react";
-import CompetitionCard from "@/app/ui/competition-card";
+import { makeCompetitionCard } from "@/app/ui/competition-card";
 import MilestoneCard from "@/app/ui/milestone-card";
-import {
-    getCompetitionPagePath,
-    getCompetitionMetadata,
-    getCompetitionsPath
-} from "../competitions";
+import { getCompetitionsPath } from "../competitions";
 
 # About Me
 
@@ -19,11 +15,4 @@ I'm a programmer who has had at least 6 years of programming by this point. My m
 
 ## Competitions
 
-{getCompetitionsPath().map(async (path) => {
-    // path is relative to ./app/(pages)/_content/competitions/index.ts
-    const competitionMetadata = await getCompetitionMetadata(`./${path}/page.mdx`);
-    const key = path;
-    const href = `/competitions/${path}`;
-
-    return <CompetitionCard key={key} href={href} {...competitionMetadata} />;
-})}
+{getCompetitionsPath().map(makeCompetitionCard)}
