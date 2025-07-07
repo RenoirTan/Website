@@ -1,4 +1,6 @@
 import createMDX from "@next/mdx";
+import remarkFrontmatter from "remark-frontmatter";
+
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -11,7 +13,10 @@ const nextConfig = {
 };
 
 const withMDX = createMDX({
-  extension: /\.(md|mdx)$/
+  extension: /\.(md|mdx)$/,
+  options: {
+    remarkPlugins: [remarkFrontmatter]
+  }
 });
 
 export default withMDX(nextConfig);
