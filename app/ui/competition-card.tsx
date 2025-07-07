@@ -14,7 +14,7 @@ export default function CompetitionCard({
     image={image}
     title={title}
     description={description}
-    {...props}
     milestoneType="liver"
+    {...props}
   />;
 }

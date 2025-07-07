@@ -13,12 +13,7 @@ const competitionsDir = path.join(process.cwd(), "app", "(pages)", "_content", "
 
 export async function getCompetitionMetadata(path: string): Promise<CompetitionMetadata> {
   const { frontmatter } = await import(`${path}`);
-  const metadata: CompetitionMetadata = {
-    title: frontmatter.title,
-    edition: frontmatter.edition,
-    result: frontmatter.result,
-    image: frontmatter.image,
-  };
+  const metadata: CompetitionMetadata = {...frontmatter};
   return metadata;
 }
 
