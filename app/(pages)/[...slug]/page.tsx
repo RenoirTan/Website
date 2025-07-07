@@ -4,13 +4,15 @@ import fs from "fs";
 import path from "path";
 import PagesLayout from "./pages-layout";
 import { Metadata } from "next";
+import { direntPath, isDirWithPage, PAGE_FILENAMES, recursiveReaddirSync } from "@/lib/utils";
 
-type PagesParams = {
-  slug: string;
+export interface PagesParams {
+  slug: string[];
 };
 
-async function getPage(slug: string) {
-  return await import(`../_content/${slug}/page.mdx`);
+async function getPage(slug: string[]) {
+  const pathComponent = path.join(...slug);
+  return await import(`../_content/${pathComponent}/page.mdx`);
 }
 
 export default async function Page({
@@ -41,8 +43,16 @@ export async function generateMetadata({
 const pagesDir = path.join(process.cwd(), "app", "(pages)", "_content")
 
 export function generateStaticParams() {
-  const allFiles = fs.readdirSync(pagesDir, { withFileTypes: true });
-  const directories = allFiles.filter((file) => file.isDirectory());
-  const slugs = directories.map(({ name }) => name);
-  return slugs;
+  const allDirs = [...recursiveReaddirSync(
+    pagesDir,
+    { withFileTypes: true, filter: (entry: fs.Dirent): boolean => entry.isDirectory()}
+  )];
+  const directories = allDirs.filter(
+    (entry: any) => isDirWithPage(direntPath(entry))
+  );
+  const slugs = directories.map(
+    (entry: any) => path.relative(pagesDir, direntPath(entry)).split("/")
+  );
+  const params: PagesParams[] = slugs.map(slug => { return { slug: slug }; });
+  return params;
 }

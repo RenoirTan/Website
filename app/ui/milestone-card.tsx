@@ -16,6 +16,16 @@ const MILESTONE_TYPE_CLASSNAME = {
   "nature": "bg-gradient-to-br from-lime-900 to-teal-950",
 }
 
+export interface MilestoneCardProps {
+  image?: React.ReactNode;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
+  href?: string;
+  className?: string;
+  milestoneType?: MilestoneType;
+  alt?: string;
+};
+
 export default function MilestoneCard({
   image,
   title,
@@ -25,15 +35,7 @@ export default function MilestoneCard({
   milestoneType,
   alt,
   ...props
-}: {
-  image?: React.ReactNode;
-  title?: React.ReactNode;
-  description?: React.ReactNode;
-  href?: string;
-  className?: string;
-  milestoneType?: MilestoneType;
-  alt?: string;
-}) {
+}: MilestoneCardProps) {
   const [hovering, setHovering] = useState(false);
 
   const myImage = (image && typeof image === "string")
@@ -56,7 +58,7 @@ export default function MilestoneCard({
       onMouseOut={e => setHovering(false)}
     >
       {myImage && <Card.Header className={clsx(
-        "bg-black m-3 rounded-2xl ring transition-shadow duration-200",
+        "bg-black m-3 p-0 rounded-xl ring transition-shadow duration-200 overflow-clip",
         !hovering && "ring-1 ring-l-dark-silver/30",
         hovering && "ring-4 ring-l-dark-silver/30",
       )}>
