@@ -1,14 +1,18 @@
+// https://vstollen.me/blog/advanced-mdx-layouts
+
 "use client";
 
 import { BsArrowLeft } from "react-icons/bs";
-import HorizontalFlyingButton from "../ui/horizontal-flying-button";
+import HorizontalFlyingButton from "../../ui/horizontal-flying-button";
 import { usePathname } from "next/navigation";
-import "../globals.css";
+import "../../globals.css";
 
 export default function PagesLayout({
-  children
+  children,
+  frontmatter
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
+  frontmatter: any
 }) {
   const pathname = usePathname();
 
@@ -18,7 +22,7 @@ export default function PagesLayout({
         <HorizontalFlyingButton caption="Back" href="/">
           <BsArrowLeft className="text-xl" />
         </HorizontalFlyingButton>
-        <h2>{pathname}</h2>
+        {<h2>{pathname}</h2>}
       </div>
       <div className="flex flex-col w-full max-h-full gap-y-3 overflow-y-auto pages-layout">
         {children}
