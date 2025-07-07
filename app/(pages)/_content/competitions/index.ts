@@ -1,5 +1,4 @@
-import { direntPath, getCollectionPagesPath, isDirWithPage, recursiveReaddirSync } from "@/lib/utils";
-import fs from "fs";
+import { getCollectionPagesPath } from "@/lib/utils";
 import path from "path";
 
 export interface CompetitionMetadata {

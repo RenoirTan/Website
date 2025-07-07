@@ -4,8 +4,10 @@ title: About Me
 
 import { Image } from "@chakra-ui/react";
 import { makeCompetitionCard } from "@/app/ui/competition-card";
+import { makeEventCard } from "@/app/ui/event-card";
 import MilestoneCard from "@/app/ui/milestone-card";
 import { getCompetitionsPath } from "../competitions";
+import { getEventsPath } from "../events";
 
 # About Me
 
@@ -16,3 +18,6 @@ I'm a programmer who has had at least 6 years of programming by this point. My m
 ## Competitions
 
 {getCompetitionsPath().map(makeCompetitionCard)}
+
+## Events
+{getEventsPath().map(makeEventCard)}
