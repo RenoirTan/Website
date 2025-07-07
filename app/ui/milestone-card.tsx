@@ -46,7 +46,7 @@ export default function MilestoneCard({
   const card = (
     <Card.Root
       className={clsx(
-        "m-2 w-[400px] max-w-fit rounded-2xl",
+        "w-[400px] max-w-fit rounded-2xl",
         MILESTONE_TYPE_CLASSNAME[milestoneType ?? "default"] ?? MILESTONE_TYPE_CLASSNAME.default,
         className,
       )}
@@ -72,5 +72,7 @@ export default function MilestoneCard({
     </Card.Root>
   );
 
-  return href ? <Link href={href}>{card}</Link> : card;
+  return href
+    ? <Link href={href} className="w-fit">{card}</Link>
+    : card;
 }
