@@ -23,6 +23,7 @@ export default function MilestoneCard({
   href,
   className,
   milestoneType,
+  alt,
   ...props
 }: {
   image?: React.ReactNode;
@@ -30,13 +31,15 @@ export default function MilestoneCard({
   description?: React.ReactNode;
   href?: string;
   className?: string;
-  milestoneType?: MilestoneType
+  milestoneType?: MilestoneType;
+  alt?: string;
 }) {
   const [hovering, setHovering] = useState(false);
 
   const myImage = (image && typeof image === "string")
     ? <Image
         src={image}
+        alt={alt}
       />
     : image;
 

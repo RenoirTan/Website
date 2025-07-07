@@ -40,7 +40,7 @@ export async function generateMetadata({
 
 const pagesDir = path.join(process.cwd(), "app", "(pages)", "_content")
 
-export function getStaticParams() {
+export function generateStaticParams() {
   const allFiles = fs.readdirSync(pagesDir, { withFileTypes: true });
   const directories = allFiles.filter((file) => file.isDirectory());
   const slugs = directories.map(({ name }) => name);
