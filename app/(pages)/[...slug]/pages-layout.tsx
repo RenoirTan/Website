@@ -24,8 +24,8 @@ export default function PagesLayout({
         </HorizontalFlyingButton>
         {<h2>{pathname}</h2>}
       </div>
-      <div className="flex flex-col items-center max-h-full gap-y-3 overflow-y-auto pages-layout">
-        <div className="md:w-[720px] md:p-5">
+      <div className="flex flex-col w-full items-center max-h-full gap-y-3 overflow-y-auto pages-layout">
+        <div className="w-full md:w-[720px] md:p-5">
           {children}
         </div>
       </div>

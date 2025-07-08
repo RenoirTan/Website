@@ -78,10 +78,10 @@ export default function MilestoneCard({
         {myImage}
       </Card.Header>}
       <Card.Body gap="2">
-        <Card.Title className="text-l-white font-extrabold text-xl text-wrap break-all wrap-break-word">
+        <Card.Title className="text-l-white font-extrabold text-xl text-wrap">
           {title ?? "No title"}
         </Card.Title>
-        <Card.Description className="text-l-silver text-md text-wrap break-all wrap-break-word">
+        <Card.Description className="text-l-silver text-md text-wrap">
           {description ?? "No description"}
         </Card.Description>
         {href && <p className="text-xs text-l-silver/30">Click me to find out more</p>}
