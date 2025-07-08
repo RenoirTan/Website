@@ -6,7 +6,7 @@ export async function makeMilestoneCard(path: string) {
   rawMetadata.title = `${rawMetadata.title} `;
   const key = path;
   const href = `/milestones/${path}`;
-  const description = JSON.stringify(rawMetadata);
+  const description = rawMetadata.summary ?? "No description given.";
 
   return <MilestoneCard
     key={key}
