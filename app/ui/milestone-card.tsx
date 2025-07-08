@@ -3,7 +3,7 @@
 import { Card, Image } from "@chakra-ui/react";
 import clsx from "clsx";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 
 type MilestoneColorTheme = "default" | "liver" | "ocean" | "gold" | "violet" | "nature";
 
@@ -37,18 +37,29 @@ export default function MilestoneCard({
   ...props
 }: MilestoneCardProps) {
   const [hovering, setHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
+
+  useLayoutEffect(() => {
+    function updateIsMobile() {
+      setIsMobile(window.matchMedia("(max-width: 768px)").matches)
+    }
+    window.addEventListener("resize", updateIsMobile);
+    updateIsMobile();
+    return () => window.removeEventListener("resize", updateIsMobile);
+  }, []);
 
   const myImage = (image && typeof image === "string")
     ? <Image
         src={image}
         alt={alt}
+        maxWidth={150}
       />
     : image;
 
   const card = (
     <Card.Root
       className={clsx(
-        "max-w-[400px] rounded-2xl",
+        "rounded-2xl",
         MILESTONE_COLORTHEME_CLASSNAME[colorTheme ?? "default"]
           ?? MILESTONE_COLORTHEME_CLASSNAME.default,
         className,
@@ -57,21 +68,24 @@ export default function MilestoneCard({
       {...props}
       onMouseOver={e => setHovering(true)}
       onMouseOut={e => setHovering(false)}
+      flexDir={isMobile ? "column" : "row"}
     >
       {myImage && <Card.Header className={clsx(
-        "bg-black m-3 p-0 rounded-xl ring transition-shadow duration-200 overflow-clip",
+        "bg-black m-3 p-0 w-fit h-fit rounded-xl ring transition-shadow duration-200 overflow-clip",
         !hovering && "ring-1 ring-l-dark-silver/30",
         hovering && "ring-4 ring-l-dark-silver/30",
       )}>
         {myImage}
       </Card.Header>}
       <Card.Body gap="2">
-        <Card.Title className="text-l-white font-extrabold text-xl">{title ?? "No title"}</Card.Title>
-        <Card.Description className="text-l-silver text-md">{description ?? "No description"}</Card.Description>
-      </Card.Body>
-      <Card.Footer className="flex flex-col align-middle">
+        <Card.Title className="text-l-white font-extrabold text-xl text-wrap">
+          {title ?? "No title"}
+        </Card.Title>
+        <Card.Description className="text-l-silver text-md text-wrap wrap-break-word">
+          {description ?? "No description"}
+        </Card.Description>
         {href && <p className="text-xs text-l-silver/30">Click me to find out more</p>}
-      </Card.Footer>
+      </Card.Body>
     </Card.Root>
   );
 
