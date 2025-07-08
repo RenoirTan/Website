@@ -9,11 +9,11 @@ type MilestoneColorTheme = "default" | "liver" | "ocean" | "gold" | "violet" | "
 
 const MILESTONE_COLORTHEME_CLASSNAME = {
   "default": "bg-gradient-to-br from-l-calm-gray to-l-black",
-  "liver": "bg-gradient-to-br from-purple-900 to-orange-950",
-  "ocean": "bg-gradient-to-br from-cyan-900 to-emerald-950",
-  "gold": "bg-gradient-to-br from-pink-900 to-yellow-950",
-  "violet": "bg-gradient-to-br from-cyan-950 to-purple-950",
-  "nature": "bg-gradient-to-br from-lime-900 to-teal-950",
+  "liver": "bg-gradient-to-br from-purple-800 to-orange-950",
+  "ocean": "bg-gradient-to-br from-cyan-800 to-emerald-950",
+  "gold": "bg-gradient-to-br from-yellow-800 to-red-950",
+  "violet": "bg-gradient-to-br from-cyan-800 to-purple-950",
+  "nature": "bg-gradient-to-br from-lime-800 to-teal-950",
 }
 
 export interface MilestoneCardProps {
