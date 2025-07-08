@@ -52,7 +52,8 @@ export default function MilestoneCard({
     ? <Image
         src={image}
         alt={alt}
-        maxWidth={100}
+        maxWidth={isMobile ? undefined : 160}
+        maxHeight={isMobile ? 100 : undefined}
       />
     : image;
 
