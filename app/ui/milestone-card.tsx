@@ -5,9 +5,9 @@ import clsx from "clsx";
 import Link from "next/link";
 import React, { useState } from "react";
 
-type MilestoneType = "default" | "liver" | "ocean" | "gold" | "violet" | "nature";
+type MilestoneColorTheme = "default" | "liver" | "ocean" | "gold" | "violet" | "nature";
 
-const MILESTONE_TYPE_CLASSNAME = {
+const MILESTONE_COLORTHEME_CLASSNAME = {
   "default": "bg-gradient-to-br from-l-calm-gray to-l-black",
   "liver": "bg-gradient-to-br from-purple-900 to-orange-950",
   "ocean": "bg-gradient-to-br from-cyan-900 to-emerald-950",
@@ -22,7 +22,7 @@ export interface MilestoneCardProps {
   description?: React.ReactNode;
   href?: string;
   className?: string;
-  milestoneType?: MilestoneType;
+  colorTheme?: MilestoneColorTheme;
   alt?: string;
 };
 
@@ -32,7 +32,7 @@ export default function MilestoneCard({
   description,
   href,
   className,
-  milestoneType,
+  colorTheme,
   alt,
   ...props
 }: MilestoneCardProps) {
@@ -49,7 +49,8 @@ export default function MilestoneCard({
     <Card.Root
       className={clsx(
         "max-w-[400px] rounded-2xl",
-        MILESTONE_TYPE_CLASSNAME[milestoneType ?? "default"] ?? MILESTONE_TYPE_CLASSNAME.default,
+        MILESTONE_COLORTHEME_CLASSNAME[colorTheme ?? "default"]
+          ?? MILESTONE_COLORTHEME_CLASSNAME.default,
         className,
       )}
       variant="elevated"

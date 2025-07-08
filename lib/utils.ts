@@ -51,3 +51,11 @@ export function getCollectionPagesPath(collectionRoot: fs.PathLike): string[] {
   );
   return paths;
 }
+
+export function parseDate(raw: string): Date {
+  return new Date(Date.parse(raw));
+}
+
+export function maybeParseDate(raw?: string): Date | undefined {
+  return raw ? parseDate(raw) : undefined;
+}
