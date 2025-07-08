@@ -3,11 +3,9 @@ title: About Me
 ---
 
 import { Image } from "@chakra-ui/react";
-import { makeCompetitionCard } from "@/app/ui/competition-card";
-import { makeEventCard } from "@/app/ui/event-card";
+import { makeMilestoneCard } from "@/app/ui/milestone-card-server";
 import MilestoneCard from "@/app/ui/milestone-card";
-import { getCompetitionsPath } from "../competitions";
-import { getEventsPath } from "../events";
+import { getMilestonesPath } from "../milestones";
 
 # About Me
 
@@ -15,9 +13,6 @@ Hello, my name is Renoir.
 
 I'm a programmer who has had at least 6 years of programming by this point. My main languages are Python, Rust, C and recently JavaScript and TypeScript. I have also dabbled in competitions in fields like Cybersecurity and AI, as well as contributed to a few coding events in Singapore.
 
-## Competitions
+## Milestones
 
-{getCompetitionsPath().map(makeCompetitionCard)}
-
-## Events
-{getEventsPath().map(makeEventCard)}
+{getMilestonesPath().map(makeMilestoneCard)}
