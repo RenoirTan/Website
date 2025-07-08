@@ -48,7 +48,7 @@ export default function MilestoneCard({
   const card = (
     <Card.Root
       className={clsx(
-        "w-[400px] max-w-fit rounded-2xl",
+        "max-w-[400px] rounded-2xl",
         MILESTONE_TYPE_CLASSNAME[milestoneType ?? "default"] ?? MILESTONE_TYPE_CLASSNAME.default,
         className,
       )}
