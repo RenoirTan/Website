@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { PageProvider } from "./providers";
+import { Provider as ChakraProvider } from "@/chakra/ui/provider";
 
 const jetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
@@ -27,18 +28,20 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={jetBrainsMono.className}>
-        <PageProvider>
-          <main className="relative h-screen w-screen">
-            <div
-              className="absolute h-[calc(100vh-2rem)] w-[calc(100vw-2rem)] md:h-[calc(100vh-2rem)] md:w-[calc(100vw-2rem)] left-[50%] top-[50%] rounded-3xl sarx"
-              style={{ transform: "translate(-50%,-50%)" }}
-            >
-              <div className="relative w-full h-full p-5">
-                {children}
+        <ChakraProvider>
+          <PageProvider>
+            <main className="relative h-screen w-screen">
+              <div
+                className="absolute h-[calc(100vh-2rem)] w-[calc(100vw-2rem)] md:h-[calc(100vh-2rem)] md:w-[calc(100vw-2rem)] left-[50%] top-[50%] rounded-3xl sarx"
+                style={{ transform: "translate(-50%,-50%)" }}
+              >
+                <div className="relative w-full h-full p-5">
+                  {children}
+                </div>
               </div>
-            </div>
-          </main>
-        </PageProvider>
+            </main>
+          </PageProvider>
+        </ChakraProvider>
       </body>
     </html>
   );

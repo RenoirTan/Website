@@ -23,7 +23,7 @@ export default function HelloName() {
     }, 3000);
 
     return () => clearInterval(intervalId);
-  }, [pulseState]);
+  }, [pulseState, pulseCss.length]);
 
   useEffect(() => {
     const typed = new Typed(el.current, {
