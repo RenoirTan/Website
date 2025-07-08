@@ -1,7 +1,13 @@
 import { getRawMilestoneMetadata } from "../(pages)/_content/milestones";
 import MilestoneCard from "./milestone-card";
 
-export async function makeMilestoneCard(path: string) {
+export async function makeMilestoneCard(
+  path: string,
+  {
+    className,
+  }: {
+    className?: string;
+}) {
   let rawMetadata = await getRawMilestoneMetadata(`./${path}/page.mdx`);
   rawMetadata.title = `${rawMetadata.title} `;
   const key = path;
@@ -13,5 +19,6 @@ export async function makeMilestoneCard(path: string) {
     href={href}
     description={description}
     {...rawMetadata}
+    className={className}
   />;
 }

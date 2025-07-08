@@ -2,10 +2,10 @@
 title: About Me
 ---
 
-import { Image } from "@chakra-ui/react";
+import { Image, Timeline } from "@chakra-ui/react";
 import { makeMilestoneCard } from "@/app/ui/milestone-card-server";
 import MilestoneCard from "@/app/ui/milestone-card";
-import { getMilestonesPath } from "../milestones";
+import { getMilestonesPath, getRawMilestoneMetadata } from "../milestones";
 
 # About Me
 
@@ -15,4 +15,23 @@ I'm a programmer who has had at least 6 years of programming by this point. My m
 
 ## Milestones
 
-{getMilestonesPath().map(makeMilestoneCard)}
+<Timeline.Root variant="solid">
+  {["events/buildingblocs2023", "competitions/cyberthon2023", "competitions/naisc2024"]
+    .map(async (p, i) => {
+      const rawMetadata = await getRawMilestoneMetadata(`./${p}/page.mdx`);
+
+      return <Timeline.Item key={p}>
+        <Timeline.Connector>
+          <Timeline.Separator />
+          <Timeline.Indicator>{i + 1}</Timeline.Indicator>
+        </Timeline.Connector>
+
+        <Timeline.Content>
+          <Timeline.Title>
+            {rawMetadata.title}
+          </Timeline.Title>
+          {await makeMilestoneCard(p, { className: "w-full" })}
+        </Timeline.Content>
+      </Timeline.Item>;
+  })}
+</Timeline.Root>

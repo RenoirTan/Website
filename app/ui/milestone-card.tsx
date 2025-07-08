@@ -52,14 +52,14 @@ export default function MilestoneCard({
     ? <Image
         src={image}
         alt={alt}
-        maxWidth={150}
+        maxWidth={100}
       />
     : image;
 
   const card = (
     <Card.Root
       className={clsx(
-        "rounded-2xl",
+        "rounded-2xl w-fit",
         MILESTONE_COLORTHEME_CLASSNAME[colorTheme ?? "default"]
           ?? MILESTONE_COLORTHEME_CLASSNAME.default,
         className,
@@ -78,7 +78,7 @@ export default function MilestoneCard({
         {myImage}
       </Card.Header>}
       <Card.Body gap="2">
-        <Card.Title className="text-l-white font-extrabold text-xl text-wrap">
+        <Card.Title className="text-l-white font-extrabold text-lg md:text-xl text-wrap">
           {title ?? "No title"}
         </Card.Title>
         <Card.Description className="text-l-silver text-md text-wrap">
@@ -90,6 +90,6 @@ export default function MilestoneCard({
   );
 
   return href
-    ? <Link href={href} className="w-fit">{card}</Link>
+    ? <Link href={href} className="w-full">{card}</Link>
     : card;
 }
