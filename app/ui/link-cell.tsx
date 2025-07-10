@@ -16,7 +16,7 @@ export default function LinkCell({
   childYDisplacement?: string;
 }) {
   return <Link href={href}>
-    <ButtonCell caption={alt} childYDisplacement={childYDisplacement ?? "md:mt-[1.1rem]"}>
+    <ButtonCell caption={alt} childYDisplacement={childYDisplacement ?? "md:mt-[0.9rem]"}>
       <Image className="hover:brightness-[.8] duration-200" src={src} alt={alt} width={40} height={40} />
     </ButtonCell>
   </Link>;
