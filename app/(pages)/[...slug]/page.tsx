@@ -5,6 +5,7 @@ import path from "path";
 import PagesLayout from "./pages-layout";
 import { Metadata } from "next";
 import { direntPath, isDirWithPage, PAGE_FILENAMES, recursiveReaddirSync } from "@/lib/utils";
+import { notFound } from "next/navigation";
 
 export interface PagesParams {
   slug: string[];
@@ -12,7 +13,12 @@ export interface PagesParams {
 
 async function getPage(slug: string[]) {
   const pathComponent = path.join(...slug);
-  return await import(`../_content/${pathComponent}/page.mdx`);
+  try {
+    const page = await import(`../_content/${pathComponent}/page.mdx`);
+    return page;
+  } catch (e) {
+    return undefined;
+  }
 }
 
 export default async function Page({
@@ -21,6 +27,9 @@ export default async function Page({
   params: PagesParams;
 }) {
   const content = await getPage(params.slug);
+  if (!content) {
+    return notFound();
+  }
   return (
     <PagesLayout frontmatter={content.frontmatter}>
       <content.default />
@@ -33,7 +42,9 @@ export async function generateMetadata({
 }: {
   params: PagesParams;
 }): Promise<Metadata> {
-  const { frontmatter } = await getPage(params.slug);
+  const content = await getPage(params.slug);
+  if (!content) return {};
+  const { frontmatter } = content;
 
   return {
     title: frontmatter.title ?? "Renoir's Website"
