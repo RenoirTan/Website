@@ -1,41 +1,68 @@
 "use client";
 
 import clsx from "clsx";
-import { usePageContext } from "./providers";
+import { PageProvider, usePageContext } from "./providers";
 import EyeOfTheStorm from "./ui/eye-of-the-storm";
 import HelloText from "./ui/hello-text";
 import AbsoluteCenter from "./ui/absolute-center";
 import Shelf from "./ui/shelf";
 import "./globals.css";
+import { motion } from "motion/react";
+import { useEffect } from "react";
 
 export default function Home() {
-  const { eotsPressed } = usePageContext();
+  return <PageProvider>
+    <HomePage />
+  </PageProvider>;
+}
+
+function HomePage() {
+  const { eotsPressed, setEotsPressed } = usePageContext();
 
   return (
     <>
-      <AbsoluteCenter className={clsx(!eotsPressed && "z-10", eotsPressed && "z-0")}>
+      <AbsoluteCenter className={clsx(
+        "z-10",
+      )}>
         <div className={clsx(
           "flex flex-col items-center mx-auto my-auto duration-300 md:duration-500",
-          !eotsPressed && "scale-100 opacity-100",
-          eotsPressed && "scale-0 opacity-0"
         )}>
           <div className="w-3/5 flex flex-col items-center">
-            <EyeOfTheStorm />
+            {!eotsPressed && <EyeOfTheStorm />}
           </div>
-          <div className="md:mx-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: (eotsPressed ? 0 : 1),
+              transition: {
+                duration: (eotsPressed ? 0 : 0.3),
+                delay: (eotsPressed ? 0 : 0.2),
+              },
+            }}
+            className="md:mx-6"
+          >
             <HelloText />
-          </div>
+          </motion.div>
         </div>
       </AbsoluteCenter>
 
-      <AbsoluteCenter className={clsx(!eotsPressed && "z-0", eotsPressed && "z-10")}>
-        <div className={clsx(
-          "mx-auto my-auto duration-300 md:duration-500",
-          eotsPressed && "scale-100 opacity-100",
-          !eotsPressed && "scale-0 opacity-0"
-        )}>
+      <AbsoluteCenter
+        className={clsx(!eotsPressed && "z-0", eotsPressed && "z-10")}
+      >
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: (eotsPressed ? 1 : 0),
+            transition: {
+              duration: 0.2,
+            }
+          }}
+          className={clsx(
+            "mx-auto my-auto"
+          )}
+        >
           <Shelf />
-        </div>
+        </motion.div>
       </AbsoluteCenter>
     </>
   );
