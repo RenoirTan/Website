@@ -10,17 +10,13 @@ import "./globals.css";
 import { motion } from "motion/react";
 import { useEffect } from "react";
 
-export function HomeLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function Home() {
   return <PageProvider>
-    {children}
-  </PageProvider>
+    <HomePage />
+  </PageProvider>;
 }
 
-export function HomePage() {
+function HomePage() {
   const { eotsPressed, setEotsPressed } = usePageContext();
 
   return (
@@ -70,10 +66,4 @@ export function HomePage() {
       </AbsoluteCenter>
     </>
   );
-}
-
-export default function Home() {
-  return <HomeLayout>
-    <HomePage />
-  </HomeLayout>;
 }

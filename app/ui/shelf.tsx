@@ -44,21 +44,16 @@ export default function Shelf() {
             <div className="flex flex-col items-center">
               <p
                 className={clsx(
-                  "text-xs text-center wrap-break-word opacity-75",
-                  expandDescription ? "inline" : "hidden"
+                  "text-xs text-center wrap-break-word opacity-75"
                 )}
               >
-                My name is Renoir. I have been coding since I was a teenager. In that time, I've been up to many different things.
-                <br />
-                Click on any of the buttons below to explore what I've been doing.
-              </p>
-              <p
-                className={clsx(
-                  "text-xs text-center wrap-break-word opacity-75",
-                  expandDescription ? "hidden" : "inline"
-                )}
-              >
-                My name is Renoir.
+                {expandDescription ? <>
+                  {"My name is Renoir. I have been coding since I was a teenager. In that time, I've been up to many different things."}
+                  <br />
+                  {"Click on any of the buttons below to explore what I've been doing."}
+                </> : <>
+                  My name is Renoir.
+                </>}
               </p>
               <Button
                 className="h-fit text-center text-xs"
