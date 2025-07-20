@@ -7,22 +7,26 @@ import LinkCell from "./link-cell";
 import ButtonCell from "./button-cell";
 import WipCell from "./wip-cell";
 import Link from "next/link";
+import EyeOfTheStorm from "./eye-of-the-storm";
 
 export default function Shelf() {
-  const { setEotsPressed } = usePageContext();
+  const { eotsPressed, setEotsPressed } = usePageContext();
 
   return (
-    <div className="border-2 rounded-2xl border-gray-300 px-3 py-3 bg-gradient-to-br from-purple-700 to-orange-900">
+    <div
+      className="border-2 rounded-2xl border-gray-300 px-3 py-3 bg-gradient-to-br from-purple-700 to-orange-900 z-0"
+    >
       <div className="flex flex-col items-center gap-3">
         <p className="text-lg font-semibold">Select an item</p>
         <div className="grid grid-cols-3 gap-3">
-          <ButtonCell
-            caption="Go Back"
-            childYDisplacement="md:mt-[1rem]"
-            onClick={() => { setEotsPressed(false) }}
-          >
-            <span className="text-center text-4xl"><BsArrowLeft /></span>
-          </ButtonCell>
+          <Cell>
+            {eotsPressed && <EyeOfTheStorm className="z-10" size={50} />}
+            {!eotsPressed && <EyeOfTheStorm
+              className="z-0 opacity-0 pointer-events-none"
+              size={50}
+              layoutId="fake"
+            />}
+          </Cell>
           <LinkCell
             src="/person-circle.svg"
             alt="About Me"
