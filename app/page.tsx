@@ -1,16 +1,27 @@
 "use client";
 
 import clsx from "clsx";
-import { usePageContext } from "./providers";
+import { PageProvider, usePageContext } from "./providers";
 import EyeOfTheStorm from "./ui/eye-of-the-storm";
 import HelloText from "./ui/hello-text";
 import AbsoluteCenter from "./ui/absolute-center";
 import Shelf from "./ui/shelf";
 import "./globals.css";
 import { motion } from "motion/react";
+import { useEffect } from "react";
 
-export default function Home() {
-  const { eotsPressed } = usePageContext();
+export function HomeLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return <PageProvider>
+    {children}
+  </PageProvider>
+}
+
+export function HomePage() {
+  const { eotsPressed, setEotsPressed } = usePageContext();
 
   return (
     <>
@@ -59,4 +70,10 @@ export default function Home() {
       </AbsoluteCenter>
     </>
   );
+}
+
+export default function Home() {
+  return <HomeLayout>
+    <HomePage />
+  </HomeLayout>;
 }
