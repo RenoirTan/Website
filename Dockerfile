@@ -17,6 +17,21 @@ RUN \
     else echo "Lockfile not found." && exit 1; \
     fi
 
+FROM deps AS dev
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
+
+EXPOSE 3000
+
+ENV NODE_ENV=development
+ENV PORT=3000
+
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
+ENV HOSTNAME="0.0.0.0"
+CMD ["npm", "run", "dev"]
+
 
 # Rebuild the source code only when needed
 FROM base AS builder
