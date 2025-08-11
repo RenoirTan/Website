@@ -22,7 +22,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <h6 className="text-base underline">{children}</h6>
     ),
     img: (props) => (
-      <Image className="max-w-full" {...(props as ImageProps)} />
+      <Image className="w-full h-auto" sizes="100vw" width={0} height={0} {...(props as ImageProps)} />
     ),
     ...components,
   };
