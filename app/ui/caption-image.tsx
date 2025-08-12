@@ -30,7 +30,7 @@ export default function CaptionImage(props: ImageProps & {
 
   const subType = typeof sub;
   const subElem = (subType === "string" || subType === "boolean" || subType === "number")
-    ? <p className="text-center text-l-silver">{sub}</p>
+    ? <p className="text-md text-center text-l-silver">{sub}</p>
     : sub;
 
   const card = <Card.Root
