@@ -4,17 +4,7 @@ import { Card, Image } from "@chakra-ui/react";
 import clsx from "clsx";
 import Link from "next/link";
 import React, { useLayoutEffect, useState } from "react";
-
-type MilestoneColorTheme = "default" | "liver" | "ocean" | "gold" | "violet" | "nature";
-
-const MILESTONE_COLORTHEME_CLASSNAME = {
-  "default": "bg-gradient-to-br from-l-calm-gray to-l-black",
-  "liver": "bg-gradient-to-br from-purple-800 to-orange-950",
-  "ocean": "bg-gradient-to-br from-cyan-800 to-emerald-950",
-  "gold": "bg-gradient-to-br from-yellow-800 to-red-950",
-  "violet": "bg-gradient-to-br from-cyan-800 to-purple-950",
-  "nature": "bg-gradient-to-br from-lime-800 to-teal-950",
-}
+import { CardColorTheme, getColorTheme } from "./card-color-theme";
 
 export interface MilestoneCardProps {
   image?: React.ReactNode;
@@ -22,7 +12,7 @@ export interface MilestoneCardProps {
   description?: React.ReactNode;
   href?: string;
   className?: string;
-  colorTheme?: MilestoneColorTheme;
+  colorTheme?: CardColorTheme;
   alt?: string;
 };
 
@@ -56,13 +46,12 @@ export default function MilestoneCard({
         maxHeight={isMobile ? 100 : undefined}
       />
     : image;
+    const card = (
 
-  const card = (
     <Card.Root
       className={clsx(
         "rounded-2xl w-fit",
-        MILESTONE_COLORTHEME_CLASSNAME[colorTheme ?? "default"]
-          ?? MILESTONE_COLORTHEME_CLASSNAME.default,
+        getColorTheme(colorTheme),
         className,
       )}
       variant="elevated"

@@ -4,9 +4,11 @@ import { Card } from "@chakra-ui/react";
 import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
 import React, { useState } from "react";
+import { CardColorTheme, getColorTheme } from "./card-color-theme";
 
 export default function CaptionImage(props: ImageProps & {
   captions?: React.ReactNode;
+  colorTheme?: CardColorTheme;
 }) {
   const [hovering, setHovering] = useState(false);
 
@@ -16,7 +18,7 @@ export default function CaptionImage(props: ImageProps & {
   const image = <Image
     alt={alt ?? JSON.stringify(sub)}
     className={clsx(
-      "w-full h-auto rounded-lg",
+      "w-full h-auto rounded-lg transition-shadow duration-200",
       !hovering && "ring-1 ring-l-dark-silver/30",
       hovering && "ring-4 ring-l-dark-silver/30",
     )}
@@ -34,7 +36,8 @@ export default function CaptionImage(props: ImageProps & {
   const card = <Card.Root
     variant="elevated"
     className={clsx(
-      "rounded-2xl w-full bg-gradient-to-br from-purple-800 to-orange-950",
+      "rounded-2xl w-full",
+      getColorTheme(props.colorTheme),
       props.className,
     )}
     onMouseOver={e => setHovering(true)}
