@@ -13,7 +13,7 @@ export default function CaptionImage(props: ImageProps & {
   const [hovering, setHovering] = useState(false);
 
   const sub = props.captions ?? props.alt;
-  const {className, alt, ...imageProps} = props;
+  const {className, alt, colorTheme, ...imageProps} = props;
 
   const image = <Image
     alt={alt ?? JSON.stringify(sub)}
@@ -37,7 +37,7 @@ export default function CaptionImage(props: ImageProps & {
     variant="elevated"
     className={clsx(
       "rounded-2xl w-full",
-      getColorTheme(props.colorTheme),
+      getColorTheme(colorTheme),
       props.className,
     )}
     onMouseOver={e => setHovering(true)}
