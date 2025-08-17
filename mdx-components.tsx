@@ -24,6 +24,25 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     img: (props) => (
       <Image className="w-full h-auto" sizes="100vw" width={0} height={0} {...(props as ImageProps)} />
     ),
+    em: ({ children }) => (
+      <i>{children}</i>
+    ),
+    ol: ({ children }) => (
+      <ol
+        className="list-inside list-decimal max-w-full"
+        role="list"
+      >
+        {children}
+      </ol>
+    ),
+    ul: ({ children }) => (
+      <ul
+        className="list-outside list-disc max-w-full"
+        role="list"
+      >
+        {children}
+      </ul>
+    ),
     ...components,
   };
 }
