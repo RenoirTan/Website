@@ -40,3 +40,28 @@ I'm a programmer who has had at least 6 years of programming by this point. My m
       </Timeline.Item>;
   })}
 </Timeline.Root>
+
+## Education
+
+<Timeline.Root variant="solid">
+  {[
+    "education/ri",
+  ]
+    .map(async (p, i) => {
+      const rawMetadata = await getRawMilestoneMetadata(`./${p}/page.mdx`);
+
+      return <Timeline.Item key={p}>
+        <Timeline.Connector>
+          <Timeline.Separator />
+          <Timeline.Indicator>{i + 1}</Timeline.Indicator>
+        </Timeline.Connector>
+
+        <Timeline.Content>
+          <Timeline.Title>
+            {rawMetadata.title}
+          </Timeline.Title>
+          {await makeMilestoneCard(p, { className: "w-full" })}
+        </Timeline.Content>
+      </Timeline.Item>;
+  })}
+</Timeline.Root>
