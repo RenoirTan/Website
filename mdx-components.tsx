@@ -43,6 +43,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </ul>
     ),
+    blockquote: ({ children }) => (
+      <blockquote
+        className="p-4 bg-l-dark-gray text-l-dark-silver border-0 rounded-md"
+      >
+        {children}
+      </blockquote>
+    ),
     ...components,
   };
 }
