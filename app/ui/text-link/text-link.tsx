@@ -24,3 +24,15 @@ export function TextLinkRoot(props: LinkProps ) {
     {props.children}
   </Link>;
 }
+
+export function TextLinkMain({
+  href,
+  children
+}: {
+  href: string;
+  children: string;
+}) {
+  return <TextLinkRoot href={href}>
+    <TextLinkText>{children}</TextLinkText>
+  </TextLinkRoot>;
+}

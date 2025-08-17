@@ -1,4 +1,5 @@
 export {
   TextLinkRoot as Root,
-  TextLinkText as Text
+  TextLinkText as Text,
+  TextLinkMain as Main,
 } from "./text-link";
