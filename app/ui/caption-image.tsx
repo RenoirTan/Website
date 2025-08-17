@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
 import React, { useState } from "react";
 import { CardColorTheme, getColorTheme } from "./card-color-theme";
+import { motion } from "motion/react";
 
 export default function CaptionImage(props: ImageProps & {
   captions?: React.ReactNode;
@@ -53,5 +54,16 @@ export default function CaptionImage(props: ImageProps & {
     </Card.Body>
   </Card.Root>;
 
-  return card;
+  return <motion.div
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+    transition={{ duration: 0.1 }}
+    variants={{
+      visible: { opacity: 1, scale: 1 },
+      hidden: { opacity: 0, scale: 0.5 },
+    }}
+  >
+    {card}
+  </motion.div>;
 }
