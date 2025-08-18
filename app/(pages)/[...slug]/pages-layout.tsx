@@ -19,10 +19,10 @@ export default function PagesLayout({
 
   return <div className="w-full max-h-full flex flex-col items-center">
     <div className="p-1 flex flex-col w-full max-h-full gap-y-3 overflow-hidden">
-      <div className="w-full px-2 md:px-5 py-2 absolute z-40 top-0 left-0 right-0">
+      <div className="w-full px-2 py-2 absolute z-40 top-0 left-0 right-0 flex flex-col items-center">
         <div
           className={clsx(
-            "flex flex-row justify-between gap-5 p-3",
+            "flex flex-row justify-between gap-5 p-3 w-full md:w-[720px]",
             "border border-l-silver/20 rounded-2xl bg-l-dark-gray/50 backdrop-blur-md",
           )}
         >
