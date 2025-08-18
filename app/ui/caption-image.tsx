@@ -63,8 +63,8 @@ export default function CaptionImage(props: ImageProps & {
       ease: "easeInOut",
     }}
     variants={{
-      visible: { opacity: 1, translateY: 0 },
-      hidden: { opacity: 0, translateY: 100 },
+      visible: { opacity: 1 },
+      hidden: { opacity: 0 },
     }}
   >
     {card}
