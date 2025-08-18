@@ -56,7 +56,7 @@ export default function PagesLayout({
       </div>
       <div
         className="flex flex-col w-full items-center max-h-full gap-y-3 overflow-y-auto pages-layout"
-        onScroll={e => setScrollY(e.target.scrollTop)}
+        onScroll={e => setScrollY((e.target as HTMLElement).scrollTop)}
       >
         <div
           className="flex flex-col gap-3 w-full mt-[2.5em] p-3 md:w-[720px] md:p-5"
