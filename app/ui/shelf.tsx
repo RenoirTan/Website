@@ -1,6 +1,7 @@
 "use client";
 
 import { BsCaretDown, BsCaretUp, BsLinkedin } from "react-icons/bs";
+import { HiDocumentText } from "react-icons/hi2";
 import Cell from "./cell";
 import LinkCell from "./link-cell";
 import ButtonCell from "./button-cell";
@@ -80,6 +81,13 @@ export default function Shelf() {
               <BsLinkedin size={40} className="hover:brightness-[.8] duration-200" />
             </ButtonCell>
           </Link>
+          <Link href="/resume.pdf">
+            <ButtonCell caption="Resume" childYDisplacement="md:mt-[0.8rem]">
+              <HiDocumentText size={40} className="hover:brightness-[.8] duration-200" />
+            </ButtonCell>
+          </Link>
+          <WipCell />
+          <WipCell />
         </div>
       </div>
     </div>
