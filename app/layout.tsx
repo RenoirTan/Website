@@ -8,7 +8,7 @@ const jetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
 const title = "Renoir's Website";
 const description = "I'm a programmer who has had at least 6 years of programming by this point. My main languages are Python, Rust, C and recently JavaScript and TypeScript. Check out my GitHub to find out what I've been up to.";
-const metadataBase = new URL("https://website-ten-jet-98.vercel.app/");
+const metadataBase = new URL("https://renoirtan.com/");
 
 export const metadata: Metadata = {
   title,
