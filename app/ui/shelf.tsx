@@ -6,6 +6,7 @@ import Cell from "./cell";
 import LinkCell from "./link-cell";
 import ButtonCell from "./button-cell";
 import WipCell from "./wip-cell";
+import MailCell from "./mail-cell";
 import Link from "next/link";
 import EyeOfTheStorm from "./eye-of-the-storm";
 import { useRef, useState } from "react";
@@ -86,7 +87,7 @@ export default function Shelf() {
               <HiDocumentText size={40} className="hover:brightness-[.8] duration-200" />
             </ButtonCell>
           </Link>
-          <WipCell />
+          <MailCell />
           <WipCell />
         </div>
       </div>
