@@ -4,17 +4,19 @@ import { clsx } from "clsx";
 import Cell from "./cell";
 import { MouseEventHandler, useState } from "react";
 
+export interface ButtonCellProps {
+  children: React.ReactNode;
+  caption: string;
+  childYDisplacement?: string;
+  onClick?: MouseEventHandler<HTMLDivElement>;
+};
+
 export default function ButtonCell({
   children,
   caption,
   childYDisplacement,
   onClick
-}: {
-  children: React.ReactNode;
-  caption: string;
-  childYDisplacement?: string;
-  onClick?: MouseEventHandler<HTMLDivElement>
-}) {
+}: ButtonCellProps) {
   const [hovering, setHovering] = useState(false);
 
   const onMouseOut: MouseEventHandler = (e) => {
