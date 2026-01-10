@@ -14,7 +14,7 @@ export default function CaptionImage(props: ImageProps & {
   const [hovering, setHovering] = useState(false);
 
   const sub = props.captions ?? props.alt;
-  const {className, alt, colorTheme, ...imageProps} = props;
+  const { className, alt, colorTheme, ...imageProps } = props;
 
   const image = <Image
     alt={alt ?? JSON.stringify(sub)}
@@ -49,7 +49,7 @@ export default function CaptionImage(props: ImageProps & {
       {image}
     </Card.Header>
 
-    <Card.Body className="py-2 mb-2 w-full">
+    <Card.Body className="py-2 mb-2 w-full text-l-silver">
       {subElem}
     </Card.Body>
   </Card.Root>;
