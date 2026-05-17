@@ -21,11 +21,12 @@ async function getPage(slug: string[]) {
   }
 }
 
-export default async function Page({
-  params
-}: {
-  params: PagesParams;
-}) {
+export default async function Page(
+  props: {
+    params: Promise<PagesParams>;
+  }
+) {
+  const params = await props.params;
   const content = await getPage(params.slug);
   if (!content) {
     return notFound();
@@ -37,11 +38,12 @@ export default async function Page({
   );
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: PagesParams;
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<PagesParams>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const content = await getPage(params.slug);
   if (!content) return {};
   const { frontmatter } = content;

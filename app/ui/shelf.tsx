@@ -18,7 +18,7 @@ export default function Shelf() {
   const { eotsPressed } = usePageContext();
   const [expandDescription, setExpandDescription] = useState(false);
 
-  const gridRef = useRef<any>();
+  const gridRef = useRef<any>(0);
 
   return (
     <div
