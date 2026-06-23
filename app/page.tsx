@@ -4,8 +4,14 @@ import { PageProvider } from "./providers";
 import EyeOfTheStorm from "./ui/eye-of-the-storm";
 import "./globals.css";
 import { easeIn, motion, useScroll, useSpring, useTransform } from "motion/react";
-import { DetailedHTMLProps, HTMLAttributes, useRef, useState } from "react";
+import { useRef } from "react";
 import { InACircle } from "./ui/in-a-circle";
+import LinkCell from "./ui/link-cell";
+import ButtonCell from "./ui/button-cell";
+import { BsLinkedin } from "react-icons/bs";
+import { Link } from "@chakra-ui/react";
+import { HiDocumentText } from "react-icons/hi2";
+import MailCell from "./ui/mail-cell";
 
 export default function Home() {
   return <PageProvider>
@@ -55,12 +61,37 @@ export function NewHomePage() {
 
                 <motion.div style={{ opacity: planetsOpacity }} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transform">
                   <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">
-                    {
-                      ['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest'].map((v, i) => {
-                        const degrees = i * 45;
-                        return <InACircle degrees={degrees}><p>{v}</p></InACircle>
-                      })
-                    }
+                    <InACircle degrees={0}>
+                      <LinkCell
+                        src="/person-circle.svg"
+                        alt="About Me"
+                        href="/about-me"
+                      />
+                    </InACircle>
+                    <InACircle degrees={72}>
+                      <LinkCell
+                        src="/github-mark-white.svg"
+                        alt="GitHub"
+                        href="https://github.com/RenoirTan"
+                      />
+                    </InACircle>
+                    <InACircle degrees={144}>
+                      <Link href="https://www.linkedin.com/in/renoir-tan">
+                        <ButtonCell caption="Linkedin" childYDisplacement="md:mt-[0.9rem]">
+                          <BsLinkedin size={40} className="hover:brightness-[.8] duration-200" />
+                        </ButtonCell>
+                      </Link>
+                    </InACircle>
+                    <InACircle degrees={216}>
+                      <Link href="/resume.pdf">
+                        <ButtonCell caption="Resume" childYDisplacement="md:mt-[0.8rem]">
+                          <HiDocumentText size={40} className="hover:brightness-[.8] duration-200" />
+                        </ButtonCell>
+                      </Link>
+                    </InACircle>
+                    <InACircle degrees={288}>
+                      <MailCell />
+                    </InACircle>
                   </motion.div>
                 </motion.div>
               </div>
