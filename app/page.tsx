@@ -5,6 +5,7 @@ import EyeOfTheStorm from "./ui/eye-of-the-storm";
 import "./globals.css";
 import { easeIn, motion, useScroll, useSpring, useTransform } from "motion/react";
 import { DetailedHTMLProps, HTMLAttributes, useRef, useState } from "react";
+import { InACircle } from "./ui/in-a-circle";
 
 export default function Home() {
   return <PageProvider>
@@ -54,14 +55,12 @@ export function NewHomePage() {
 
                 <motion.div style={{ opacity: planetsOpacity }} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transform">
                   <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">
-                    <p className="absolute left-0 top-1/2 transform -translate-y-1/2">West</p>
-                    <p className="absolute left-full top-1/2 transform -translate-x-full -translate-y-1/2">East</p>
-                    <p className="absolute left-1/2 top-0 transform -translate-x-1/2">North</p>
-                    <p className="absolute left-1/2 top-full transform -translate-x-1/2 -translate-y-full">South</p>
-                    <p className="absolute left-[14.645%] top-[14.645%] transform -translate-x-[14.645%] -translate-y-[14.645%]">Northwest</p>
-                    <p className="absolute left-[85.355%] top-[14.645%] transform -translate-x-[85.355%] -translate-y-[14.645%]">Northeast</p>
-                    <p className="absolute left-[14.645%] top-[85.355%] transform -translate-x-[14.645%] -translate-y-[85.355%]">Southwest</p>
-                    <p className="absolute left-[85.355%] top-[85.355%] transform -translate-x-[85.355%] -translate-y-[85.355%]">Southeast</p>
+                    {
+                      ['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest'].map((v, i) => {
+                        const degrees = i * 45;
+                        return <InACircle degrees={degrees}><p>{v}</p></InACircle>
+                      })
+                    }
                   </motion.div>
                 </motion.div>
               </div>
@@ -71,17 +70,4 @@ export function NewHomePage() {
       </div>
     </>
   )
-}
-
-function InACircle({
-  degrees,
-  ...props
-}: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
-  degrees: number;
-}) {
-  return (
-    <div
-      {...props}
-    ></div>
-  );
 }
