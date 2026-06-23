@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { clsx } from "clsx";
 import { motion } from "motion/react";
 import { usePageContext } from "../providers";
@@ -10,11 +10,8 @@ export default function EyeOfTheStorm({
   size,
   layoutId,
   className,
-}: {
-  size?: number;
-  layoutId?: string;
-  className?: string;
-}) {
+  ...props
+}: Parameters<typeof motion.div>[0] & { size?: number; }) {
   const sizeUsed = size ?? 600;
   const { eotsPressed, setEotsPressed } = usePageContext();
 
@@ -25,6 +22,7 @@ export default function EyeOfTheStorm({
 
   return (
     <motion.div
+      {...props}
       ref={imgRef}
       layoutId={layoutId ?? "eye-of-the-storm"}
       className={clsx("h-fit w-fit", className)}
@@ -39,7 +37,7 @@ export default function EyeOfTheStorm({
         height={sizeUsed}
         width={sizeUsed}
         quality={100}
-        style={{objectFit: "contain"}}
+        style={{ objectFit: "contain" }}
         draggable={false}
         priority
         onMouseOver={() => setHovering(true)}
