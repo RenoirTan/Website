@@ -3,7 +3,7 @@
 import { PageProvider } from "./providers";
 import EyeOfTheStorm from "./ui/eye-of-the-storm";
 import "./globals.css";
-import { easeIn, motion, useScroll, useSpring, useTransform } from "motion/react";
+import { easeIn, motion, useScroll, useSpring, useTime, useTransform } from "motion/react";
 import { useRef } from "react";
 import { InACircle } from "./ui/in-a-circle";
 import { BsLinkedin } from "react-icons/bs";
@@ -22,6 +22,8 @@ export default function Home() {
 export function NewHomePage() {
   // TODO: replace <any> with actual type definition
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const time = useTime();
+  const planetsOrbit = useTransform(time, [0, 120000], [0, 360], { clamp: false });
   const { scrollY } = useScroll({
     container: containerRef,
     offset: ["start start", "end end"]
@@ -61,35 +63,35 @@ export function NewHomePage() {
 
                 <motion.div style={{ opacity: planetsOpacity }} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transform">
                   <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">
-                    <InACircle degrees={0}>
+                    <InACircle degrees={useTransform(() => planetsOrbit.get())}>
                       <Planet>
                         <Link href="about-me" className="w-full h-full flex items-center justify-center">
                           <Image src="/person-circle.svg" alt="About Me" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={72}>
+                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 72)}>
                       <Planet>
                         <Link href="https://github.com/RenoirTan" className="w-full h-full flex items-center justify-center">
                           <Image src="/github-mark-white.svg" alt="GitHub" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={144}>
+                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 144)}>
                       <Planet>
                         <Link href="https://www.linkedin.com/in/renoir-tan" className="w-full h-full flex items-center justify-center">
                           <BsLinkedin size={48} className="hover:brightness-[.8] duration-200 w-[32px] md:w-[48px]" />
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={216}>
+                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 216)}>
                       <Planet>
                         <Link href="/resume.pdf" className="w-full h-full flex items-center justify-center">
                           <HiDocumentText size={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={288}>
+                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 288)}>
                       <MailPlanet />
                     </InACircle>
                   </motion.div>
