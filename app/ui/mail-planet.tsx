@@ -48,8 +48,8 @@ export function InnerMailDialog() {
         )}
       >
         <Dialog.Header>
-          <Dialog.Title>
-            <h2 className="text-2xl font-bold">Contact</h2>
+          <Dialog.Title className="text-2xl, font-bold">
+            Contact
           </Dialog.Title>
         </Dialog.Header>
         <Dialog.Body>
