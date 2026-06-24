@@ -23,7 +23,7 @@ export function NewHomePage() {
   // TODO: replace <any> with actual type definition
   const containerRef = useRef<HTMLDivElement | null>(null);
   const time = useTime();
-  const planetsOrbit = useTransform(time, [0, 120000], [0, 360], { clamp: false });
+  const planetsOrbit = useTransform(time, [0, 30000], [0, 360], { clamp: false });
   const { scrollY } = useScroll({
     container: containerRef,
     offset: ["start start", "end end"]

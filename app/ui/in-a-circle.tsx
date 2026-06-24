@@ -1,4 +1,4 @@
-import { MotionValue, motion, useMotionValue, useTransform } from "motion/react";
+import { MotionValue, motion, useMotionTemplate, useMotionValue, useTransform } from "motion/react";
 
 export function InACircle({
   ...props
@@ -17,7 +17,7 @@ export function InACircle({
   const leftStyle = useTransform(left, [0, 1], ["0%", "100%"]);
   const translateTopStyle = useTransform(top, [0, 1], ["0%", "-100%"]);
   const translateLeftStyle = useTransform(left, [0, 1], ["0%", "-100%"]);
-  const translateStyle = useTransform(() => `translate(${translateLeftStyle.get()}, ${translateTopStyle.get()})`);
+  const translateStyle = useMotionTemplate`translate(${translateLeftStyle}, ${translateTopStyle})`;
   return (
     <motion.div
       {...props}
