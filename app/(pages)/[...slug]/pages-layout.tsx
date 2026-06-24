@@ -32,6 +32,7 @@ export default function PagesLayout({
 
   return <div className="w-full max-h-full flex flex-col items-center">
     <div className="p-1 flex flex-col w-full max-h-full gap-y-3 overflow-hidden">
+
       <div className="w-full px-2 py-2 absolute z-40 top-0 left-0 right-0 flex flex-col items-center">
         <motion.div
           className={clsx(
@@ -54,6 +55,7 @@ export default function PagesLayout({
           </h2>
         </motion.div>
       </div>
+
       <div
         className="flex flex-col w-full items-center max-h-full gap-y-3 overflow-y-auto pages-layout"
         onScroll={e => setScrollY((e.target as HTMLElement).scrollTop)}
