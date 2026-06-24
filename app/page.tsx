@@ -22,14 +22,12 @@ export default function Home() {
 export function NewHomePage() {
   // TODO: replace <any> with actual type definition
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [orbitPaused, setOrbitPaused] = useState(false);
+  const orbitalSpeed = useSpring(1, { bounce: 0, duration: 1500 });
   const time = useMotionValue(0);
   useAnimationFrame((_, delta) => {
-    if (!orbitPaused) {
-      time.set(time.get() + delta);
-    }
+    time.set(time.get() + delta * orbitalSpeed.get());
   });
-  const planetsOrbit = useTransform(time, [0, 30000], [0, 360], { clamp: false });
+  const planetsOrbit = useTransform(time, [0, 24000], [0, 360], { clamp: false });
   const { scrollY } = useScroll({
     container: containerRef,
     offset: ["start start", "end end"]
@@ -52,11 +50,11 @@ export function NewHomePage() {
   };
 
   const onMouseEnter = () => {
-    setOrbitPaused(true);
+    orbitalSpeed.set(0);
   };
 
   const onMouseLeave = () => {
-    setOrbitPaused(false);
+    orbitalSpeed.set(1);
   }
 
   // The h-[calc(100vh-3rem)] comes from 2rem from between the viewport and the black box
