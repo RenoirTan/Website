@@ -10,8 +10,9 @@ export default function Planet({
     {...props}
     className={clsx(
       className,
-      "w-[60px] md:w-[100px] aspect-square bg-indigo-950 rounded-full inline-block overflow-hidden",
-      "shadow-inner shadow-red-500 hover:shadow-md hover:shadow-violet-500/50"
+      "w-[60px] md:w-[100px] aspect-square rounded-full inline-block overflow-hidden",
+      "duration-300",
+      "bg-indigo-950  inset-shadow-sm inset-shadow-indigo-800 hover:shadow-lg hover:shadow-purple-500/50"
     )}
   >
     {children}

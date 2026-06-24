@@ -6,14 +6,12 @@ import "./globals.css";
 import { easeIn, motion, useScroll, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
 import { InACircle } from "./ui/in-a-circle";
-import LinkCell from "./ui/link-cell";
-import ButtonCell from "./ui/button-cell";
 import { BsLinkedin } from "react-icons/bs";
 import { Link } from "@chakra-ui/react";
 import { HiDocumentText } from "react-icons/hi2";
-import MailCell from "./ui/mail-cell";
 import Planet from "./ui/planet";
 import Image from "next/image";
+import MailPlanet from "./ui/mail-planet";
 
 export default function Home() {
   return <PageProvider>
@@ -66,33 +64,33 @@ export function NewHomePage() {
                     <InACircle degrees={0}>
                       <Planet>
                         <Link href="about-me" className="w-full h-full flex items-center justify-center">
-                          <Image src="/person-circle.svg" alt="About Me" width={40} height={40} />
+                          <Image src="/person-circle.svg" alt="About Me" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
                       </Planet>
                     </InACircle>
                     <InACircle degrees={72}>
-                      <LinkCell
-                        src="/github-mark-white.svg"
-                        alt="GitHub"
-                        href="https://github.com/RenoirTan"
-                      />
+                      <Planet>
+                        <Link href="https://github.com/RenoirTan" className="w-full h-full flex items-center justify-center">
+                          <Image src="/github-mark-white.svg" alt="GitHub" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
+                        </Link>
+                      </Planet>
                     </InACircle>
                     <InACircle degrees={144}>
-                      <Link href="https://www.linkedin.com/in/renoir-tan">
-                        <ButtonCell caption="Linkedin" childYDisplacement="md:mt-[0.9rem]">
-                          <BsLinkedin size={40} className="hover:brightness-[.8] duration-200" />
-                        </ButtonCell>
-                      </Link>
+                      <Planet>
+                        <Link href="https://www.linkedin.com/in/renoir-tan" className="w-full h-full flex items-center justify-center">
+                          <BsLinkedin size={48} className="hover:brightness-[.8] duration-200 w-[32px] md:w-[48px]" />
+                        </Link>
+                      </Planet>
                     </InACircle>
                     <InACircle degrees={216}>
-                      <Link href="/resume.pdf">
-                        <ButtonCell caption="Resume" childYDisplacement="md:mt-[0.8rem]">
-                          <HiDocumentText size={40} className="hover:brightness-[.8] duration-200" />
-                        </ButtonCell>
-                      </Link>
+                      <Planet>
+                        <Link href="/resume.pdf" className="w-full h-full flex items-center justify-center">
+                          <HiDocumentText size={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
+                        </Link>
+                      </Planet>
                     </InACircle>
                     <InACircle degrees={288}>
-                      <MailCell />
+                      <MailPlanet />
                     </InACircle>
                   </motion.div>
                 </motion.div>
