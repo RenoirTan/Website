@@ -5,7 +5,7 @@ import { easeIn, motion, useAnimationFrame, useMotionValue, useMotionValueEvent,
 import React, { useRef } from "react";
 import { InACircle } from "../in-a-circle";
 import { BsLinkedin } from "react-icons/bs";
-import { Link } from "@chakra-ui/react";
+import Link from "next/link";
 import { HiDocumentText } from "react-icons/hi2";
 import Planet from "../planet";
 import Image from "next/image";
@@ -18,7 +18,6 @@ export default function System({
   children?: React.ReactNode;
   aboutMeRef: React.RefObject<HTMLDivElement | null>;
 }) {
-  // TODO: replace <any> with actual type definition
   const containerRef = useRef<HTMLDivElement | null>(null);
   const orbitalSpeed = useSpring(1, { bounce: 0, duration: 1500 });
   const time = useMotionValue(0);
@@ -46,10 +45,6 @@ export default function System({
       elem.scrollTo({ top: 600, behavior: "smooth" });
     }
   };
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    console.log(latest);
-  });
 
   const onMouseEnter = () => {
     orbitalSpeed.set(0);
@@ -85,12 +80,14 @@ export default function System({
                   <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">
                     <InACircle degrees={useTransform(() => planetsOrbit.get())} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                       <Planet>
-                        <div
+                        <Link
+                          href="/#about-me"
+                          scroll={false}
                           className="w-full h-full flex items-center justify-center"
                           onClick={onClickAbout}
                         >
                           <Image src="/person-circle.svg" alt="About Me" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
-                        </div>
+                        </Link>
                       </Planet>
                     </InACircle>
                     <InACircle degrees={useTransform(() => planetsOrbit.get() + 72)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
