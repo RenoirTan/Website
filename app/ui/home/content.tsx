@@ -1,21 +1,14 @@
-import React from "react";
-
-async function getAboutMePage() {
-  try {
-    const content = await import("../../(pages)/_content/about-me/page.mdx");
-    return content;
-  } catch (error) {
-    return undefined;
-  }
-}
+import { clsx } from "clsx";
+import { DetailedHTMLProps, HTMLAttributes } from "react";
 
 export function Layout({
-  children
-}: { children: React.ReactNode; }) {
-  return <div className="flex flex-col gap-3 w-full p-3 md:w-[720px] md:p-5">{children}</div>
-}
-
-export async function AboutMe() {
-  const page = await getAboutMePage();
-  return <Layout><page.default /></Layout>;
+  children,
+  ...props
+}: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) {
+  return <div
+    {...props}
+    className={clsx(props.className, "flex flex-col gap-3 w-full p-3 md:w-[720px] md:p-5")}
+  >
+    {children}
+  </div>
 }

@@ -12,8 +12,12 @@ import Image from "next/image";
 import MailPlanet from "../mail-planet";
 
 export default function System({
-  children
-}: { children?: React.ReactNode }) {
+  children,
+  aboutMeRef,
+}: {
+  children?: React.ReactNode;
+  aboutMeRef: React.RefObject<HTMLDivElement | null>;
+}) {
   // TODO: replace <any> with actual type definition
   const containerRef = useRef<HTMLDivElement | null>(null);
   const orbitalSpeed = useSpring(1, { bounce: 0, duration: 1500 });
@@ -55,6 +59,12 @@ export default function System({
     orbitalSpeed.set(1);
   }
 
+  const onClickAbout = () => {
+    aboutMeRef.current!.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
   // The h-[calc(100vh-3rem)] comes from 2rem from between the viewport and the black box
   // Plus another 2*0.5rem from the p-2 inside the blackbox
   // Both can be found in app/layout.tsx
@@ -75,9 +85,12 @@ export default function System({
                   <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">
                     <InACircle degrees={useTransform(() => planetsOrbit.get())} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                       <Planet>
-                        <Link href="about-me" className="w-full h-full flex items-center justify-center">
+                        <div
+                          className="w-full h-full flex items-center justify-center"
+                          onClick={onClickAbout}
+                        >
                           <Image src="/person-circle.svg" alt="About Me" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
-                        </Link>
+                        </div>
                       </Planet>
                     </InACircle>
                     <InACircle degrees={useTransform(() => planetsOrbit.get() + 72)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>

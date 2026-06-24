@@ -1,16 +1,12 @@
 import { PageProvider } from "./providers";
 import "./globals.css";
-import System from "./ui/home/system";
-import { AboutMe } from "./ui/home/content";
+import { getAboutMePage } from "./ui/home/get-content";
+import { ClientPage } from "./ui/home/client-page";
 
 export default async function Home() {
-  const aboutMe = await AboutMe();
+  const aboutMe = await getAboutMePage();
 
   return <PageProvider>
-    <System>
-      <div className="w-full flex flex-col items-center">
-        {aboutMe}
-      </div>
-    </System>
+    <ClientPage aboutMe={<aboutMe.default />} />
   </PageProvider>;
 }
