@@ -1,16 +1,15 @@
 "use client";
 
-import EyeOfTheStorm from "./ui/eye-of-the-storm";
-import "./globals.css";
+import EyeOfTheStorm from "../eye-of-the-storm";
 import { easeIn, motion, useAnimationFrame, useMotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
 import React, { useRef } from "react";
-import { InACircle } from "./ui/in-a-circle";
+import { InACircle } from "../in-a-circle";
 import { BsLinkedin } from "react-icons/bs";
 import { Link } from "@chakra-ui/react";
 import { HiDocumentText } from "react-icons/hi2";
-import Planet from "./ui/planet";
+import Planet from "../planet";
 import Image from "next/image";
-import MailPlanet from "./ui/mail-planet";
+import MailPlanet from "../mail-planet";
 
 export default function System({
   children

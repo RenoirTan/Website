@@ -2,7 +2,7 @@ import React from "react";
 
 async function getAboutMePage() {
   try {
-    const content = await import("./(pages)/_content/about-me/page.mdx");
+    const content = await import("../../(pages)/_content/about-me/page.mdx");
     return content;
   } catch (error) {
     return undefined;

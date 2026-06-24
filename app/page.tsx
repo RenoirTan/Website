@@ -1,7 +1,7 @@
 import { PageProvider } from "./providers";
 import "./globals.css";
-import System from "./system";
-import { AboutMe } from "./home-components";
+import System from "./ui/home/system";
+import { AboutMe } from "./ui/home/content";
 
 export default async function Home() {
   const aboutMe = await AboutMe();
