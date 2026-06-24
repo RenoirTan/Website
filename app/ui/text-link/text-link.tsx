@@ -8,7 +8,7 @@ export function TextLinkText({
 }: {
   children: string;
 }) {
-  return <p
+  return <span
     className={clsx(
       "bg-linear-to-r bg-clip-text text-transparent no-underline",
       "from-l-blue-violet to-l-french-fuchsia rounded-md px-1",
@@ -16,10 +16,10 @@ export function TextLinkText({
     )}
   >
     {children}
-  </p>;
+  </span>;
 }
 
-export function TextLinkRoot(props: LinkProps ) {
+export function TextLinkRoot(props: LinkProps) {
   return <Link {...props}>
     {props.children}
   </Link>;
