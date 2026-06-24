@@ -1,8 +1,8 @@
 "use client";
 
 import EyeOfTheStorm from "../eye-of-the-storm";
-import { easeIn, motion, useAnimationFrame, useMotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
-import React, { useRef } from "react";
+import { easeIn, motion, useAnimationFrame, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
+import React from "react";
 import { InACircle } from "../in-a-circle";
 import { BsLinkedin } from "react-icons/bs";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import { HiDocumentText } from "react-icons/hi2";
 import Planet from "../planet";
 import Image from "next/image";
 import MailPlanet from "../mail-planet";
+import { useDivScrollRestoration } from "@/lib/use-div-scroll-restoration";
 
 export default function System({
   children,
@@ -18,7 +19,7 @@ export default function System({
   children?: React.ReactNode;
   aboutMeRef: React.RefObject<HTMLDivElement | null>;
 }) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useDivScrollRestoration("home-scroll-pos");
   const orbitalSpeed = useSpring(1, { bounce: 0, duration: 1500 });
   const time = useMotionValue(0);
   useAnimationFrame((_, delta) => {
@@ -66,7 +67,7 @@ export default function System({
 
   return (
     <>
-      <div ref={containerRef} className="w-full h-full overflow-y-scroll">
+      <div ref={containerRef} className="w-full h-full overflow-y-auto">
         <div className="w-full min-h-[calc(100vh+600px)]">
 
           <div className="sticky top-0 h-[calc(100vh-3rem)] overflow-hidden p-8 w-full flex flex-col items-center">

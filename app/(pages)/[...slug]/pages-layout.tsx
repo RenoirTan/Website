@@ -9,6 +9,7 @@ import "../../globals.css";
 import clsx from "clsx";
 import { useState } from "react";
 import { motion } from "motion/react";
+import { useDivScrollRestoration } from "@/lib/use-div-scroll-restoration";
 
 export default function PagesLayout({
   children,
@@ -18,6 +19,7 @@ export default function PagesLayout({
   frontmatter: any
 }) {
   const pathname = usePathname();
+  const containerRef = useDivScrollRestoration(`${pathname}-scroll-pos`);
   const [scrollY, setScrollY] = useState(0);
   const topBarTopState = {
     borderColor: "rgb(215 215 215 / 0)",
@@ -59,6 +61,7 @@ export default function PagesLayout({
       <div
         className="flex flex-col w-full items-center max-h-full gap-y-3 overflow-y-auto pages-layout"
         onScroll={e => setScrollY((e.target as HTMLElement).scrollTop)}
+        ref={containerRef}
       >
         <div
           className="flex flex-col gap-3 w-full mt-[2.5em] p-3 md:w-[720px] md:p-5"
