@@ -12,6 +12,8 @@ import { BsLinkedin } from "react-icons/bs";
 import { Link } from "@chakra-ui/react";
 import { HiDocumentText } from "react-icons/hi2";
 import MailCell from "./ui/mail-cell";
+import Planet from "./ui/planet";
+import Image from "next/image";
 
 export default function Home() {
   return <PageProvider>
@@ -62,11 +64,11 @@ export function NewHomePage() {
                 <motion.div style={{ opacity: planetsOpacity }} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transform">
                   <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">
                     <InACircle degrees={0}>
-                      <LinkCell
-                        src="/person-circle.svg"
-                        alt="About Me"
-                        href="/about-me"
-                      />
+                      <Planet>
+                        <Link href="about-me" className="w-full h-full flex items-center justify-center">
+                          <Image src="/person-circle.svg" alt="About Me" width={40} height={40} />
+                        </Link>
+                      </Planet>
                     </InACircle>
                     <InACircle degrees={72}>
                       <LinkCell
