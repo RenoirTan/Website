@@ -3,8 +3,8 @@
 import { PageProvider } from "./providers";
 import EyeOfTheStorm from "./ui/eye-of-the-storm";
 import "./globals.css";
-import { easeIn, motion, useScroll, useSpring, useTime, useTransform } from "motion/react";
-import { useRef } from "react";
+import { easeIn, motion, useAnimationFrame, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
+import { useRef, useState } from "react";
 import { InACircle } from "./ui/in-a-circle";
 import { BsLinkedin } from "react-icons/bs";
 import { Link } from "@chakra-ui/react";
@@ -22,7 +22,13 @@ export default function Home() {
 export function NewHomePage() {
   // TODO: replace <any> with actual type definition
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const time = useTime();
+  const [orbitPaused, setOrbitPaused] = useState(false);
+  const time = useMotionValue(0);
+  useAnimationFrame((_, delta) => {
+    if (!orbitPaused) {
+      time.set(time.get() + delta);
+    }
+  });
   const planetsOrbit = useTransform(time, [0, 30000], [0, 360], { clamp: false });
   const { scrollY } = useScroll({
     container: containerRef,
@@ -45,6 +51,14 @@ export function NewHomePage() {
     }
   };
 
+  const onMouseEnter = () => {
+    setOrbitPaused(true);
+  };
+
+  const onMouseLeave = () => {
+    setOrbitPaused(false);
+  }
+
   // The h-[calc(100vh-3rem)] comes from 2rem from between the viewport and the black box
   // Plus another 2*0.5rem from the p-2 inside the blackbox
   // Both can be found in app/layout.tsx
@@ -63,35 +77,35 @@ export function NewHomePage() {
 
                 <motion.div style={{ opacity: planetsOpacity }} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transform">
                   <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">
-                    <InACircle degrees={useTransform(() => planetsOrbit.get())}>
+                    <InACircle degrees={useTransform(() => planetsOrbit.get())} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                       <Planet>
                         <Link href="about-me" className="w-full h-full flex items-center justify-center">
                           <Image src="/person-circle.svg" alt="About Me" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 72)}>
+                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 72)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                       <Planet>
                         <Link href="https://github.com/RenoirTan" className="w-full h-full flex items-center justify-center">
                           <Image src="/github-mark-white.svg" alt="GitHub" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 144)}>
+                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 144)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                       <Planet>
                         <Link href="https://www.linkedin.com/in/renoir-tan" className="w-full h-full flex items-center justify-center">
                           <BsLinkedin size={48} className="hover:brightness-[.8] duration-200 w-[32px] md:w-[48px]" />
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 216)}>
+                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 216)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                       <Planet>
                         <Link href="/resume.pdf" className="w-full h-full flex items-center justify-center">
                           <HiDocumentText size={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 288)}>
+                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 288)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={onMouseLeave}>
                       <MailPlanet />
                     </InACircle>
                   </motion.div>
