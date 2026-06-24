@@ -61,7 +61,7 @@ export default function MilestoneCard({
       flexDir={isMobile ? "column" : "row"}
     >
       {myImage && <Card.Header className={clsx(
-        "bg-black mt-3 mx-3 -mb-3 md:mb-3 p-0 w-fit h-fit rounded-xl ring transition-shadow duration-200 overflow-clip",
+        "bg-black mt-3 mx-3 -mb-3 md:mb-3 p-0 w-fit h-fit rounded-xl ring-3 transition-shadow duration-200 overflow-clip",
         !hovering && "ring-1 ring-l-dark-silver/30",
         hovering && "ring-4 ring-l-dark-silver/30",
       )}>

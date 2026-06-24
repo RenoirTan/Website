@@ -54,7 +54,7 @@ export function NewHomePage() {
       <div ref={containerRef} className="w-full h-full overflow-y-scroll">
         <div className="w-full min-h-[calc(100vh+600px)]">
 
-          <div className="sticky top-0 h-[calc(100vh-3rem)] overflow-hidden p-[2rem] w-full flex flex-col items-center">
+          <div className="sticky top-0 h-[calc(100vh-3rem)] overflow-hidden p-8 w-full flex flex-col items-center">
             <div className="h-full flex flex-row items-center">
               <div className="relative">
                 <motion.div style={{ scale: eotsScale }} className="relative z-50">

@@ -22,7 +22,7 @@ export default function Shelf() {
 
   return (
     <div
-      className="border-2 rounded-2xl border-gray-300 px-3 py-3 bg-gradient-to-br from-purple-700 to-orange-900 z-0"
+      className="border-2 rounded-2xl border-gray-300 px-3 py-3 bg-linear-to-br from-purple-700 to-orange-900 z-0"
     >
       <div className="flex flex-col items-center gap-3">
         <div

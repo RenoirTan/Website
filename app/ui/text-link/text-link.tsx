@@ -10,7 +10,7 @@ export function TextLinkText({
 }) {
   return <p
     className={clsx(
-      "bg-gradient-to-r bg-clip-text text-transparent no-underline",
+      "bg-linear-to-r bg-clip-text text-transparent no-underline",
       "from-l-blue-violet to-l-french-fuchsia rounded-md px-1",
       "hover:bg-clip-padding hover:text-l-white hover:to-l-red",
     )}

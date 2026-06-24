@@ -32,7 +32,7 @@ export function InnerMailCell({
 }: Omit<ButtonCellProps, 'children' | 'childYDisplacement' | 'caption'>) {
   return <ButtonCell
     caption="Contact"
-    childYDisplacement="md:mt-[1rem]"
+    childYDisplacement="md:mt-4"
     onClick={onClick}
     {...props}
   >
@@ -47,7 +47,7 @@ export function InnerMailDialog() {
       <Dialog.Content
         className={clsx(
           "border-2 rounded-2xl border-gray-300",
-          "bg-gradient-to-br from-lime-800 to-teal-950"
+          "bg-linear-to-br from-lime-800 to-teal-950"
         )}
       >
         <Dialog.Header>

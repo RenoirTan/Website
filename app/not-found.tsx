@@ -21,12 +21,12 @@ export default function NotFound() {
       <p>Page not found :(</p>
       <ButtonGroup attached>
         <Button
-          className="bg-gradient-to-br from-lime-800 to-teal-950 text-white p-3"
+          className="bg-linear-to-br from-lime-800 to-teal-950 text-white p-3"
           onClick={() => router.back()}
         >
           Back<BsArrowLeft />
         </Button>
-        <Button className="bg-gradient-to-br from-purple-800 to-orange-950 text-white p-3">
+        <Button className="bg-linear-to-br from-purple-800 to-orange-950 text-white p-3">
           <Link href="/" className="flex flex-row items-center gap-2">
             <BsHouseFill />Home
           </Link>

@@ -37,7 +37,7 @@ export default function ButtonCell({
     >
       <div className={clsx(
         "transition-all duration-300 md:duration-500",
-        !hovering && (childYDisplacement ?? "md:mt-[1rem]"),
+        !hovering && (childYDisplacement ?? "md:mt-4"),
         hovering && "mt-0"
       )}>
         {children}
