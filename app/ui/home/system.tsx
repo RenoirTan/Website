@@ -1,7 +1,7 @@
 "use client";
 
 import EyeOfTheStorm from "../eye-of-the-storm";
-import { easeIn, motion, useAnimationFrame, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
+import { easeIn, motion, useAnimationFrame, useMotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
 import React, { useEffect, useState } from "react";
 import { InACircle } from "../in-a-circle";
 import { BsLinkedin } from "react-icons/bs";
@@ -49,6 +49,22 @@ export default function System({
   const { planetsOpacity, planetsScale } = useTransform(useSpring(scrollY), [0, 600], {
     planetsOpacity: [0, 1],
     planetsScale: ["0%", "100%"],
+  });
+
+  // top of aboutMe relative to top of main container
+  const aboutMeScrollY = useTransform(
+    scrollY,
+    (latest) => (aboutMeRef.current) ? latest - aboutMeRef.current.offsetTop : 0
+  );
+
+  useMotionValueEvent(aboutMeScrollY, "change", (latest) => {
+    const previous = aboutMeScrollY.getPrevious();
+    if (previous === undefined) return;
+    if (latest >= 0 && previous < 0) {
+      window.history.pushState(null, "", "/about-me");
+    } else if (latest < 0 && previous >= 0) {
+      window.history.pushState(null, "", "/");
+    }
   });
 
   const goToEitherEnd = () => {
