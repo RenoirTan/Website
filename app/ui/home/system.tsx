@@ -12,6 +12,7 @@ import Image from "next/image";
 import MailPlanet from "../mail-planet";
 import { useDivScrollRestoration } from "@/lib/use-div-scroll-restoration";
 import PromptClick from "../prompt-click";
+import { usePathname } from "next/navigation";
 
 export default function System({
   children,
@@ -20,9 +21,18 @@ export default function System({
   children?: React.ReactNode;
   aboutMeRef: React.RefObject<HTMLDivElement | null>;
 }) {
+  const pathname = usePathname();
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isConfused, setIsConfused] = useState(false);
-  const containerRef = useDivScrollRestoration("home-scroll-pos");
+  const containerRef = useDivScrollRestoration("home-scroll-pos", {
+    beforeCallback: (ref) => {
+      if (pathname === "/about-me") {
+        aboutMeRef.current!.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    },
+  });
   const orbitalSpeed = useSpring(1, { bounce: 0, duration: 1500 });
   const time = useMotionValue(0);
   useAnimationFrame((_, delta) => {
@@ -114,7 +124,7 @@ export default function System({
                     <InACircle degrees={useTransform(() => planetsOrbit.get())} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
                       <Planet tooltip="About Me">
                         <Link
-                          href="/#about-me"
+                          href="/about-me"
                           scroll={false}
                           className="w-full h-full flex items-center justify-center"
                           onClick={onClickAbout}

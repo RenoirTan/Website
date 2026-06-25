@@ -7,6 +7,8 @@ export function useDivScrollRestoration(
   options?: {
     behavior?: ScrollBehavior | undefined;
     expiry?: number | undefined;
+    beforeCallback?: (ref: React.RefObject<HTMLDivElement | null>) => void;
+    afterCallback?: (ref: React.RefObject<HTMLDivElement | null>) => void;
   },
 ) {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,6 +18,11 @@ export function useDivScrollRestoration(
   // Restore scroll position
   useEffect(() => {
     const elem = ref.current;
+
+    if (options?.beforeCallback) {
+      options.beforeCallback(ref);
+    }
+
     const rawSaved = sessionStorage.getItem(key);
     // clear state so that a reload starts from the top
     sessionStorage.removeItem(key);
@@ -40,6 +47,10 @@ export function useDivScrollRestoration(
         scrollTopRef.current = elem.scrollTop;
       };
       elem.addEventListener("scroll", onScroll);
+    }
+
+    if (options?.afterCallback) {
+      options.afterCallback(ref);
     }
 
     return () => {

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { PageProvider } from "./providers";
 import { Provider as ChakraProvider } from "@/chakra/ui/provider";
 
 const jetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });

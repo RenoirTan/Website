@@ -10,15 +10,6 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["@chakra-ui/react"],
   },
-  async redirects() {
-    return [
-      {
-        source: '/about-me',
-        destination: '/#about-me',
-        permanent: true,
-      },
-    ];
-  },
 };
 
 const withMDX = createMDX({
