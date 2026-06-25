@@ -1,40 +1,28 @@
 'use client';
 
-import ButtonCell, { type ButtonCellProps } from "./button-cell";
 import { IoMail } from "react-icons/io5";
 import { CloseButton, Dialog, Portal } from "@chakra-ui/react";
-import { DetailedHTMLProps, HTMLAttributes, useState } from "react";
 import clsx from "clsx";
 import MailLink from "./mail-link";
 import Planet from "./planet";
 
 export default function MailPlanet() {
-  const [open, setOpen] = useState(false);
-
   return <Dialog.Root
     lazyMount
-    open={open}
-    onOpenChange={(e) => setOpen(e.open)}
     motionPreset="slide-in-bottom"
     placement="center"
   >
-    <Dialog.Trigger asChild>
-      <InnerMailPlanet onClick={_ => setOpen(!open)} />
-    </Dialog.Trigger>
+    <Planet tooltip="Contact">
+      <Dialog.Trigger asChild>
+        <div className="w-full h-full flex items-center justify-center">
+          <IoMail size={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
+        </div>
+      </Dialog.Trigger>
+    </Planet>
     <Portal>
       <InnerMailDialog />
     </Portal>
   </Dialog.Root>;
-}
-
-export function InnerMailPlanet({
-  ...props
-}: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) {
-  return <Planet {...props}>
-    <div className="w-full h-full flex items-center justify-center">
-      <IoMail size={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
-    </div>
-  </Planet>;
 }
 
 export function InnerMailDialog() {

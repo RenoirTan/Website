@@ -80,7 +80,7 @@ export default function System({
                 <motion.div style={{ opacity: planetsOpacity }} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transform">
                   <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">
                     <InACircle degrees={useTransform(() => planetsOrbit.get())} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-                      <Planet>
+                      <Planet tooltip="About Me">
                         <Link
                           href="/#about-me"
                           scroll={false}
@@ -92,21 +92,21 @@ export default function System({
                       </Planet>
                     </InACircle>
                     <InACircle degrees={useTransform(() => planetsOrbit.get() + 72)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-                      <Planet>
+                      <Planet tooltip="GitHub">
                         <Link href="https://github.com/RenoirTan" className="w-full h-full flex items-center justify-center">
                           <Image src="/github-mark-white.svg" alt="GitHub" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
                       </Planet>
                     </InACircle>
                     <InACircle degrees={useTransform(() => planetsOrbit.get() + 144)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-                      <Planet>
+                      <Planet tooltip="Linkedin">
                         <Link href="https://www.linkedin.com/in/renoir-tan" className="w-full h-full flex items-center justify-center">
                           <BsLinkedin size={48} className="hover:brightness-[.8] duration-200 w-[32px] md:w-[48px]" />
                         </Link>
                       </Planet>
                     </InACircle>
                     <InACircle degrees={useTransform(() => planetsOrbit.get() + 216)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-                      <Planet>
+                      <Planet tooltip="Resume">
                         <Link href="/resume.pdf" className="w-full h-full flex items-center justify-center">
                           <HiDocumentText size={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
