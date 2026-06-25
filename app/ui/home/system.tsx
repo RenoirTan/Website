@@ -2,7 +2,7 @@
 
 import EyeOfTheStorm from "../eye-of-the-storm";
 import { easeIn, motion, useAnimationFrame, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { InACircle } from "../in-a-circle";
 import { BsLinkedin } from "react-icons/bs";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import Planet from "../planet";
 import Image from "next/image";
 import MailPlanet from "../mail-planet";
 import { useDivScrollRestoration } from "@/lib/use-div-scroll-restoration";
+import PromptClick from "../prompt-click";
 
 export default function System({
   children,
@@ -19,6 +20,8 @@ export default function System({
   children?: React.ReactNode;
   aboutMeRef: React.RefObject<HTMLDivElement | null>;
 }) {
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [isConfused, setIsConfused] = useState(false);
   const containerRef = useDivScrollRestoration("home-scroll-pos");
   const orbitalSpeed = useSpring(1, { bounce: 0, duration: 1500 });
   const time = useMotionValue(0);
@@ -61,6 +64,31 @@ export default function System({
     });
   };
 
+  useEffect(() => {
+    const onScroll = () => {
+      if (containerRef.current?.scrollTop ?? 0 > 0) {
+        setHasScrolled(true);
+      }
+    };
+    if (!hasScrolled) {
+      containerRef.current?.addEventListener("scroll", onScroll);
+    }
+
+    return () => containerRef.current?.removeEventListener("scroll", onScroll);
+  }, [hasScrolled]);
+
+  useEffect(() => {
+    const confusedHelper = () => {
+      if (!hasScrolled) {
+        setIsConfused(true);
+      }
+    };
+    const timeout = setTimeout(confusedHelper, 3000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const needsPrompting = isConfused && !hasScrolled;
+
   // The h-[calc(100vh-3rem)] comes from 2rem from between the viewport and the black box
   // Plus another 2*0.5rem from the p-2 inside the blackbox
   // Both can be found in app/layout.tsx
@@ -76,6 +104,10 @@ export default function System({
                 <motion.div style={{ scale: eotsScale }} className="relative z-50">
                   <EyeOfTheStorm onClick={goToEitherEnd} />
                 </motion.div>
+
+                <div className="absolute left-1/2 top-1/2 transform -translate-1/2 scale-[500%] z-60 pointer-events-none">
+                  <PromptClick visible={needsPrompting} />
+                </div>
 
                 <motion.div style={{ opacity: planetsOpacity }} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transform">
                   <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">

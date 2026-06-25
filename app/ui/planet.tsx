@@ -13,9 +13,6 @@ export default function Planet({
   tooltipClassName?: string;
 }) {
   return <Tooltip
-    onOpenChange={(details) => {
-      console.log("dialog open change", details)
-    }}
     content={tooltip}
     contentProps={{
       className: clsx("bg-fuchsia-900/50 text-inherit text-xl", tooltipClassName)
