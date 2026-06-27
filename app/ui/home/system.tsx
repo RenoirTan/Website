@@ -2,7 +2,7 @@
 
 import EyeOfTheStorm from "../eye-of-the-storm";
 import { easeIn, motion, useAnimationFrame, useMotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InACircle } from "../in-a-circle";
 import { BsLinkedin } from "react-icons/bs";
 import Link from "next/link";
