@@ -2,7 +2,7 @@
 
 import EyeOfTheStorm from "../eye-of-the-storm";
 import { easeIn, motion, useAnimationFrame, useMotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { InACircle } from "../in-a-circle";
 import { BsLinkedin } from "react-icons/bs";
 import Link from "next/link";
@@ -118,10 +118,16 @@ export default function System({
     planetsScale: ["0%", "100%"],
   });
 
+
   // top of aboutMe relative to top of main container
   const aboutMeScrollY = useTransform(
     scrollY,
-    (latest) => (aboutMeRef.current) ? latest - aboutMeRef.current.offsetTop : 0
+    (latest) => {
+      if (!containerRef.current || !aboutMeRef.current) return 0;
+      const containerTop = containerRef.current?.getBoundingClientRect().top;
+      const aboutMeTop = aboutMeRef.current?.getBoundingClientRect().top;
+      return containerTop - aboutMeTop;
+    }
   );
 
   const goToEitherEnd = () => {
@@ -172,6 +178,7 @@ export default function System({
 
   useMotionValueEvent(aboutMeScrollY, "change", (latest) => {
     const previous = aboutMeScrollY.getPrevious();
+    // console.log(previous, latest);
     if (previous === undefined) return;
     if (latest >= 0 && previous < 0) {
       window.history.pushState(null, "", "/about-me");
