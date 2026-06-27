@@ -13,6 +13,7 @@ import MailPlanet from "../mail-planet";
 import { useDivScrollRestoration } from "@/lib/use-div-scroll-restoration";
 import PromptClick from "../prompt-click";
 import { usePathname } from "next/navigation";
+import PromptText from "../prompt-text";
 
 const ORBITAL_PERIOD = 24000;
 const HIDING_TIME = 1000;
@@ -225,6 +226,7 @@ export default function System({
                 <div className="absolute left-1/2 top-1/2 transform -translate-1/2 scale-[500%] z-60 pointer-events-none">
                   <PromptClick visible={needsPrompting} />
                 </div>
+                <PromptText visible={needsPrompting} />
 
                 <motion.div style={{ opacity: planetsOpacity }} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transform">
                   <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">
