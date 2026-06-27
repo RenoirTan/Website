@@ -186,6 +186,23 @@ export default function System({
   // Plus another 2*0.5rem from the p-2 inside the blackbox
   // Both can be found in app/layout.tsx
 
+  const aboutMePlanets = [0, 1].map(() => (
+    <Planet
+      tooltip="About Me"
+      tooltipClassName="bg-pink-900/50"
+      className="bg-red-900/50 inset-shadow-red-800 hover:shadow-orange-500/50"
+    >
+      <Link
+        href="/about-me"
+        scroll={false}
+        className="w-full h-full flex items-center justify-center"
+        onClick={onClickAbout}
+      >
+        <Image src="/person-circle.svg" alt="About Me" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
+      </Link>
+    </Planet>
+  ));
+
   return (
     <>
       <div ref={containerRef} className="w-full h-full overflow-y-auto flex flex-col items-center">
@@ -212,16 +229,7 @@ export default function System({
                         opacity: planetOpacities[0],
                       }}
                     >
-                      <Planet tooltip="About Me">
-                        <Link
-                          href="/about-me"
-                          scroll={false}
-                          className="w-full h-full flex items-center justify-center"
-                          onClick={onClickAbout}
-                        >
-                          <Image src="/person-circle.svg" alt="About Me" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
-                        </Link>
-                      </Planet>
+                      {aboutMePlanets[0]}
                     </InACircle>
                     <InACircle
                       degrees={planetDegrees[1]}
@@ -231,9 +239,13 @@ export default function System({
                         opacity: planetOpacities[1]
                       }}
                     >
-                      <Planet tooltip="GitHub">
-                        <Link href="https://github.com/RenoirTan" className="w-full h-full flex items-center justify-center">
-                          <Image src="/github-mark-white.svg" alt="GitHub" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
+                      <Planet
+                        tooltip="Resume"
+                        tooltipClassName="bg-orange-900/50"
+                        className="bg-yellow-950 inset-shadow-yellow-800 hover:shadow-amber-500/50"
+                      >
+                        <Link href="/resume.pdf" className="w-full h-full flex items-center justify-center">
+                          <HiDocumentText size={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
                       </Planet>
                     </InACircle>
@@ -241,15 +253,12 @@ export default function System({
                       degrees={planetDegrees[2]}
                       onMouseEnter={onMouseEnter}
                       onMouseLeave={onMouseLeave}
+                      onClick={onMouseLeave}
                       style={{
                         opacity: planetOpacities[2]
                       }}
                     >
-                      <Planet tooltip="Linkedin">
-                        <Link href="https://www.linkedin.com/in/renoir-tan" className="w-full h-full flex items-center justify-center">
-                          <BsLinkedin size={48} className="hover:brightness-[.8] duration-200 w-[32px] md:w-[48px]" />
-                        </Link>
-                      </Planet>
+                      <MailPlanet />
                     </InACircle>
                     <InACircle
                       degrees={planetDegrees[3]}
@@ -259,9 +268,13 @@ export default function System({
                         opacity: planetOpacities[3]
                       }}
                     >
-                      <Planet tooltip="Resume">
-                        <Link href="/resume.pdf" className="w-full h-full flex items-center justify-center">
-                          <HiDocumentText size={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
+                      <Planet
+                        tooltip="Linkedin"
+                        tooltipClassName="bg-sky-900/50"
+                        className="bg-blue-950 inset-shadow-blue-800 hover:shadow-cyan-500/50"
+                      >
+                        <Link href="https://www.linkedin.com/in/renoir-tan" className="w-full h-full flex items-center justify-center">
+                          <BsLinkedin size={48} className="hover:brightness-[.8] duration-200 w-[32px] md:w-[48px]" />
                         </Link>
                       </Planet>
                     </InACircle>
@@ -269,12 +282,19 @@ export default function System({
                       degrees={planetDegrees[4]}
                       onMouseEnter={onMouseEnter}
                       onMouseLeave={onMouseLeave}
-                      onClick={onMouseLeave}
                       style={{
                         opacity: planetOpacities[4]
                       }}
                     >
-                      <MailPlanet />
+                      <Planet
+                        tooltip="GitHub"
+                        tooltipClassName="bg-violet-900/50"
+                        className="bg-purple-950 inset-shadow-fuchsia-800 hover:shadow-fuchsia-500/50"
+                      >
+                        <Link href="https://github.com/RenoirTan" className="w-full h-full flex items-center justify-center">
+                          <Image src="/github-mark-white.svg" alt="GitHub" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
+                        </Link>
+                      </Planet>
                     </InACircle>
                   </motion.div>
                 </motion.div>
@@ -288,20 +308,13 @@ export default function System({
             className="w-full flex flex-row justify-start mb-5"
             style={{
               opacity: useSpring(useTransform(() => {
-                return Number(orbitalHide.get() && hiddenSince.get() >= HIDING_TIME);
+                const hidden = orbitalHide.get();
+                const time = hiddenSince.get();
+                return Number(hidden && time >= HIDING_TIME);
               }), { bounce: 0, duration: 1000 }),
             }}
           >
-            <Planet tooltip="About Me">
-              <Link
-                href="/about-me"
-                scroll={false}
-                className="w-full h-full flex items-center justify-center"
-                onClick={onClickAbout}
-              >
-                <Image src="/person-circle.svg" alt="About Me" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
-              </Link>
-            </Planet>
+            {aboutMePlanets[1]}
           </motion.div>
           {children}
         </div>

@@ -12,7 +12,11 @@ export default function MailPlanet() {
     motionPreset="slide-in-bottom"
     placement="center"
   >
-    <Planet tooltip="Contact">
+    <Planet
+      tooltip="Contact"
+      tooltipClassName="bg-lime-900/50"
+      className="bg-green-950 inset-shadow-lime-800 hover:shadow-lime-500/50"
+    >
       <Dialog.Trigger asChild>
         <div className="w-full h-full flex items-center justify-center">
           <IoMail size={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
