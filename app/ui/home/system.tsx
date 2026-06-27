@@ -173,7 +173,7 @@ export default function System({
         setIsConfused(true);
       }
     };
-    const timeout = setTimeout(confusedHelper, 3000);
+    const timeout = setTimeout(confusedHelper, 2000);
     return () => clearTimeout(timeout);
   }, []);
 
