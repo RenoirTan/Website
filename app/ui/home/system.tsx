@@ -15,6 +15,7 @@ import PromptClick from "../prompt-click";
 import { usePathname } from "next/navigation";
 
 const ORBITAL_PERIOD = 24000;
+const HIDING_TIME = 4000;
 const EOTS_HEIGHT = 600;
 const EOTS_HIDE = 900;
 const PLANET_OFFSETS = [0, 72, 144, 216, 288];
@@ -59,9 +60,9 @@ export default function System({
       (orbitalProgress.get() + delta * orbitalSpeed.get() * Number(!orbitalHide.get())) % ORBITAL_PERIOD
     );
     if (orbitalHide.get()) {
-      hiddenSince.set(Math.min(hiddenSince.get() + delta, ORBITAL_PERIOD));
+      hiddenSince.set(Math.min(hiddenSince.get() + delta, HIDING_TIME));
     } else {
-      visibleSince.set(Math.min(visibleSince.get() + delta, ORBITAL_PERIOD));
+      visibleSince.set(Math.min(visibleSince.get() + delta, HIDING_TIME));
     }
   });
   const planetsOrbit = useTransform(orbitalProgress, [0, ORBITAL_PERIOD], [0, -360], { clamp: false });
@@ -69,7 +70,7 @@ export default function System({
     const angle = planetsOrbit.get() + d;
     const hiddenTime = hiddenSince.get();
     if (orbitalHide.get()) {
-      const degrees = angle - hiddenTime * 5 * 360 / ORBITAL_PERIOD;
+      const degrees = angle - easeIn(hiddenTime / HIDING_TIME) * 1.5 * 360;
       return degrees;
     } else {
       return angle;
@@ -171,7 +172,7 @@ export default function System({
   return (
     <>
       <div ref={containerRef} className="w-full h-full overflow-y-auto">
-        <div className="w-full min-h-[calc(100vh+600px)]">
+        <div className="w-full min-h-[calc(100vh+900px)]">
 
           <div className="sticky top-0 h-[calc(100vh-3rem)] overflow-hidden p-8 w-full flex flex-col items-center">
             <div className="h-full flex flex-row items-center">
