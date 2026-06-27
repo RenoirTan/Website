@@ -11,10 +11,8 @@ export function ClientPage({
 }) {
   const aboutMeRef = useRef<HTMLDivElement | null>(null);
   return <System aboutMeRef={aboutMeRef}>
-    <div className="w-full flex flex-col items-center">
-      <Layout ref={aboutMeRef} id="about-me">
-        {aboutMe}
-      </Layout>
-    </div>
+    <Layout ref={aboutMeRef} id="about-me">
+      {aboutMe}
+    </Layout>
   </System>;
 }

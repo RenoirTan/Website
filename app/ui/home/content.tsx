@@ -7,7 +7,7 @@ export function Layout({
 }: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) {
   return <div
     {...props}
-    className={clsx(props.className, "flex flex-col gap-3 w-full p-3 md:w-[720px] md:p-5")}
+    className={clsx(props.className, "flex flex-col gap-3")}
   >
     {children}
   </div>

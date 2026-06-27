@@ -15,7 +15,7 @@ import PromptClick from "../prompt-click";
 import { usePathname } from "next/navigation";
 
 const ORBITAL_PERIOD = 24000;
-const HIDING_TIME = 2000;
+const HIDING_TIME = 1000;
 const EOTS_HEIGHT = 600;
 const EOTS_HIDE = 900;
 const PLANET_OFFSETS = [0, 72, 144, 216, 288];
@@ -188,7 +188,7 @@ export default function System({
 
   return (
     <>
-      <div ref={containerRef} className="w-full h-full overflow-y-auto">
+      <div ref={containerRef} className="w-full h-full overflow-y-auto flex flex-col items-center">
         <div className="w-full min-h-[calc(100vh+900px)]">
 
           <div className="sticky top-0 h-[calc(100vh-3rem)] overflow-hidden p-8 w-full flex flex-col items-center">
@@ -283,7 +283,28 @@ export default function System({
           </div>
         </div>
 
-        {children}
+        <div className="w-full p-3 md:w-[720px] md:p-5 flex flex-col items-center -translate-y-[240px]">
+          <motion.div
+            className="w-full flex flex-row justify-start mb-5"
+            style={{
+              opacity: useSpring(useTransform(() => {
+                return Number(orbitalHide.get() && hiddenSince.get() >= HIDING_TIME);
+              }), { bounce: 0, duration: 1000 }),
+            }}
+          >
+            <Planet tooltip="About Me">
+              <Link
+                href="/about-me"
+                scroll={false}
+                className="w-full h-full flex items-center justify-center"
+                onClick={onClickAbout}
+              >
+                <Image src="/person-circle.svg" alt="About Me" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
+              </Link>
+            </Planet>
+          </motion.div>
+          {children}
+        </div>
       </div>
     </>
   )
