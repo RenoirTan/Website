@@ -67,8 +67,9 @@ export default function System({
   const planetsOrbit = useTransform(orbitalProgress, [0, ORBITAL_PERIOD], [0, -360], { clamp: false });
   const planetDegrees = PLANET_OFFSETS.map((d) => useTransform(() => {
     const angle = planetsOrbit.get() + d;
+    const hiddenTime = hiddenSince.get();
     if (orbitalHide.get()) {
-      const degrees = angle - hiddenSince.get() * 5 * 360 / ORBITAL_PERIOD;
+      const degrees = angle - hiddenTime * 5 * 360 / ORBITAL_PERIOD;
       return degrees;
     } else {
       return angle;
