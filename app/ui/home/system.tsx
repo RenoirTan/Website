@@ -14,6 +14,11 @@ import { useDivScrollRestoration } from "@/lib/use-div-scroll-restoration";
 import PromptClick from "../prompt-click";
 import { usePathname } from "next/navigation";
 
+const ORBITAL_PERIOD = 24000;
+const EOTS_HEIGHT = 600;
+const EOTS_HIDE = 900;
+const PLANET_OFFSETS = [0, 72, 144, 216, 288];
+
 export default function System({
   children,
   aboutMeRef,
@@ -33,17 +38,60 @@ export default function System({
       }
     },
   });
-  const orbitalSpeed = useSpring(1, { bounce: 0, duration: 1500 });
-  const time = useMotionValue(0);
-  useAnimationFrame((_, delta) => {
-    time.set(time.get() + delta * orbitalSpeed.get());
-  });
-  const planetsOrbit = useTransform(time, [0, 24000], [0, -360], { clamp: false });
   const { scrollY } = useScroll({
     container: containerRef,
     offset: ["start start", "end end"]
   });
-  const { eotsScale } = useTransform(scrollY, [0, 600], {
+  const orbitalSpeed = useSpring(1, { bounce: 0, duration: 1500 });
+  const orbitalHide = useTransform(() => scrollY.get() >= EOTS_HIDE);
+  const hiddenSince = useMotionValue(0);
+  const visibleSince = useMotionValue(ORBITAL_PERIOD);
+  const orbitalProgress = useMotionValue(0);
+  useMotionValueEvent(orbitalHide, "change", (latest) => {
+    if (latest) {
+      visibleSince.set(0);
+    } else {
+      hiddenSince.set(0);
+    }
+  });
+  useAnimationFrame((_, delta) => {
+    orbitalProgress.set(
+      (orbitalProgress.get() + delta * orbitalSpeed.get() * Number(!orbitalHide.get())) % ORBITAL_PERIOD
+    );
+    if (orbitalHide.get()) {
+      hiddenSince.set(Math.min(hiddenSince.get() + delta, ORBITAL_PERIOD));
+    } else {
+      visibleSince.set(Math.min(visibleSince.get() + delta, ORBITAL_PERIOD));
+    }
+  });
+  const planetsOrbit = useTransform(orbitalProgress, [0, ORBITAL_PERIOD], [0, -360], { clamp: false });
+  const planetDegrees = PLANET_OFFSETS.map((d) => useTransform(() => {
+    const angle = planetsOrbit.get() + d;
+    if (orbitalHide.get()) {
+      const degrees = angle - hiddenSince.get() * 5 * 360 / ORBITAL_PERIOD;
+      return degrees;
+    } else {
+      return angle;
+    }
+  }));
+  const planetHideAngleThreshold = PLANET_OFFSETS.map((d) => {
+    return useTransform(() => {
+      const angle = planetsOrbit.get() + d;
+      // -90 degrees means that the threshold is on the west side of EOTS
+      const threshold = Math.floor((angle + 90) / 360) * 360 - 90;
+      return threshold;
+    });
+  });
+  const planetOpacities = PLANET_OFFSETS.map((d, i) => {
+    return useSpring(useTransform(() => {
+      const degrees = planetDegrees[i].get();
+      const threshold = planetHideAngleThreshold[i].get();
+      const opacity = Number(!orbitalHide.get() || degrees > threshold);
+      return opacity;
+    }), { bounce: 0, duration: 1000 });
+  });
+
+  const { eotsScale } = useTransform(scrollY, [0, EOTS_HEIGHT], {
     eotsScale: [1, 0.4],
   }, { ease: easeIn });
   const { planetsOpacity, planetsScale } = useTransform(useSpring(scrollY), [0, 600], {
@@ -57,22 +105,12 @@ export default function System({
     (latest) => (aboutMeRef.current) ? latest - aboutMeRef.current.offsetTop : 0
   );
 
-  useMotionValueEvent(aboutMeScrollY, "change", (latest) => {
-    const previous = aboutMeScrollY.getPrevious();
-    if (previous === undefined) return;
-    if (latest >= 0 && previous < 0) {
-      window.history.pushState(null, "", "/about-me");
-    } else if (latest < 0 && previous >= 0) {
-      window.history.pushState(null, "", "/");
-    }
-  });
-
   const goToEitherEnd = () => {
     const elem = containerRef.current!;
-    if (elem.scrollTop >= 150) {
+    if (elem.scrollTop >= EOTS_HEIGHT / 4) {
       elem.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      elem.scrollTo({ top: 600, behavior: "smooth" });
+      elem.scrollTo({ top: EOTS_HEIGHT, behavior: "smooth" });
     }
   };
 
@@ -113,6 +151,16 @@ export default function System({
     return () => clearTimeout(timeout);
   }, []);
 
+  useMotionValueEvent(aboutMeScrollY, "change", (latest) => {
+    const previous = aboutMeScrollY.getPrevious();
+    if (previous === undefined) return;
+    if (latest >= 0 && previous < 0) {
+      window.history.pushState(null, "", "/about-me");
+    } else if (latest < 0 && previous >= 0) {
+      window.history.pushState(null, "", "/");
+    }
+  });
+
   const needsPrompting = isConfused && !hasScrolled;
 
   // The h-[calc(100vh-3rem)] comes from 2rem from between the viewport and the black box
@@ -137,7 +185,14 @@ export default function System({
 
                 <motion.div style={{ opacity: planetsOpacity }} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transform">
                   <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">
-                    <InACircle degrees={useTransform(() => planetsOrbit.get())} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+                    <InACircle
+                      degrees={planetDegrees[0]}
+                      onMouseEnter={onMouseEnter}
+                      onMouseLeave={onMouseLeave}
+                      style={{
+                        opacity: planetOpacities[0],
+                      }}
+                    >
                       <Planet tooltip="About Me">
                         <Link
                           href="/about-me"
@@ -149,28 +204,57 @@ export default function System({
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 72)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+                    <InACircle
+                      degrees={planetDegrees[1]}
+                      onMouseEnter={onMouseEnter}
+                      onMouseLeave={onMouseLeave}
+                      style={{
+                        opacity: planetOpacities[1]
+                      }}
+                    >
                       <Planet tooltip="GitHub">
                         <Link href="https://github.com/RenoirTan" className="w-full h-full flex items-center justify-center">
                           <Image src="/github-mark-white.svg" alt="GitHub" width={60} height={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 144)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+                    <InACircle
+                      degrees={planetDegrees[2]}
+                      onMouseEnter={onMouseEnter}
+                      onMouseLeave={onMouseLeave}
+                      style={{
+                        opacity: planetOpacities[2]
+                      }}
+                    >
                       <Planet tooltip="Linkedin">
                         <Link href="https://www.linkedin.com/in/renoir-tan" className="w-full h-full flex items-center justify-center">
                           <BsLinkedin size={48} className="hover:brightness-[.8] duration-200 w-[32px] md:w-[48px]" />
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 216)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+                    <InACircle
+                      degrees={planetDegrees[3]}
+                      onMouseEnter={onMouseEnter}
+                      onMouseLeave={onMouseLeave}
+                      style={{
+                        opacity: planetOpacities[3]
+                      }}
+                    >
                       <Planet tooltip="Resume">
                         <Link href="/resume.pdf" className="w-full h-full flex items-center justify-center">
                           <HiDocumentText size={60} className="hover:brightness-[.8] duration-200 w-[40px] md:w-[60px]" />
                         </Link>
                       </Planet>
                     </InACircle>
-                    <InACircle degrees={useTransform(() => planetsOrbit.get() + 288)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={onMouseLeave}>
+                    <InACircle
+                      degrees={planetDegrees[4]}
+                      onMouseEnter={onMouseEnter}
+                      onMouseLeave={onMouseLeave}
+                      onClick={onMouseLeave}
+                      style={{
+                        opacity: planetOpacities[4]
+                      }}
+                    >
                       <MailPlanet />
                     </InACircle>
                   </motion.div>

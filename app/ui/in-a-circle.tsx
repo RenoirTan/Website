@@ -26,6 +26,7 @@ export function InACircle({
         top: topStyle,
         left: leftStyle,
         transform: translateStyle,
+        ...props.style,
       }}
     >{props.children}</motion.div>
   );
