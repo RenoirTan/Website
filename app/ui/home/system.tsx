@@ -15,7 +15,7 @@ import PromptClick from "../prompt-click";
 import { usePathname } from "next/navigation";
 
 const ORBITAL_PERIOD = 24000;
-const HIDING_TIME = 4000;
+const HIDING_TIME = 2000;
 const EOTS_HEIGHT = 600;
 const EOTS_HIDE = 900;
 const PLANET_OFFSETS = [0, 72, 144, 216, 288];
@@ -44,14 +44,30 @@ export default function System({
     offset: ["start start", "end end"]
   });
   const orbitalSpeed = useSpring(1, { bounce: 0, duration: 1500 });
-  const orbitalHide = useTransform(() => scrollY.get() >= EOTS_HIDE);
+  const orbitalRawHide = useTransform(() => scrollY.get() >= EOTS_HIDE);
+  const orbitalHide = useMotionValue(orbitalRawHide.get());
   const hiddenSince = useMotionValue(0);
-  const visibleSince = useMotionValue(ORBITAL_PERIOD);
   const orbitalProgress = useMotionValue(0);
-  useMotionValueEvent(orbitalHide, "change", (latest) => {
+  useMotionValueEvent(orbitalRawHide, "change", (latest) => {
+    const hiddenTime = hiddenSince.get();
     if (latest) {
-      visibleSince.set(0);
-    } else {
+      orbitalHide.set(true);
+      // only unhide if the hiding sequence is completed
+    } else if (!latest && hiddenTime >= HIDING_TIME) {
+      orbitalHide.set(false);
+      hiddenSince.set(0);
+    }
+  });
+  useMotionValueEvent(hiddenSince, "change", (latest) => {
+    const rawHide = orbitalRawHide.get();
+    // same thing, only unhide if the hiding sequence is completed
+    if (latest >= HIDING_TIME && !rawHide) {
+      orbitalHide.set(false);
+      hiddenSince.set(0);
+    }
+  });
+  useMotionValueEvent(orbitalHide, "change", (latest) => {
+    if (!latest) {
       hiddenSince.set(0);
     }
   });
@@ -61,21 +77,9 @@ export default function System({
     );
     if (orbitalHide.get()) {
       hiddenSince.set(Math.min(hiddenSince.get() + delta, HIDING_TIME));
-    } else {
-      visibleSince.set(Math.min(visibleSince.get() + delta, HIDING_TIME));
     }
   });
   const planetsOrbit = useTransform(orbitalProgress, [0, ORBITAL_PERIOD], [0, -360], { clamp: false });
-  const planetDegrees = PLANET_OFFSETS.map((d) => useTransform(() => {
-    const angle = planetsOrbit.get() + d;
-    const hiddenTime = hiddenSince.get();
-    if (orbitalHide.get()) {
-      const degrees = angle - easeIn(hiddenTime / HIDING_TIME) * 1.5 * 360;
-      return degrees;
-    } else {
-      return angle;
-    }
-  }));
   const planetHideAngleThreshold = PLANET_OFFSETS.map((d) => {
     return useTransform(() => {
       const angle = planetsOrbit.get() + d;
@@ -84,6 +88,19 @@ export default function System({
       return threshold;
     });
   });
+  const planetDegrees = PLANET_OFFSETS.map((d, i) => useTransform(() => {
+    const angle = planetsOrbit.get() + d;
+    const hiddenTime = hiddenSince.get();
+    if (orbitalHide.get()) {
+      const degrees = Math.max(
+        angle - easeIn(hiddenTime / HIDING_TIME) * 360,
+        planetHideAngleThreshold[i].get()
+      );
+      return degrees;
+    } else {
+      return angle;
+    }
+  }));
   const planetOpacities = PLANET_OFFSETS.map((d, i) => {
     return useSpring(useTransform(() => {
       const degrees = planetDegrees[i].get();
