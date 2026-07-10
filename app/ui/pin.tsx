@@ -1,13 +1,15 @@
 "use client";
 
 import { motion } from "motion/react";
-import Image from "next/image";
 import Link from "next/link";
 import { BiLogoFlask, BiLogoTypescript } from "react-icons/bi";
 import { FaLinux, FaPython, FaRust } from "react-icons/fa";
 import { RiNextjsFill } from "react-icons/ri";
 import { SiCplusplus, SiDjango, SiDocker, SiNestjs, SiScikitlearn, SiTensorflow } from "react-icons/si";
 import { twMerge } from "tailwind-merge";
+import { FontforgeIcon } from "./icons/fontforge";
+import { CoolifyIcon } from "./icons/coolify";
+import { OpencodeIcon } from "./icons/opencode";
 
 export default function Pin({
   children,
@@ -23,6 +25,15 @@ export default function Pin({
   >
     {children}
   </motion.div>;
+}
+
+export function FontforgePin() {
+  return <Link href="https://fontforge.org/en-US/">
+    <Pin className="bg-linear-to-br from-sky-300 to-gray-400 from-30% inset-shadow-slate-300/50">
+      <FontforgeIcon fill="#FFFFFF" className="aspect-square h-[16px]" />
+      <span className="text-lg hidden md:inline">FontForge</span>
+    </Pin>
+  </Link>
 }
 
 export function PythonPin() {
@@ -125,7 +136,7 @@ export function DockerPin() {
 export function CoolifyPin() {
   return <Link href="https://coolify.io">
     <Pin className="bg-violet-600">
-      <Image src="/icons/coolify.svg" alt="Coolify" className="aspect-square w-[12px]" width={40} height={40} />
+      <CoolifyIcon fill="#FFFFFF" className="aspect-square h-[16px]" />
       <span className="text-lg hidden md:inline">Coolify</span>
     </Pin>
   </Link>;
@@ -141,7 +152,7 @@ export function LinuxPin() {
 export function OpencodePin() {
   return <Link href="https://opencode.ai">
     <Pin className="bg-black">
-      <Image src="/icons/opencode.svg" alt="Opencode" className="aspect-square w-[12px]" width={40} height={40} />
+      <OpencodeIcon fill="#FFFFFF" className="aspect-square h-[16px]" />
       <span className="text-lg hidden md:inline">Opencode</span>
     </Pin>
   </Link>;

@@ -11,6 +11,7 @@ import PinCategory from "@/app/ui/pin-category";
 import PinLabel from "@/app/ui/pin-label";
 import PinList from "@/app/ui/pin-list";
 import {
+  FontforgePin,
   PythonPin,
   JsTsPin,
   RustPin,
@@ -35,6 +36,12 @@ I'm a programmer who has had at least 6 years of programming by this point. My m
 
 ## Skills
 
+<PinCategory label={<PinLabel>Design</PinLabel>}>
+  <PinList>
+    <FontforgePin />
+  </PinList>
+</PinCategory>
+
 <PinCategory label={<PinLabel>Languages</PinLabel>}>
   <PinList>
     <PythonPin />
@@ -44,7 +51,7 @@ I'm a programmer who has had at least 6 years of programming by this point. My m
   </PinList>
 </PinCategory>
 
-<PinCategory label={<PinLabel>AI</PinLabel>}>
+<PinCategory label={<PinLabel>ML</PinLabel>}>
   <PinList>
     <TensorflowPin />
     <ScikitPin />
