@@ -312,7 +312,7 @@ export default function System({
           </div>
         </div>
 
-        <div className="w-full p-3 md:w-[720px] md:p-5 flex flex-col items-center -translate-y-[240px] h-[calc(100%-240px)]">
+        <div className="w-full p-3 md:w-[720px] md:p-5 flex flex-col items-center h-full -m-[240px]">
           <motion.div
             className="w-full flex flex-row justify-start mb-5"
             style={{
