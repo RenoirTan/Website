@@ -1,8 +1,8 @@
 "use client";
 
-import { MotionValue, motion, useMotionTemplate, useTransform } from "motion/react";
+import { MotionValue, motion, useTransform } from "motion/react";
 import { useMotionValue } from "motion/react";
-import { ComponentProps, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { ComponentProps, useId, useLayoutEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 const TAU = 2 * Math.PI;
@@ -49,7 +49,7 @@ export function CosineIcon(props: ComponentProps<"div"> & {
   const endAngle = useTransform(() => maxAngle.get() - shiftedPeriods.get() * TAU);
   const path = useTransform(() => calculateCosinePath(periods.get()));
 
-  const [size, setSize] = useState({ width: 200, height: 40 });
+  const [size, setSize] = useState({ width: 1, height: 1 });
 
   const id = useId();
   const divRef = useRef<HTMLDivElement>(null);
