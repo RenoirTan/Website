@@ -1,7 +1,6 @@
 "use client";
 
 import { ComponentProps, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
-import _ from "lodash";
 import { twMerge } from "tailwind-merge";
 
 const TAU = 2 * Math.PI;
@@ -29,13 +28,13 @@ export function CosineIcon(props: ComponentProps<"div"> & {
   endAngle?: number | undefined;
 }) {
   const {
-    strokeWidth,
+    strokeWidth: rawStrokeWidth,
     startAngle: rawStartAngle,
     endAngle: rawEndAngle,
     ...restProps
-  } = _.defaults({ ...props }, {
-    strokeWidth: 3,
-  });
+  } = props;
+
+  const strokeWidth = rawStrokeWidth ?? 3;
 
   const { startAngle, endAngle, path } = useMemo(() => {
     let startAngle = rawStartAngle ?? 0;
