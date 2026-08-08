@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Provider as ChakraProvider } from "@/chakra/ui/provider";
+import { twMerge } from "tailwind-merge";
 
 const jetBrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
@@ -26,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={jetBrainsMono.className}>
+      <body className={twMerge(jetBrainsMono.className, "animate-shimmer shimmer")}>
         <ChakraProvider>
           <main className="relative h-screen w-screen">
             <div
