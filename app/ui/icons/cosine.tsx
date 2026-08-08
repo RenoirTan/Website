@@ -4,13 +4,15 @@ import { ComponentProps, useId, useLayoutEffect, useMemo, useRef, useState } fro
 import _ from "lodash";
 import { twMerge } from "tailwind-merge";
 
+const TAU = 2 * Math.PI;
+
 // Extremely helpful website that gives an approximation (?) of a sine curve using cubic bezier
 // http://www.dmitry.baranovskiy.com/sine.html
 // The following path has 2 periods and is more like a cosine graph
-// const path = `M 0 0 C ${Math.PI - 2} 0, 2 1, ${Math.PI} 1 S ${Math.PI + 2} 0, ${2 * Math.PI} 0 S ${2 * Math.PI + 2} 1, ${3 * Math.PI} 1 S ${3 * Math.PI + 2} 0, ${4 * Math.PI} 0`;
+// const path = `M 0 0 C ${Math.PI - 2} 0, 2 1, ${Math.PI} 1 S ${Math.PI + 2} 0, ${TAU} 0 S ${2 * Math.PI + 2} 1, ${3 * Math.PI} 1 S ${3 * Math.PI + 2} 0, ${4 * Math.PI} 0`;
 
 // The following function calculates a cosine path for n >= 1 periods
-const firstPeriod = `M 0 0 C ${Math.PI - 2} 0, 2 1, ${Math.PI} 1 S ${Math.PI + 2} 0, ${2 * Math.PI} 0`;
+const firstPeriod = `M 0 0 C ${Math.PI - 2} 0, 2 1, ${Math.PI} 1 S ${Math.PI + 2} 0, ${TAU} 0`;
 function calculateCosinePath(periods: number): string {
   if (periods <= 0) return "";
   let result = firstPeriod;
@@ -37,18 +39,19 @@ export function CosineIcon(props: ComponentProps<"div"> & {
 
   const { startAngle, endAngle, path } = useMemo(() => {
     let startAngle = rawStartAngle ?? 0;
-    let endAngle = rawEndAngle ?? (startAngle + 2 * Math.PI);
+    let endAngle = rawEndAngle ?? (startAngle + TAU);
     if (startAngle > endAngle) {
       [startAngle, endAngle] = [endAngle, startAngle];
     }
-    const periods = (endAngle - startAngle) / (2 * Math.PI);
-    const shiftedPeriods = Math.floor(startAngle / (2 * Math.PI));
-    startAngle -= shiftedPeriods * 2 * Math.PI;
-    endAngle -= shiftedPeriods * 2 * Math.PI;
+    const periods = Math.floor((endAngle - startAngle) / TAU) + 1;
+    const shiftedPeriods = Math.floor(startAngle / TAU);
+    startAngle -= shiftedPeriods * TAU;
+    endAngle -= shiftedPeriods * TAU;
     const path = calculateCosinePath(periods);
 
     return { startAngle, endAngle, path };
   }, [rawStartAngle, rawEndAngle]);
+  console.log({ startAngle, endAngle });
 
   const id = useId();
   const divRef = useRef<HTMLDivElement>(null);
@@ -79,13 +82,13 @@ export function CosineIcon(props: ComponentProps<"div"> & {
     const extension = 0.2;
     const samples = 256;
     const startTheta = -extension;
-    const endTheta = 2 * Math.PI + extension;
+    const endTheta = TAU + extension;
     // minus off some y from the top and bottom so the curve doesn't get cut off
     const yExtent = (height - strokeWidth) / 2;
     const yMid = height / 2;
     const points = Array.from({ length: samples + 1 }, (_, i) => {
       const theta = startTheta + (endTheta - startTheta) * (i / samples);
-      const svgX = (theta / (2 * Math.PI)) * width;
+      const svgX = (theta / (TAU)) * width;
       const svgY = yMid - yExtent * Math.sin(theta);
       return `${svgX.toFixed(3)},${svgY.toFixed(3)}`;
     });
@@ -133,7 +136,7 @@ export function CosineIcon(props: ComponentProps<"div"> & {
     <div
       ref={divRef}
       style={{ mask: `url(#${id})` }}
-      {...props}
+      {...restProps}
       className={twMerge("bg-red-500", props.className)}
     >
     </div>
