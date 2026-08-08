@@ -37,7 +37,7 @@
   --color-l-calm-gray: #24242e;
   --color-l-centrist: #7f7f7f;
 
-  --animate-corona: corona 0.5s linear infinite;
+  --animate-corona: corona 12s linear infinite;
 
   @keyframes corona {
     0%,
