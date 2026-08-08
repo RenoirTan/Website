@@ -7,21 +7,43 @@ import { twMerge } from "tailwind-merge";
 // Extremely helpful website that gives an approximation (?) of a sine curve using cubic bezier
 // http://www.dmitry.baranovskiy.com/sine.html
 // The following path has 2 periods and is more like a cosine graph
-const path = `M 0 0 C ${Math.PI - 2} 0, 2 1, ${Math.PI} 1 S ${Math.PI + 2} 0, ${2 * Math.PI} 0 S ${2 * Math.PI + 2} 1, ${3 * Math.PI} 1 S ${3 * Math.PI + 2} 0, ${4 * Math.PI} 0`;
+// const path = `M 0 0 C ${Math.PI - 2} 0, 2 1, ${Math.PI} 1 S ${Math.PI + 2} 0, ${2 * Math.PI} 0 S ${2 * Math.PI + 2} 1, ${3 * Math.PI} 1 S ${3 * Math.PI + 2} 0, ${4 * Math.PI} 0`;
+
+// The following function calculates a cosine path for n >= 1 periods
+const firstPeriod = `M 0 0 C ${Math.PI - 2} 0, 2 1, ${Math.PI} 1 S ${Math.PI + 2} 0, ${2 * Math.PI} 0`;
+function calculateCosinePath(periods: number): string {
+  if (periods <= 0) return "";
+  let result = firstPeriod;
+  for (let i = 1; i < periods; i++) {
+    const j = i * 2;
+    result = `${result} S ${j * Math.PI + 2} 1, ${(j + 1) * Math.PI} 1 S ${(j + 1) * Math.PI + 2} 0, ${(j + 2) * Math.PI} 0`;
+  }
+  return result;
+}
 
 export function CosineIcon(props: ComponentProps<"div"> & {
   strokeWidth?: number | undefined;
-  offset?: number | undefined;
+  startAngle?: number | undefined;
+  endAngle?: number | undefined;
 }) {
   const {
     strokeWidth,
-    offset: rawOffset,
+    startAngle: rawStartAngle,
+    endAngle: rawEndAngle,
     ...restProps
   } = _.defaults({ ...props }, {
     strokeWidth: 3,
-    offset: 0,
   });
-  const offset = rawOffset % (2 * Math.PI);
+
+  let startAngle = rawStartAngle ?? 0;
+  let endAngle = rawEndAngle ?? (startAngle + 2 * Math.PI);
+  if (startAngle > endAngle) {
+    [startAngle, endAngle] = [endAngle, startAngle];
+  }
+  const periods = (endAngle - startAngle) / (2 * Math.PI);
+  const shiftedPeriods = Math.floor(startAngle / (2 * Math.PI));
+  startAngle -= shiftedPeriods * 2 * Math.PI;
+  endAngle -= shiftedPeriods * 2 * Math.PI;
 
   const id = useId();
   const divRef = useRef<HTMLDivElement>(null);
@@ -85,12 +107,12 @@ export function CosineIcon(props: ComponentProps<"div"> & {
             y="0"
             width={size.width}
             height={size.height}
-            viewBox={`0 ${-overflowY} ${4 * Math.PI} ${1 + 2 * overflowY}`}
+            viewBox={`${startAngle} ${-overflowY} ${endAngle - startAngle} ${1 + 2 * overflowY}`}
             preserveAspectRatio="none"
             overflow="visible"
           >
             <path
-              d={path}
+              d={calculateCosinePath(periods)}
               fill="none"
               stroke="white"
               strokeWidth={strokeWidth}
