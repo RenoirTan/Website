@@ -1,8 +1,8 @@
 "use client";
 
-import { MotionValue, motion, useTransform } from "motion/react";
+import { MotionValue, motion, useMotionValueEvent, useTransform } from "motion/react";
 import { useMotionValue } from "motion/react";
-import { ComponentProps, useId, useLayoutEffect, useRef, useState } from "react";
+import { ComponentProps, useId, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 const TAU = 2 * Math.PI;
@@ -40,6 +40,9 @@ export function CosineIcon(props: ComponentProps<"div"> & {
   const rawStartAngle = _rawStartAngle instanceof MotionValue ? _rawStartAngle : useMotionValue(+(_rawStartAngle ?? 0));
   const rawEndAngle = _rawEndAngle instanceof MotionValue ? _rawEndAngle : useTransform(() => +(_rawEndAngle ?? (rawStartAngle.get() + TAU)));
 
+  const height = useMotionValue(1);
+  const width = useMotionValue(1);
+
   const minAngle = useTransform(() => Math.min(rawStartAngle.get(), rawEndAngle.get()));
   const maxAngle = useTransform(() => Math.max(rawStartAngle.get(), rawEndAngle.get()))
 
@@ -49,16 +52,18 @@ export function CosineIcon(props: ComponentProps<"div"> & {
   const endAngle = useTransform(() => maxAngle.get() - shiftedPeriods.get() * TAU);
   const path = useTransform(() => calculateCosinePath(periods.get()));
 
-  const [size, setSize] = useState({ width: 1, height: 1 });
+  const overflowY = useTransform(() => strokeWidth.get() / height.get());
+  const viewBox = useTransform(() => `${startAngle.get()} ${-overflowY.get()} ${endAngle.get() - startAngle.get()} ${1 + 2 * overflowY.get()}`);
 
   const id = useId();
   const divRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!divRef.current) return;
     const updateSize = () => {
       const rect = divRef.current!.getBoundingClientRect();
-      setSize({ width: rect.width, height: rect.height });
+      height.set(rect.height);
+      width.set(rect.width);
     };
     updateSize();
     const observer = new ResizeObserver(updateSize);
@@ -90,9 +95,6 @@ export function CosineIcon(props: ComponentProps<"div"> & {
 
   // const path = " M -20 126 C -10 105, -5 100, 0 100 C 50 33, 100 33, 150 100 C 200 167, 250 167, 300 100 C 305 100, 310 95, 320 74 ";
 
-  const overflowY = useTransform(() => strokeWidth.get() / size.height);
-  const viewBox = useTransform(() => `${startAngle.get()} ${-overflowY.get()} ${endAngle.get() - startAngle.get()} ${1 + 2 * overflowY.get()}`);
-
   return <>
     <svg width="0" height="0" aria-hidden="true">
       <defs>
@@ -105,8 +107,8 @@ export function CosineIcon(props: ComponentProps<"div"> & {
           <motion.svg
             x="0"
             y="0"
-            width={size.width}
-            height={size.height}
+            width={width}
+            height={height}
             viewBox={viewBox}
             preserveAspectRatio="none"
             overflow="visible"

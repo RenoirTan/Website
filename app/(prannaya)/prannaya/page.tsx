@@ -11,7 +11,7 @@ export default function Prannaya() {
   return <div className="min-h-screen bg-linear-to-b to-[75vh] from-sky-300 to-blue-700">
     <h1>What</h1>
     <div className="flex flex-row">
-      <CosineIcon className="w-screen h-[20px] md:h-[40px] bg-linear-to-r from-red-500 via-green-500 to-purple-500" startAngle={startAngle} endAngle={endAngle} strokeWidth={6.7} />
+      <CosineIcon className="w-screen h-[20px] md:h-[40px] bg-linear-to-r from-red-500 via-green-500 to-purple-500" startAngle={startAngle} endAngle={endAngle} />
     </div>
   </div>;
 }
