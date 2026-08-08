@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentProps, useId, useLayoutEffect, useRef, useState } from "react";
+import { ComponentProps, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import _ from "lodash";
 import { twMerge } from "tailwind-merge";
 
@@ -35,15 +35,20 @@ export function CosineIcon(props: ComponentProps<"div"> & {
     strokeWidth: 3,
   });
 
-  let startAngle = rawStartAngle ?? 0;
-  let endAngle = rawEndAngle ?? (startAngle + 2 * Math.PI);
-  if (startAngle > endAngle) {
-    [startAngle, endAngle] = [endAngle, startAngle];
-  }
-  const periods = (endAngle - startAngle) / (2 * Math.PI);
-  const shiftedPeriods = Math.floor(startAngle / (2 * Math.PI));
-  startAngle -= shiftedPeriods * 2 * Math.PI;
-  endAngle -= shiftedPeriods * 2 * Math.PI;
+  const { startAngle, endAngle, path } = useMemo(() => {
+    let startAngle = rawStartAngle ?? 0;
+    let endAngle = rawEndAngle ?? (startAngle + 2 * Math.PI);
+    if (startAngle > endAngle) {
+      [startAngle, endAngle] = [endAngle, startAngle];
+    }
+    const periods = (endAngle - startAngle) / (2 * Math.PI);
+    const shiftedPeriods = Math.floor(startAngle / (2 * Math.PI));
+    startAngle -= shiftedPeriods * 2 * Math.PI;
+    endAngle -= shiftedPeriods * 2 * Math.PI;
+    const path = calculateCosinePath(periods);
+
+    return { startAngle, endAngle, path };
+  }, [rawStartAngle, rawEndAngle]);
 
   const id = useId();
   const divRef = useRef<HTMLDivElement>(null);
@@ -112,7 +117,7 @@ export function CosineIcon(props: ComponentProps<"div"> & {
             overflow="visible"
           >
             <path
-              d={calculateCosinePath(periods)}
+              d={path}
               fill="none"
               stroke="white"
               strokeWidth={strokeWidth}
@@ -131,7 +136,6 @@ export function CosineIcon(props: ComponentProps<"div"> & {
       {...props}
       className={twMerge("bg-red-500", props.className)}
     >
-      Fuck
     </div>
   </>;
 }
