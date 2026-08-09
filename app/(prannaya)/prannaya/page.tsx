@@ -1,5 +1,6 @@
 "use client";
 
+import BubbleElevator from "@/app/ui/bubble-elevator";
 import { CosineWave } from "@/app/ui/cosine";
 import { useTime, useTransform } from "motion/react";
 
@@ -8,7 +9,12 @@ export default function Prannaya() {
   const startAngle = useTransform(() => ((time.get() / 2000) % 1) * 2 * Math.PI);
   const endAngle = useTransform(() => startAngle.get() + 12 * Math.PI);
 
-  return <div className="min-h-screen bg-linear-to-b to-[75vh] from-sky-300 to-blue-700">
+  return <div
+    className="min-h-screen relative bg-linear-to-b to-[75vh] from-sky-300 to-blue-700"
+  >
+    <div className="absolute w-full h-full top-0 left-0">
+      <BubbleElevator className="w-full h-full" />
+    </div>
     <div className="h-[80vh]">
       <h1>What</h1>
     </div>
