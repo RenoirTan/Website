@@ -13,13 +13,21 @@ const TAU = 2 * Math.PI;
 // const path = `M 0 0 C ${Math.PI - 2} 0, 2 1, ${Math.PI} 1 S ${Math.PI + 2} 0, ${TAU} 0 S ${2 * Math.PI + 2} 1, ${3 * Math.PI} 1 S ${3 * Math.PI + 2} 0, ${4 * Math.PI} 0`;
 
 // The following function calculates a cosine path for n >= 1 periods
-const firstPeriod = `M 0 0 C ${Math.PI - 2} 0, 2 1, ${Math.PI} 1 S ${Math.PI + 2} 0, ${TAU} 0`;
-function calculateCosinePath(periods: number): string {
+// const firstPeriod = `M 0 0 C ${Math.PI - 2} 0, 2 1, ${Math.PI} 1 S ${Math.PI + 2} 0, ${TAU} 0`;
+function calculateCosinePath(t0: number = 0, t1: number = TAU): string {
+  if (t0 > t1) {
+    [t0, t1] = [t1, t0];
+  } else if (t0 === t1) {
+    return "";
+  }
+  const m = TAU / (t1 - t0);
+  const c = (t: number): number => m * (t - t0);
+  const periods = Math.ceil((t1 - t0) / TAU) + 1;
   if (periods <= 0) return "";
-  let result = firstPeriod;
+  let result = `M ${c(0)} 0 C ${c(Math.PI - 2)} 0, ${c(2)} 1, ${c(Math.PI)} 1 S ${c(Math.PI + 2)} 0, ${c(TAU)} 0`;
   for (let i = 1; i < periods; i++) {
     const j = i * 2;
-    result = `${result} S ${j * Math.PI + 2} 1, ${(j + 1) * Math.PI} 1 S ${(j + 1) * Math.PI + 2} 0, ${(j + 2) * Math.PI} 0`;
+    result = `${result} S ${c(j * Math.PI + 2)} 1, ${c((j + 1) * Math.PI)} 1 S ${c((j + 1) * Math.PI + 2)} 0, ${c((j + 2) * Math.PI)} 0`;
   }
   return result;
 }
@@ -40,20 +48,19 @@ export function CosineIcon(props: ComponentProps<"div"> & {
   const rawStartAngle = _rawStartAngle instanceof MotionValue ? _rawStartAngle : useMotionValue(+(_rawStartAngle ?? 0));
   const rawEndAngle = _rawEndAngle instanceof MotionValue ? _rawEndAngle : useTransform(() => +(_rawEndAngle ?? (rawStartAngle.get() + TAU)));
 
-  const height = useMotionValue(1);
-  const width = useMotionValue(1);
+  const [size, setSize] = useState({ height: 1, width: 0 });
 
   const minAngle = useTransform(() => Math.min(rawStartAngle.get(), rawEndAngle.get()));
   const maxAngle = useTransform(() => Math.max(rawStartAngle.get(), rawEndAngle.get()))
 
-  const periods = useTransform(() => Math.ceil((maxAngle.get() - minAngle.get()) / TAU) + 1);
+  // keep shifted periods for caching
   const shiftedPeriods = useTransform(() => Math.floor(minAngle.get() / TAU));
   const startAngle = useTransform(() => minAngle.get() - shiftedPeriods.get() * TAU);
   const endAngle = useTransform(() => maxAngle.get() - shiftedPeriods.get() * TAU);
-  const path = useTransform(() => calculateCosinePath(periods.get()));
+  const path = useTransform(() => calculateCosinePath(startAngle.get(), endAngle.get()));
 
-  const overflowY = useTransform(() => strokeWidth.get() / height.get());
-  const viewBox = useTransform(() => `${startAngle.get()} ${-overflowY.get()} ${endAngle.get() - startAngle.get()} ${1 + 2 * overflowY.get()}`);
+  const overflowY = useTransform(() => strokeWidth.get() / size.height);
+  const viewBox = useTransform(() => `0 ${-overflowY.get()} ${TAU} ${1 + 2 * overflowY.get()}`);
 
   const id = useId();
   const divRef = useRef<HTMLDivElement>(null);
@@ -62,8 +69,7 @@ export function CosineIcon(props: ComponentProps<"div"> & {
     if (!divRef.current) return;
     const updateSize = () => {
       const rect = divRef.current!.getBoundingClientRect();
-      height.set(rect.height);
-      width.set(rect.width);
+      setSize({ height: rect.height, width: rect.width });
     };
     updateSize();
     const observer = new ResizeObserver(updateSize);
@@ -107,8 +113,8 @@ export function CosineIcon(props: ComponentProps<"div"> & {
           <motion.svg
             x="0"
             y="0"
-            width={width}
-            height={height}
+            width={size.width}
+            height={size.height}
             viewBox={viewBox}
             preserveAspectRatio="none"
             overflow="visible"
