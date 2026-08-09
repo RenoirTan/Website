@@ -1,6 +1,6 @@
 "use client";
 
-import { CosineIcon } from "@/app/ui/icons/cosine";
+import { CosineWave } from "@/app/ui/cosine";
 import { useTime, useTransform } from "motion/react";
 
 export default function Prannaya() {
@@ -9,9 +9,12 @@ export default function Prannaya() {
   const endAngle = useTransform(() => startAngle.get() + 12 * Math.PI);
 
   return <div className="min-h-screen bg-linear-to-b to-[75vh] from-sky-300 to-blue-700">
-    <h1>What</h1>
-    <div className="flex flex-row">
-      <CosineIcon className="w-screen h-[20px] md:h-[40px] bg-linear-to-r from-red-500 via-green-500 to-purple-500" startAngle={startAngle} endAngle={endAngle} />
+    <div className="h-[80vh]">
+      <h1>What</h1>
+    </div>
+    <CosineWave className="w-screen h-[20px] md:h-[40px] bg-linear-to-r from-white/50 via-sky-500/50 to-white/50" startAngle={startAngle} endAngle={endAngle} />
+    <div className="h-[80vh]">
+      <h1>What</h1>
     </div>
   </div>;
 }

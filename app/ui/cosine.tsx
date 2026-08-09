@@ -40,7 +40,7 @@ function innerCalculateCosinePath(t0: number = 0, t1: number = TAU): string {
 
 const calculateCosinePath = memoize(innerCalculateCosinePath, { maxArgs: 1000 });
 
-export function CosineIcon(props: ComponentProps<"div"> & {
+export function CosineWave(props: ComponentProps<"div"> & {
   strokeWidth?: number | string | MotionValue<number> | undefined;
   startAngle?: number | string | MotionValue<number> | undefined;
   endAngle?: number | string | MotionValue<number> | undefined;
@@ -151,7 +151,7 @@ export function CosineIcon(props: ComponentProps<"div"> & {
       ref={divRef}
       style={{ mask: `url(#${id})` }}
       {...restProps}
-      className={twMerge("bg-red-500", props.className)}
+      className={twMerge(props.className)}
     >
     </div>
   </>;
