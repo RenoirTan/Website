@@ -1,11 +1,16 @@
 "use client";
 
-import { MotionValue, motion, useMotionValueEvent, useTransform } from "motion/react";
+import { MotionValue, motion, useTransform } from "motion/react";
 import { useMotionValue } from "motion/react";
 import { ComponentProps, useId, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { memoize } from "micro-memoize";
 
 const TAU = 2 * Math.PI;
+
+function quantize(x: number): number {
+  return +x.toFixed(2);
+}
 
 // Extremely helpful website that gives an approximation (?) of a sine curve using cubic bezier
 // http://www.dmitry.baranovskiy.com/sine.html
@@ -14,13 +19,14 @@ const TAU = 2 * Math.PI;
 
 // The following function calculates a cosine path for n >= 1 periods
 // const firstPeriod = `M 0 0 C ${Math.PI - 2} 0, 2 1, ${Math.PI} 1 S ${Math.PI + 2} 0, ${TAU} 0`;
-function calculateCosinePath(t0: number = 0, t1: number = TAU): string {
+function innerCalculateCosinePath(t0: number = 0, t1: number = TAU): string {
   if (t0 > t1) {
     [t0, t1] = [t1, t0];
   } else if (t0 === t1) {
     return "";
   }
   const m = TAU / (t1 - t0);
+  // map angles between t0 and t1 to between 0 and TAU
   const c = (t: number): number => m * (t - t0);
   const periods = Math.ceil((t1 - t0) / TAU) + 1;
   if (periods <= 0) return "";
@@ -31,6 +37,8 @@ function calculateCosinePath(t0: number = 0, t1: number = TAU): string {
   }
   return result;
 }
+
+const calculateCosinePath = memoize(innerCalculateCosinePath, { maxArgs: 1000 });
 
 export function CosineIcon(props: ComponentProps<"div"> & {
   strokeWidth?: number | string | MotionValue<number> | undefined;
@@ -57,7 +65,11 @@ export function CosineIcon(props: ComponentProps<"div"> & {
   const shiftedPeriods = useTransform(() => Math.floor(minAngle.get() / TAU));
   const startAngle = useTransform(() => minAngle.get() - shiftedPeriods.get() * TAU);
   const endAngle = useTransform(() => maxAngle.get() - shiftedPeriods.get() * TAU);
-  const path = useTransform(() => calculateCosinePath(startAngle.get(), endAngle.get()));
+  const path = useTransform(() => {
+    const start = quantize(startAngle.get());
+    const end = quantize(endAngle.get());
+    return calculateCosinePath(start, end);
+  });
 
   const overflowY = useTransform(() => strokeWidth.get() / size.height);
   const viewBox = useTransform(() => `0 ${-overflowY.get()} ${TAU} ${1 + 2 * overflowY.get()}`);
