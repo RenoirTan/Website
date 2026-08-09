@@ -121,6 +121,8 @@ export function CosineIcon(props: ComponentProps<"div"> & {
           maskUnits="userSpaceOnUse"
           x="0"
           y="0"
+          width={size.width}
+          height={size.height}
         >
           <motion.svg
             x="0"
