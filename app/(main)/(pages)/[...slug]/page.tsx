@@ -53,12 +53,12 @@ export async function generateMetadata(
   };
 }
 
-const pagesDir = path.join(process.cwd(), "app", "(pages)", "_content")
+const pagesDir = path.join(process.cwd(), "app", "(main)", "(pages)", "_content")
 
 export function generateStaticParams() {
   const allDirs = [...recursiveReaddirSync(
     pagesDir,
-    { withFileTypes: true, filter: (entry: fs.Dirent): boolean => entry.isDirectory()}
+    { withFileTypes: true, filter: (entry: fs.Dirent): boolean => entry.isDirectory() }
   )];
   const directories = allDirs.filter(
     (entry: any) => isDirWithPage(direntPath(entry))

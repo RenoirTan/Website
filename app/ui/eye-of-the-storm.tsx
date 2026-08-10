@@ -29,7 +29,7 @@ export default function EyeOfTheStorm({
     >
       <Image
         className={clsx(
-          "duration-300 md:duration-500 rounded-full animate-[corona_20s_linear_infinite]",
+          "duration-300 md:duration-500 rounded-full animate-corona",
           "bg-black hover:brightness-75",
         )}
         src="/icon-v2-exported.svg"

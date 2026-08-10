@@ -3,9 +3,9 @@
 "use client";
 
 import { BsHouseFill } from "react-icons/bs";
-import HorizontalFlyingButton from "../../ui/horizontal-flying-button";
+import HorizontalFlyingButton from "@/app/ui/horizontal-flying-button";
 import { usePathname } from "next/navigation";
-import "../../globals.css";
+import "@/app/globals.css";
 import clsx from "clsx";
 import { useState } from "react";
 import { motion } from "motion/react";
