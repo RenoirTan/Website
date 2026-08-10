@@ -1,5 +1,6 @@
 "use client";
 
+import { useAnimationFrame } from "motion/react";
 import { ComponentProps, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -54,6 +55,7 @@ export default function BubbleElevator({
   const backgroundImages = rawBackgroundImages ?? [];
   const ref = props.ref ?? useRef<HTMLDivElement>(null);
 
+  const [lastAddedTime, setLastAddedTime] = useState(0);
   const [shapes, setShapes] = useState(new Map<string, BubbleProps>());
   const [size, setSize] = useState({ height: 1, width: 0 });
   useEffect(() => {
@@ -68,20 +70,33 @@ export default function BubbleElevator({
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    shapes.set("badKey", {
-      top: 100,
-      left: 100,
-      clipPath: SHAPE_CLIP_PATHS.heart,
-      backgroundImage: backgroundImages[0],
-    });
+  useAnimationFrame((time, delta) => {
+    if (shapes.size < 32 && (time - lastAddedTime) >= 1000) {
+      shapes.set(`bubble-${time}`, {
+        top: size.height,
+        left: Math.random() * size.width,
+        clipPath: SHAPE_CLIP_PATHS.heart,
+        backgroundImage: backgroundImages[0],
+      });
+      setLastAddedTime(time);
+    }
+    for (const [key, bubble] of shapes) {
+      if (bubble.top < 0) {
+        shapes.delete(key);
+      } else {
+        shapes.set(key, {
+          ...bubble,
+          top: bubble.top - delta * 0.1,
+        });
+      }
+    }
     setShapes(shapes);
-  }, []);
+  });
 
   return <div
     {...props}
     ref={ref}
-    className={twMerge("relative", props.className)}
+    className={twMerge("relative overflow-clip", props.className)}
   >
     {[...shapes].map(([key, bubbleProps]) => {
       return <div
