@@ -1,6 +1,6 @@
 "use client";
 
-import { useAnimationFrame } from "motion/react";
+import { AnimatePresence, useAnimationFrame, useMotionValue, motion, useMotionValueEvent, useTime, useTransform } from "motion/react";
 import { ComponentProps, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -45,6 +45,49 @@ type BubbleProps = {
   backgroundImage: string;
 };
 
+function Bubble({
+  top: rawTop,
+  left,
+  clipPath,
+  backgroundImage,
+  quay: key,
+  onPopped,
+}: BubbleProps & {
+  quay?: ComponentProps<"div">["key"];
+  onPopped?: (key: ComponentProps<"div">["key"]) => void;
+}) {
+  const time = useTime();
+  const top = useTransform(time, [0, 10000], [rawTop, 0], { clamp: false });
+  const show = useTransform(() => 0 <= time.get() && time.get() < 9600);
+
+  useMotionValueEvent(time, "change", (latest) => {
+    if (latest > 10000 && onPopped) {
+      onPopped(key);
+    }
+  });
+
+  return <>
+    {show && <motion.div
+      className="absolute bg-cover bg-center w-[100px] h-[100px]"
+      style={{
+        top,
+        left: left,
+        clipPath: clipPath,
+        backgroundImage: backgroundImage,
+      }}
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
+    ></motion.div>}
+  </>
+}
+
 export default function BubbleElevator({
   backgroundImages: rawBackgroundImages,
   ...props
@@ -56,7 +99,7 @@ export default function BubbleElevator({
   const ref = props.ref ?? useRef<HTMLDivElement>(null);
 
   const [lastAddedTime, setLastAddedTime] = useState(0);
-  const [shapes, setShapes] = useState(new Map<string, BubbleProps>());
+  const [bubbles, setBubbles] = useState(new Map<string, BubbleProps>());
   const [size, setSize] = useState({ height: 1, width: 0 });
   useEffect(() => {
     if (!ref.current) return;
@@ -69,10 +112,16 @@ export default function BubbleElevator({
     observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
+  const onPopped = (key: ComponentProps<"div">["key"]) => {
+    if (typeof key === "string") {
+      bubbles.delete(key)
+      setBubbles(bubbles);
+    }
+  };
 
   useAnimationFrame((time, delta) => {
-    if (shapes.size < 32 && (time - lastAddedTime) >= 1000) {
-      shapes.set(`bubble-${time}`, {
+    if (bubbles.size < 32 && (time - lastAddedTime) >= 1000) {
+      bubbles.set(`bubble-${time}`, {
         top: size.height,
         left: Math.random() * size.width,
         clipPath: SHAPE_CLIP_PATHS.heart,
@@ -80,17 +129,7 @@ export default function BubbleElevator({
       });
       setLastAddedTime(time);
     }
-    for (const [key, bubble] of shapes) {
-      if (bubble.top < 0) {
-        shapes.delete(key);
-      } else {
-        shapes.set(key, {
-          ...bubble,
-          top: bubble.top - delta * 0.1,
-        });
-      }
-    }
-    setShapes(shapes);
+    setBubbles(bubbles);
   });
 
   return <div
@@ -98,17 +137,15 @@ export default function BubbleElevator({
     ref={ref}
     className={twMerge("relative overflow-clip", props.className)}
   >
-    {[...shapes].map(([key, bubbleProps]) => {
-      return <div
-        key={key}
-        className="absolute bg-cover bg-center w-[100px] h-[100px]"
-        style={{
-          top: bubbleProps.top,
-          left: bubbleProps.left,
-          clipPath: bubbleProps.clipPath,
-          backgroundImage: bubbleProps.backgroundImage,
-        }}
-      ></div>;
-    })}
-  </div>;
+    <AnimatePresence>
+      {[...bubbles].map(([key, bubbleProps]) => {
+        return <Bubble
+          quay={key}
+          key={key}
+          onPopped={onPopped}
+          {...bubbleProps}
+        ></Bubble>;
+      })}
+    </AnimatePresence>
+  </div >;
 }
