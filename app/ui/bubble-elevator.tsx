@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, useAnimationFrame, useMotionValue, motion, useMotionValueEvent, useTime, useTransform } from "motion/react";
+import { AnimatePresence, useAnimationFrame, useMotionValue, motion, useMotionValueEvent, useTime, useTransform, easeOut } from "motion/react";
 import { ComponentProps, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -47,39 +47,41 @@ type BubbleProps = {
   backgroundImage: string;
 };
 
-const RISE_TIME = 10000;
-const DISAPPEAR_TIME = 9600;
-
 function Bubble({
   top: rawTop,
   left,
   dim,
   clipPath,
   backgroundImage,
+  riseDuration: rawRiseDuration,
   quay: key,
   onPopped,
 }: BubbleProps & {
+  riseDuration?: number;
   quay?: ComponentProps<"div">["key"];
   onPopped?: (key: ComponentProps<"div">["key"]) => void;
 }) {
+  const riseDuration = rawRiseDuration ?? 10000;
   const time = useTime();
-  const top = useTransform(time, [0, RISE_TIME], [rawTop, 0], { clamp: false });
-  const show = useTransform(() => 0 <= time.get() && time.get() < DISAPPEAR_TIME);
+  const top = useTransform(time, [0, riseDuration], [rawTop, 0], { clamp: false });
+  const show = useTransform(() => 0 <= time.get() && time.get() < (riseDuration * 0.95));
+  const rotate = useTransform(time, [0, riseDuration / 2], [0, 360], { clamp: false });
 
   useMotionValueEvent(time, "change", (latest) => {
-    if (latest > RISE_TIME && onPopped) {
+    if (latest > riseDuration && onPopped) {
       onPopped(key);
     }
   });
 
   return <>
     {show && <motion.div
-      className="absolute z-10 drop-shadow-lg/50 drop-shadow-red-500"
+      className="absolute z-10 drop-shadow-lg/50 drop-shadow-white"
       style={{
         top,
         left,
         width: dim,
         height: dim,
+        rotate,
       }}
       initial={{
         opacity: 0,
@@ -92,6 +94,7 @@ function Bubble({
         opacity: 0,
         scale: 1.5,
       }}
+      transition={{ ease: easeOut }}
     >
       <div
         className="relative w-full h-full bg-cover bg-center"
@@ -107,11 +110,17 @@ function Bubble({
 
 export default function BubbleElevator({
   backgroundImages: rawBackgroundImages,
+  riseDuration: rawRiseDuration,
+  maxBubbles: rawMaxBubbles,
   ...props
 }: ComponentProps<"div"> & {
   ref?: React.RefObject<HTMLDivElement | null>;
   backgroundImages?: string[];
+  riseDuration?: number;
+  maxBubbles?: number;
 }) {
+  const riseDuration = rawRiseDuration ?? 10000;
+  const maxBubbles = rawMaxBubbles ?? 16;
   const backgroundImages = rawBackgroundImages ?? [];
   const ref = props.ref ?? useRef<HTMLDivElement>(null);
 
@@ -137,7 +146,7 @@ export default function BubbleElevator({
   };
 
   useAnimationFrame((time, delta) => {
-    if (bubbles.size < 32 && (time - lastAddedTime) >= 1000) {
+    if (bubbles.size < maxBubbles && (time - lastAddedTime) >= (riseDuration / maxBubbles)) {
       const dim = 75 + Math.random() * 50;
       bubbles.set(`bubble-${time}`, {
         top: size.height,
@@ -162,6 +171,7 @@ export default function BubbleElevator({
           quay={key}
           key={key}
           onPopped={onPopped}
+          riseDuration={riseDuration}
           {...bubbleProps}
         ></Bubble>;
       })}
