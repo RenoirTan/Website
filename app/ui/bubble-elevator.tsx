@@ -47,6 +47,9 @@ type BubbleProps = {
   backgroundImage: string;
 };
 
+const RISE_TIME = 10000;
+const DISAPPEAR_TIME = 9600;
+
 function Bubble({
   top: rawTop,
   left,
@@ -60,11 +63,11 @@ function Bubble({
   onPopped?: (key: ComponentProps<"div">["key"]) => void;
 }) {
   const time = useTime();
-  const top = useTransform(time, [0, 10000], [rawTop, 0], { clamp: false });
-  const show = useTransform(() => 0 <= time.get() && time.get() < 9600);
+  const top = useTransform(time, [0, RISE_TIME], [rawTop, 0], { clamp: false });
+  const show = useTransform(() => 0 <= time.get() && time.get() < DISAPPEAR_TIME);
 
   useMotionValueEvent(time, "change", (latest) => {
-    if (latest > 10000 && onPopped) {
+    if (latest > RISE_TIME && onPopped) {
       onPopped(key);
     }
   });
@@ -90,7 +93,13 @@ function Bubble({
         scale: 1.5,
       }}
     >
-      <div className="w-full h-full bg-cover bg-center" style={{ clipPath, backgroundImage }}>
+      <div
+        className="relative w-full h-full bg-cover bg-center"
+        style={{
+          clipPath,
+          backgroundImage,
+        }}
+      >
       </div>
     </motion.div>}
   </>
