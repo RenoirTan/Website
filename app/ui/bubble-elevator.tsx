@@ -44,9 +44,14 @@ type BubbleProps = {
   backgroundImage: string;
 };
 
-export default function BubbleElevator(props: ComponentProps<"div"> & {
+export default function BubbleElevator({
+  backgroundImages: rawBackgroundImages,
+  ...props
+}: ComponentProps<"div"> & {
   ref?: React.RefObject<HTMLDivElement | null>;
+  backgroundImages?: string[];
 }) {
+  const backgroundImages = rawBackgroundImages ?? [];
   const ref = props.ref ?? useRef<HTMLDivElement>(null);
 
   const [shapes, setShapes] = useState(new Map<string, BubbleProps>());
@@ -68,7 +73,7 @@ export default function BubbleElevator(props: ComponentProps<"div"> & {
       top: 100,
       left: 100,
       clipPath: SHAPE_CLIP_PATHS.heart,
-      backgroundImage: "url(\"static/prannaya/appv-tiktok.jpg\")",
+      backgroundImage: backgroundImages[0],
     });
     setShapes(shapes);
   }, []);
