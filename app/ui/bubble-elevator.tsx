@@ -36,11 +36,13 @@ const SHAPE_CLIP_PATHS = {
     95% 35%,
     90% 55%
   )`,
-};
+} as const;
+const SHAPES = Object.keys(SHAPE_CLIP_PATHS) as (keyof typeof SHAPE_CLIP_PATHS)[];
 
 type BubbleProps = {
   top: number;
   left: number;
+  dim: number;
   clipPath: string;
   backgroundImage: string;
 };
@@ -48,6 +50,7 @@ type BubbleProps = {
 function Bubble({
   top: rawTop,
   left,
+  dim,
   clipPath,
   backgroundImage,
   quay: key,
@@ -68,23 +71,28 @@ function Bubble({
 
   return <>
     {show && <motion.div
-      className="absolute bg-cover bg-center w-[100px] h-[100px]"
+      className="absolute z-10 drop-shadow-lg/50 drop-shadow-red-500"
       style={{
         top,
-        left: left,
-        clipPath: clipPath,
-        backgroundImage: backgroundImage,
+        left,
+        width: dim,
+        height: dim,
       }}
       initial={{
         opacity: 0,
+        scale: 1,
       }}
       animate={{
         opacity: 1,
       }}
       exit={{
         opacity: 0,
+        scale: 1.5,
       }}
-    ></motion.div>}
+    >
+      <div className="w-full h-full bg-cover bg-center" style={{ clipPath, backgroundImage }}>
+      </div>
+    </motion.div>}
   </>
 }
 
@@ -121,11 +129,13 @@ export default function BubbleElevator({
 
   useAnimationFrame((time, delta) => {
     if (bubbles.size < 32 && (time - lastAddedTime) >= 1000) {
+      const dim = 75 + Math.random() * 50;
       bubbles.set(`bubble-${time}`, {
         top: size.height,
-        left: Math.random() * size.width,
-        clipPath: SHAPE_CLIP_PATHS.heart,
-        backgroundImage: backgroundImages[0],
+        left: Math.random() * (size.width - dim),
+        dim,
+        clipPath: SHAPE_CLIP_PATHS[SHAPES[Math.floor(Math.random() * 4)]],
+        backgroundImage: backgroundImages[Math.floor(Math.random() * backgroundImages.length)],
       });
       setLastAddedTime(time);
     }
