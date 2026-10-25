@@ -1,5 +1,7 @@
+import { Table } from "@chakra-ui/react";
 import type { MDXComponents } from "mdx/types";
 import Image, { ImageProps } from "next/image";
+import TextLink from "./app/ui/text-link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -20,6 +22,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     h6: ({ children }) => (
       <h6 className="text-base underline">{children}</h6>
+    ),
+    a: (props) => (
+      <TextLink.Main {...props} />
     ),
     img: (props) => (
       <Image className="w-full h-auto" sizes="100vw" width={0} height={0} {...(props as ImageProps)} />
@@ -49,6 +54,44 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       >
         {children}
       </blockquote>
+    ),
+    table: ({ children }) => (
+      <Table.ScrollArea borderWidth="1px" className="rounded-2xl">
+        <Table.Root
+          size="md"
+          variant="outline"
+          showColumnBorder
+          stickyHeader
+          interactive
+        >
+          {children}
+        </Table.Root>
+      </Table.ScrollArea>
+    ),
+    thead: ({ children }) => (
+      <Table.Header>
+        {children}
+      </Table.Header>
+    ),
+    th: ({ children }) => (
+      <Table.ColumnHeader>
+        {children}
+      </Table.ColumnHeader>
+    ),
+    tbody: ({ children }) => (
+      <Table.Body>
+        {children}
+      </Table.Body>
+    ),
+    tr: ({ children }) => (
+      <Table.Row>
+        {children}
+      </Table.Row>
+    ),
+    td: ({ children }) => (
+      <Table.Cell>
+        {children}
+      </Table.Cell>
     ),
     ...components,
   };

@@ -1,4 +1,5 @@
 import createMDX from "@next/mdx";
+import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 
@@ -16,7 +17,7 @@ const withMDX = createMDX({
   extension: /\.(md|mdx)$/,
   options: {
     // remarkPlugins: ['remark-frontmatter', 'remark-mdx-frontmatter']
-    remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter]
+    remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter]
   }
 });
 
