@@ -1,4 +1,5 @@
 import React from "react";
+import DotGrid from "../ui/dot-grid";
 
 
 export default async function MainLayout({
@@ -13,7 +14,10 @@ export default async function MainLayout({
         style={{ transform: "translate(-50%,-50%)" }}
       >
         <div className="relative w-full h-full p-2">
-          {children}
+          <DotGrid className="w-[calc(100%-2rem)] h-[calc(100%-2rem)]" dotSeparation="36px" dotColor="rgba(127, 127, 127, 0.5)" dotRadius="1.5px" />
+          <div className="relative w-full h-full">
+            {children}
+          </div>
         </div>
       </div>
     </main>
