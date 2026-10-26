@@ -198,7 +198,7 @@ export default function System({
     <Planet
       tooltip="About Me"
       tooltipClassName="bg-pink-900/50"
-      className="bg-red-900/50 inset-shadow-red-800 hover:shadow-orange-500/50"
+      className="bg-red-950 inset-shadow-red-800 hover:shadow-orange-500/50"
     >
       <Link
         href="/about-me"
