@@ -56,7 +56,11 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </blockquote>
     ),
     table: ({ children }) => (
-      <Table.ScrollArea borderWidth="1px" className="rounded-2xl">
+      <Table.ScrollArea
+        borderWidth="1px"
+        className="rounded-2xl"
+        css={{ whiteSpace: "normal" }}
+      >
         <Table.Root
           size="md"
           variant="outline"

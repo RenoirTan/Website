@@ -1,0 +1,46 @@
+---
+title: Agent Sandboxes
+edition: 2026-10-26
+summary: Trials and tribulations of using sandboxes for coding agents.
+image: /icon-v2-exported.svg
+colorTheme: liver
+---
+
+# Agent Sandboxes
+
+## Feature Matrix
+
+Some stuff I have been looking at to sandbox opencode.
+
+| Feature | [docker-sbx](https://docs.docker.com/ai/sandboxes/) | [microsandbox](https://microsandbox.dev) | [smolvm](https://smolmachines.com/) |
+| ------- | ---------- | ------------ | ------ |
+| License | Proprietary<sup>1</sup> | Apache-2.0<sup>2</sup> | Apache-2.0<sup>3</sup> |
+| Bind mounts | ⚠️ Can only set the source directory path. Path to mounted directory inside the microvm is the same as that in the host. Example: `sbx create opencode $HOME/project` but no `sbx create opencode $HOME/project:/home/agent/project` <sup>4</sup> | ✅<sup>6</sup> | ✅<sup>7</sup> |
+| Modifying bind mounts | ❌ | ❌<sup>8</sup> | ❌ |
+| Port publishing | ✅ `sbx ports --publish [[HOST_IP:]HOST_PORT:]SANDBOX_PORT[/PROTOCOL]` <sup>9,10</sup> | ✅ `-p 8080:80[/udp]` (loopback) or `-p 0.0.0.0:8000:80[/udp]` (all interfaces) <sup>11</sup> | ✅ `-p HOST:GUEST[/udp]`. Ports can be a range <sup>13</sup> |
+| Modifying ports | ✅ `sbx ports --unpublish` <sup>9</sup> | ⚠️ Changes only take effect after restart: `msb modify -p 8080:3000 --next-start/--restart` / `--port-rm` <sup>8,11</sup> | ✅ `machine update -p` add / `--remove-port` <sup>7</sup> |
+| Socket publishing | ❌ | ✅ `--vsock HOST_PATH:PORT[/stream\|/dgram]` <sup>11</sup> | ✅ `--expose-socket GUEST[:HOST]` / `--mount-socket HOST:GUEST` <sup>7</sup> |
+| Modifying sockets | ❌ | ❌ | ❌ |
+| Access to host | ✅ `host.docker.internal`/`gateway.docker.internal` | ✅ `host.microsandbox.internal`. Requires `--net host`<sup>12</sup> | ✅ `--allow-host-loopback`. Inside the guest, connect to `http://localhost:11434` to access self-hosted Ollama in the host.<sup>7</sup> |
+| Images/templates | ✅ `sbx templates`. Build using Dockerfiles<sup>13</sup> | ✅ Any OCI Image/root filesystem from host/`.qcow2` file.<sup>5</sup> | ✅ Any OCI Image. Pack any small machines into a `.smolmachine` file.<sup>5,14</sup> |
+| Egress policy | ✅ deny-by-default; `sbx policy allow/deny network <domain>` <sup>15,16</sup> | ✅ `--net-rule <action>[:<direction>]@<target>[:<proto>[:<ports>]]` / `--no-net` airgap / `--net-default deny` <sup>12</sup> | ✅ `--net` + `--allow-host[-pattern]/--allow-cidr/--outbound-localhost-only`<sup>7</sup> |
+| Modifying egress | ✅ `sbx policy allow/deny/rm network` <sup>15,16</sup> | ❌<sup>8</sup> | ✅ use `machine update`. Add allow rules or remove them: `--remove-allow-host/--remove-allow-cidr/--remove-allow-udp`. Can also turn on/off networking in general `--net/--no-net` <sup>7</sup> |
+
+## References
+
+1. Docker Sandboxes GitHub Repo: https://github.com/docker/sbx-releases
+2. Microsandbox GitHub Repo: https://github.com/superradcompany/microsandbox
+3. Smol Machines GitHub Repo: https://github.com/smol-machines/smolvm
+4. `sbx create` Reference: https://docs.docker.com/reference/cli/sbx/create
+5. Microsandbox Overview: https://docs.microsandbox.dev/sandboxes/overview
+6. Microsandbox Volumes: https://docs.microsandbox.dev/sandboxes/volumes
+7. Smol Machines Lifecycle and CLI Reference: https://smolmachines.com/docs/local/machine-lifecycle-cli-reference
+8. Microsandbox Live Modify: https://docs.microsandbox.dev/sandboxes/tuning
+9. `sbx ports` Reference: https://docs.docker.com/reference/cli/sbx/ports
+10. Docker Sandboxes Usage: https://docs.docker.com/ai/sandboxes/usage
+11. Microsandbox Sandbox Commands: https://docs.microsandbox.dev/cli/sandbox-commands
+12. Microsandbox Networking Overview: https://docs.microsandbox.dev/networking/overview
+13. Docker Sandboxes Base Images: https://docs.docker.com/ai/sandboxes/customize/author/base-images
+14. Smol Machines Pack and .smolmachine CLI: https://smolmachines.com/docs/local/pack-and-smolmachine-cli
+15. Docker Sandboxes Network Access Policy: https://docs.docker.com/ai/sandboxes/governance/access-controls/network
+16. `sbx policy` Reference: https://docs.docker.com/reference/cli/sbx/policy
