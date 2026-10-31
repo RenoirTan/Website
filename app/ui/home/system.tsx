@@ -119,7 +119,7 @@ export default function System({
     planetsScale: [0, 1],
   });
 
-
+  /*
   // top of aboutMe relative to top of main container
   const aboutMeScrollY = useTransform(
     scrollY,
@@ -130,6 +130,12 @@ export default function System({
       return containerTop - aboutMeTop;
     }
   );
+  */
+  const aboutMeScrollY = useScroll({
+    container: containerRef,
+    target: aboutMeRef,
+    offset: ["start start", "end end"],
+  }).scrollYProgress;
 
   const goToEitherEnd = () => {
     const elem = containerRef.current!;
