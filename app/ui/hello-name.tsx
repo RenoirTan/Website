@@ -2,7 +2,6 @@
 
 import { clsx } from "clsx";
 import { useEffect, useRef, useState } from "react";
-import Typed from "typed.js";
 
 export default function HelloName() {
   const pulseCss = [
@@ -15,16 +14,25 @@ export default function HelloName() {
     "text-l-vermillion border-l-vermillion"
   ];
   const [pulseState, setPulseState] = useState(0);
-  const el = useRef(null);
+  const [visible, setVisible] = useState(false);
+  const el = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
+    if (el.current) observer.observe(el.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!visible) return;
     const intervalId = setInterval(() => {
-      setPulseState((pulseState + 1) % pulseCss.length);
+      setPulseState(state => (state + 1) % pulseCss.length);
     }, 3000);
 
     return () => clearInterval(intervalId);
-  }, [pulseState, pulseCss.length]);
+  }, [visible, pulseCss.length]);
 
+  /*
   useEffect(() => {
     const typed = new Typed(el.current, {
       strings: ["Renoir"],
@@ -37,14 +45,16 @@ export default function HelloName() {
       typed.destroy();
     })
   }, []);
+  */
 
   return (
     <span
       ref={el}
       className={clsx(
-        "font-bold transition-colors duration-3000 border-r-[3px] pe-3",
+        "font-bold duration-3000",
+        visible ? "transition-colors" : "transition-none",
         pulseCss[pulseState]
       )}
-    />
+    >Renoir</span>
   )
 }

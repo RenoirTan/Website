@@ -4,6 +4,7 @@ title: About Me
 
 import { Image, Timeline } from "@chakra-ui/react";
 import { makeMilestoneCard } from "@/app/ui/milestone-card-server";
+import HelloName from "@/app/ui/hello-name";
 import MilestoneCard from "@/app/ui/milestone-card";
 import { getMilestonesPath, getRawMilestoneMetadata } from "@/app/(main)/(pages)/_content/milestones";
 import PinCategory from "@/app/ui/pin-category";
@@ -29,7 +30,7 @@ import {
 
 # About Me
 
-Hello, my name is Renoir.
+Hello, my name is <HelloName />.
 
 I'm a programmer who has had at least 6 years of programming by this point. My main languages are Python, Rust, C and recently JavaScript and TypeScript. I have also dabbled in competitions in fields like Cybersecurity and AI, as well as contributed to a few coding events in Singapore.
 
