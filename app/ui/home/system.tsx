@@ -1,7 +1,7 @@
 "use client";
 
 import EyeOfTheStorm from "../eye-of-the-storm";
-import { easeIn, motion, useAnimationFrame, useMotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
+import { cancelFrame, easeIn, frame, motion, useMotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
 import React, { useEffect, useState } from "react";
 import { InACircle } from "../in-a-circle";
 import { BsLinkedin } from "react-icons/bs";
@@ -31,6 +31,7 @@ export default function System({
   const pathname = usePathname();
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isConfused, setIsConfused] = useState(false);
+  const [orbitRunning, setOrbitRunning] = useState(true);
   const containerRef = useDivScrollRestoration("home-scroll-pos", {
     beforeCallback: (ref) => {
       if (pathname === "/about-me") {
@@ -62,24 +63,34 @@ export default function System({
   useMotionValueEvent(hiddenSince, "change", (latest) => {
     const rawHide = orbitalRawHide.get();
     // same thing, only unhide if the hiding sequence is completed
-    if (latest >= HIDING_TIME && !rawHide) {
-      orbitalHide.set(false);
-      hiddenSince.set(0);
+    if (latest >= HIDING_TIME) {
+      if (!rawHide) {
+        orbitalHide.set(false);
+        hiddenSince.set(0);
+      } else {
+        setOrbitRunning(false);
+      }
     }
   });
   useMotionValueEvent(orbitalHide, "change", (latest) => {
     if (!latest) {
       hiddenSince.set(0);
+      setOrbitRunning(true);
     }
   });
-  useAnimationFrame((_, delta) => {
-    orbitalProgress.set(
-      (orbitalProgress.get() + delta * orbitalSpeed.get() * Number(!orbitalHide.get())) % ORBITAL_PERIOD
-    );
-    if (orbitalHide.get()) {
-      hiddenSince.set(Math.min(hiddenSince.get() + delta, HIDING_TIME));
-    }
-  });
+  useEffect(() => {
+    if (!orbitRunning) return;
+    const updateOrbit = ({ delta }: { delta: number }) => {
+      orbitalProgress.set(
+        (orbitalProgress.get() + delta * orbitalSpeed.get() * Number(!orbitalHide.get())) % ORBITAL_PERIOD
+      );
+      if (orbitalHide.get()) {
+        hiddenSince.set(Math.min(hiddenSince.get() + delta, HIDING_TIME));
+      }
+    };
+    frame.update(updateOrbit, true);
+    return () => cancelFrame(updateOrbit);
+  }, [orbitRunning, orbitalProgress, orbitalSpeed, orbitalHide, hiddenSince]);
   const planetsOrbit = useTransform(orbitalProgress, [0, ORBITAL_PERIOD], [0, -360], { clamp: false });
   const planetHideAngleThreshold = PLANET_OFFSETS.map((d) => {
     return useTransform(() => {
