@@ -47,10 +47,10 @@ export default function MilestoneCard({
         height={100}
         sizes="(max-width: 768px) 100vw, 160px"
         style={{
-          width: "auto",
-          height: "auto",
+          width: isMobile ? "auto" : 160,
+          height: isMobile ? 100 : "auto",
           maxWidth: isMobile ? "100%" : 160,
-          maxHeight: isMobile ? 100 : undefined,
+          objectFit: "contain",
         }}
       />
     : image;
