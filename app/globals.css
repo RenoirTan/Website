@@ -37,6 +37,13 @@
   --color-l-calm-gray: #24242e;
   --color-l-centrist: #7f7f7f;
 
+  --animate-wobble: wobble 8s linear infinite;
+
+  @keyframes wobble {
+    from { transform: rotate(0turn) translateX(-10px) rotate(0turn); }
+    to   { transform: rotate(-1turn) translateX(-10px) rotate(1turn); }
+  }
+
   --animate-corona: corona 12s linear infinite;
 
   @keyframes corona {

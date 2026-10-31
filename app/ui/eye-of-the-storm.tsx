@@ -5,6 +5,8 @@ import { useRef, useState } from "react";
 import { clsx } from "clsx";
 import { motion } from "motion/react";
 import { usePageContext } from "../providers";
+import { twMerge } from "tailwind-merge";
+import Corona from "./corona";
 
 export default function EyeOfTheStorm({
   size,
@@ -27,9 +29,10 @@ export default function EyeOfTheStorm({
       layoutId={layoutId ?? "eye-of-the-storm"}
       className={clsx("h-fit w-fit", className)}
     >
+      <Corona className="w-full h-full -z-40 animate-wobble" />
       <Image
         className={clsx(
-          "duration-300 md:duration-500 rounded-full animate-corona",
+          "duration-300 md:duration-500 rounded-full",
           "bg-black hover:brightness-75",
         )}
         src="/icon-v2-exported.svg"
