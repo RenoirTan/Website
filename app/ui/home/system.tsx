@@ -116,7 +116,7 @@ export default function System({
   }, { ease: easeIn });
   const { planetsOpacity, planetsScale } = useTransform(useSpring(scrollY), [0, 600], {
     planetsOpacity: [0, 1],
-    planetsScale: ["0%", "80%"],
+    planetsScale: [0, 1],
   });
 
 
@@ -229,7 +229,7 @@ export default function System({
                 <PromptText visible={needsPrompting} />
 
                 <motion.div style={{ opacity: planetsOpacity }} className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center transform">
-                  <motion.div style={{ width: planetsScale, height: planetsScale }} className="relative">
+                  <motion.div style={{ scale: planetsScale }} className="relative w-4/5 h-4/5">
                     <InACircle
                       degrees={planetDegrees[0]}
                       onMouseEnter={onMouseEnter}
