@@ -1,7 +1,8 @@
 "use client";
 
-import { Card, Image } from "@chakra-ui/react";
+import { Card } from "@chakra-ui/react";
 import clsx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useLayoutEffect, useState } from "react";
 import { CardColorTheme, getColorTheme } from "./card-color-theme";
@@ -41,9 +42,16 @@ export default function MilestoneCard({
   const myImage = (image && typeof image === "string")
     ? <Image
         src={image}
-        alt={alt}
-        maxWidth={isMobile ? undefined : 160}
-        maxHeight={isMobile ? 100 : undefined}
+        alt={alt ?? ""}
+        width={160}
+        height={100}
+        sizes="(max-width: 768px) 100vw, 160px"
+        style={{
+          width: "auto",
+          height: "auto",
+          maxWidth: isMobile ? "100%" : 160,
+          maxHeight: isMobile ? 100 : undefined,
+        }}
       />
     : image;
     const card = (
