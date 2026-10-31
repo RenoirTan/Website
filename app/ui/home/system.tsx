@@ -116,7 +116,7 @@ export default function System({
   }, { ease: easeIn });
   const { planetsOpacity, planetsScale } = useTransform(useSpring(scrollY), [0, 600], {
     planetsOpacity: [0, 1],
-    planetsScale: ["0%", "100%"],
+    planetsScale: ["0%", "80%"],
   });
 
 
